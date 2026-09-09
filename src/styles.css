@@ -1,1 +1,43 @@
-/* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@500;600&family=Inter:wght@400;500;600&display=swap');
+
+:root {
+  --color-bg: #FAF7F1;
+  --color-surface: #FFFFFF;
+  --color-text: #2B2620;
+  --color-text-muted: #7A7266;
+  --color-border: #E4DDD0;
+
+  --color-primary: #1F5C2E;
+  --color-primary-dark: #163F20;
+  --color-accent: #A69A2D;
+  --color-info: #3E8B9E;
+  --color-warn: #C2612E;
+
+  --font-heading: 'Zilla Slab', Georgia, serif;
+  --font-body: 'Inter', -apple-system, sans-serif;
+  --radius: 6px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: 15px;
+}
+
+h1, h2, h3 {
+  font-family: var(--font-heading);
+  font-weight: 600;
+  color: var(--color-text);
+  margin: 0;
+}
+
+button {
+  font-family: var(--font-body);
+  cursor: pointer;
+}

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Rol } from '../../../core/models/rol.model';
 import { RolService } from '../../../core/services/rol.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-roles-list',
@@ -14,7 +15,10 @@ export class RolesListComponent implements OnInit {
   cargando = true;
   error = '';
 
-  constructor(private rolService: RolService) { }
+  constructor(
+    private rolService: RolService,
+    private router: Router
+  ) { }
 
   ngOnInit(): void {
     this.cargarRoles();
@@ -34,4 +38,27 @@ export class RolesListComponent implements OnInit {
       }
     });
   }
+
+  irANuevo(): void {
+    this.router.navigate(['/roles/nuevo']);
+  }
+
+  irAEditar(id: number): void {
+    this.router.navigate(['/roles/editar', id]);
+  }
+
+  desactivar(id: number): void {
+    this.rolService.desactivar(id).subscribe({
+      next: () => this.cargarRoles(),
+      error: () => this.error = 'No se pudo desactivar el rol.'
+    });
+  }
+
+  activar(id: number): void {
+    this.rolService.activar(id).subscribe({
+      next: () => this.cargarRoles(),
+      error: () => this.error = 'No se pudo activar el rol.'
+    });
+  }
 }
+

@@ -1,6 +1,8 @@
 <div class="contenedor">
   <h2>Roles registrados</h2>
 
+  <button (click)="irANuevo()">+ Nuevo rol</button>
+
   <div *ngIf="cargando">Cargando roles...</div>
 
   <div *ngIf="error" class="error">{{ error }}</div>
@@ -12,6 +14,7 @@
         <th>Nombre</th>
         <th>Descripción</th>
         <th>Estado</th>
+        <th>Acciones</th>
       </tr>
     </thead>
     <tbody>
@@ -20,6 +23,11 @@
         <td>{{ rol.nombre }}</td>
         <td>{{ rol.descripcion }}</td>
         <td>{{ rol.estado }}</td>
+        <td>
+          <button (click)="irAEditar(rol.idRol!)">Editar</button>
+          <button *ngIf="rol.estado === 'ACTIVO'" (click)="desactivar(rol.idRol!)">Desactivar</button>
+          <button *ngIf="rol.estado === 'INACTIVO'" (click)="activar(rol.idRol!)">Activar</button>
+        </td>
       </tr>
     </tbody>
   </table>
