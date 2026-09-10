@@ -1,0 +1,45 @@
+<div class="contenedor">
+  <h2>{{ modoEdicion ? 'Editar usuario' : 'Nuevo usuario' }}</h2>
+
+  <div *ngIf="error" class="error">{{ error }}</div>
+
+  <form (ngSubmit)="guardar()">
+    <div class="campo">
+      <label for="username">Nombre de usuario</label>
+      <input type="text" id="username" name="username" [(ngModel)]="usuario.username" required>
+    </div>
+
+    <div class="campo">
+      <label for="nombre">Nombre completo</label>
+      <input type="text" id="nombre" name="nombre" [(ngModel)]="usuario.nombre" required>
+    </div>
+
+    <div class="campo">
+      <label for="correo">Correo electrónico</label>
+      <input type="email" id="correo" name="correo" [(ngModel)]="usuario.correo" required>
+    </div>
+
+    <div class="campo">
+      <label for="idRol">Rol</label>
+      <select id="idRol" name="idRol" [(ngModel)]="usuario.idRol" required>
+        <option [ngValue]="null" disabled>Selecciona un rol</option>
+        <option *ngFor="let rol of roles" [ngValue]="rol.idRol">{{ rol.nombre }}</option>
+      </select>
+    </div>
+
+    <div class="campo">
+      <label for="password">
+        {{ modoEdicion ? 'Nueva contraseña (dejar en blanco para no cambiarla)' : 'Contraseña' }}
+      </label>
+      <input type="password" id="password" name="password" [(ngModel)]="usuario.password"
+             [required]="!modoEdicion">
+    </div>
+
+    <div class="acciones">
+      <button type="submit" [disabled]="guardando">
+        {{ guardando ? 'Guardando...' : 'Guardar' }}
+      </button>
+      <button type="button" (click)="cancelar()">Cancelar</button>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,39 @@
+<div class="contenedor">
+  <h2>Usuarios registrados</h2>
+
+  <button (click)="irANuevo()">+ Nuevo usuario</button>
+
+  <div *ngIf="cargando">Cargando usuarios...</div>
+  <div *ngIf="error" class="error">{{ error }}</div>
+
+  <table *ngIf="!cargando && !error">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Usuario</th>
+        <th>Nombre</th>
+        <th>Correo</th>
+        <th>Rol</th>
+        <th>Estado</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let usuario of usuarios">
+        <td>{{ usuario.idUsuario }}</td>
+        <td>{{ usuario.username }}</td>
+        <td>{{ usuario.nombre }}</td>
+        <td>{{ usuario.correo }}</td>
+        <td>{{ usuario.nombreRol }}</td>
+        <td>{{ usuario.estado }}</td>
+        <td>
+          <button (click)="irAEditar(usuario.idUsuario!)">Editar</button>
+          <button *ngIf="usuario.estado === 'ACTIVO'" (click)="desactivar(usuario.idUsuario!)">Desactivar</button>
+          <button *ngIf="usuario.estado === 'INACTIVO'" (click)="activar(usuario.idUsuario!)">Activar</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p *ngIf="!cargando && !error && usuarios.length === 0">No hay usuarios registrados todavía.</p>
+</div>
