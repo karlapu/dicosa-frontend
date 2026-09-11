@@ -1,10 +1,26 @@
 .app-header {
   background-color: var(--color-primary-dark);
-  padding: 18px 32px;
-  border-bottom: 3px solid var(--color-accent);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  color: #FFFFFF;
+  padding: 20px 32px;
+}
+
+.app-header h1 {
+  color: #FFFFFF;
+  font-size: 26px;
+}
+
+.app-header p {
+  margin: 4px 0 0;
+  color: #CFE3E0;
+  font-size: 14px;
+}
+
+.app-main {
+  padding: 32px;
+}
+.app-header {
+  background-color: var(--color-primary-dark);
+  padding: 14px 32px;
 }
 
 .marca {
@@ -13,50 +29,32 @@
   gap: 14px;
 }
 
-.icono-sistema {
-  width: 32px;
-  height: 32px;
-  color: var(--color-accent);
-  flex-shrink: 0;
+.logo {
+  height: 44px;
+  width: 44px;
+  object-fit: contain;
+  border-radius: 8px;
+  background-color: #FFFFFF;
+  padding: 3px;
+}
+
+.logo-xepi {
+  height: 44px;
+  width: 44px;
 }
 
 .marca-texto h1 {
   color: #FFFFFF;
   font-size: 24px;
-  letter-spacing: 0.02em;
 }
 
 .marca-texto p {
-  margin: 3px 0 0;
+  margin: 2px 0 0;
   color: #CFE0C9;
-  font-size: 12.5px;
-  letter-spacing: 0.02em;
-}
-
-.app-nav {
-  display: flex;
-  gap: 8px;
-}
-
-.app-nav a {
-  color: #CFE0C9;
-  text-decoration: none;
-  padding: 8px 14px;
-  border-radius: var(--radius);
-  font-size: 14px;
-  font-weight: 500;
-}
-
-.app-nav a:hover {
-  background-color: rgba(255,255,255,0.1);
-  color: #FFFFFF;
-}
-
-.app-nav a.activo {
-  background-color: var(--color-accent);
-  color: #1F2E1A;
+  font-size: 13px;
 }
 
 .app-main {
   padding: 32px;
 }
+

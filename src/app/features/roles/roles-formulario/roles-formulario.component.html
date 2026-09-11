@@ -1,4 +1,6 @@
 <div class="contenedor">
+  <a class="volver" (click)="cancelar()">&larr; Volver al listado</a>
+
   <h2>{{ modoEdicion ? 'Editar rol' : 'Nuevo rol' }}</h2>
 
   <div *ngIf="error" class="error">{{ error }}</div>

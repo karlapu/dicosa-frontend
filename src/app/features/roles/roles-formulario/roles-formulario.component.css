@@ -12,6 +12,19 @@
   margin-bottom: 20px;
 }
 
+.volver {
+  display: inline-block;
+  color: var(--color-text-muted);
+  font-size: 13px;
+  text-decoration: none;
+  cursor: pointer;
+  margin-bottom: 14px;
+}
+
+.volver:hover {
+  color: var(--color-primary);
+}
+
 .campo {
   margin-bottom: 18px;
 }
@@ -25,7 +38,8 @@
 }
 
 .campo input,
-.campo textarea {
+.campo textarea,
+.campo select {
   width: 100%;
   padding: 10px 12px;
   border: 1px solid var(--color-border);
@@ -37,7 +51,8 @@
 }
 
 .campo input:focus,
-.campo textarea:focus {
+.campo textarea:focus,
+.campo select:focus {
   outline: none;
   border-color: var(--color-primary);
 }
