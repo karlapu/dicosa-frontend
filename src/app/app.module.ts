@@ -9,6 +9,7 @@ import { RolesListComponent } from './features/roles/roles-list/roles-list.compo
 import { RolesFormularioComponent } from './features/roles/roles-formulario/roles-formulario.component';
 import { UsuariosListComponent } from './features/usuarios/usuarios-list/usuarios-list.component';
 import { UsuariosFormularioComponent } from './features/usuarios/usuarios-formulario/usuarios-formulario.component';
+import { LoginComponent } from './features/login/login.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { UsuariosFormularioComponent } from './features/usuarios/usuarios-formul
     RolesListComponent,
     RolesFormularioComponent,
     UsuariosListComponent,
-    UsuariosFormularioComponent
+    UsuariosFormularioComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
