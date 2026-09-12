@@ -1,0 +1,37 @@
+<div class="contenedor">
+  <h2>Menús registrados</h2>
+
+  <button (click)="irANuevo()">+ Nuevo menú</button>
+
+  <div *ngIf="cargando">Cargando menús...</div>
+  <div *ngIf="error" class="error">{{ error }}</div>
+
+  <table *ngIf="!cargando && !error">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Ruta</th>
+        <th>Módulo</th>
+        <th>Estado</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let menu of menus">
+        <td>{{ menu.idMenu }}</td>
+        <td>{{ menu.nombre }}</td>
+        <td>{{ menu.ruta }}</td>
+        <td>{{ menu.nombreModulo }}</td>
+        <td>{{ menu.estado }}</td>
+        <td>
+          <button (click)="irAEditar(menu.idMenu!)">Editar</button>
+          <button *ngIf="menu.estado === 'ACTIVO'" (click)="desactivar(menu.idMenu!)">Desactivar</button>
+          <button *ngIf="menu.estado === 'INACTIVO'" (click)="activar(menu.idMenu!)">Activar</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p *ngIf="!cargando && !error && menus.length === 0">No hay menús registrados todavía.</p>
+</div>

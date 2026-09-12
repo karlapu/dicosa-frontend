@@ -1,0 +1,36 @@
+<div class="contenedor">
+  <h2>Módulos registrados</h2>
+
+  <button (click)="irANuevo()">+ Nuevo módulo</button>
+
+  <div *ngIf="cargando">Cargando módulos...</div>
+  <div *ngIf="error" class="error">{{ error }}</div>
+
+  <table *ngIf="!cargando && !error">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Descripción</th>
+        <th>Estado</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let modulo of modulos">
+        <td>{{ modulo.idModulo }}</td>
+        <td>{{ modulo.nombre }}</td>
+        <td>{{ modulo.descripcion }}</td>
+        <td>{{ modulo.estado }}</td>
+        <td>
+          <button (click)="irAEditar(modulo.idModulo!)">Editar</button>
+          <button *ngIf="modulo.estado === 'ACTIVO'" (click)="desactivar(modulo.idModulo!)">Desactivar</button>
+          <button *ngIf="modulo.estado === 'INACTIVO'" (click)="activar(modulo.idModulo!)">Activar</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p *ngIf="!cargando && !error && modulos.length === 0">No hay módulos registrados todavía.</p>
+</div>
+ 
