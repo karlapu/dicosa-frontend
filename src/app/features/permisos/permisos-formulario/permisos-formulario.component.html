@@ -1,0 +1,34 @@
+<div class="contenedor">
+  <a class="volver" (click)="cancelar()">&larr; Volver al listado</a>
+
+  <h2>{{ modoEdicion ? 'Editar permiso' : 'Nuevo permiso' }}</h2>
+
+  <div *ngIf="error" class="error">{{ error }}</div>
+
+  <form (ngSubmit)="guardar()">
+    <div class="campo">
+      <label for="nombre">Nombre</label>
+      <input type="text" id="nombre" name="nombre" [(ngModel)]="permiso.nombre" required>
+    </div>
+
+    <div class="campo">
+      <label for="descripcion">Descripción</label>
+      <textarea id="descripcion" name="descripcion" [(ngModel)]="permiso.descripcion"></textarea>
+    </div>
+
+    <div class="campo">
+      <label for="idMenu">Menú</label>
+      <select id="idMenu" name="idMenu" [(ngModel)]="permiso.idMenu" required>
+        <option [ngValue]="null" disabled>Selecciona un menú</option>
+        <option *ngFor="let menu of menus" [ngValue]="menu.idMenu">{{ menu.nombre }}</option>
+      </select>
+    </div>
+
+    <div class="acciones">
+      <button type="submit" [disabled]="guardando">
+        {{ guardando ? 'Guardando...' : 'Guardar' }}
+      </button>
+      <button type="button" (click)="cancelar()">Cancelar</button>
+    </div>
+  </form>
+</div>

@@ -15,6 +15,12 @@ import { ModulosListComponent } from './features/modulos/modulos-list/modulos-li
 import { ModulosFormularioComponent } from './features/modulos/modulos-formulario/modulos-formulario.component';
 import { MenusListComponent } from './features/menus/menus-list/menus-list.component';
 import { MenusFormularioComponent } from './features/menus/menus-formulario/menus-formulario.component';
+import { PermisosListComponent } from './features/permisos/permisos-list/permisos-list.component';
+import { PermisosFormularioComponent } from './features/permisos/permisos-formulario/permisos-formulario.component';
+import { AsignarPermisosComponent } from './features/permisos/asignar-permisos/asignar-permisos.component';
+import { SidebarComponent } from './core/layout/sidebar/sidebar.component';
+import { DepartamentosListComponent } from './features/departamentos/departamentos-list/departamentos-list.component';
+import { DepartamentosFormularioComponent } from './features/departamentos/departamentos-formulario/departamentos-formulario.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +33,13 @@ import { MenusFormularioComponent } from './features/menus/menus-formulario/menu
     ModulosListComponent,
     ModulosFormularioComponent,
     MenusListComponent,
-    MenusFormularioComponent
+    MenusFormularioComponent,
+    PermisosListComponent,
+    PermisosFormularioComponent,
+    AsignarPermisosComponent,
+    SidebarComponent,
+    DepartamentosListComponent,
+    DepartamentosFormularioComponent
   ],
   imports: [
     BrowserModule,

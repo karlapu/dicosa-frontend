@@ -1,0 +1,37 @@
+<div class="contenedor">
+  <h2>Permisos registrados</h2>
+
+  <button (click)="irANuevo()">+ Nuevo permiso</button>
+
+  <div *ngIf="cargando">Cargando permisos...</div>
+  <div *ngIf="error" class="error">{{ error }}</div>
+
+  <table *ngIf="!cargando && !error">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Descripción</th>
+        <th>Menú</th>
+        <th>Estado</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let permiso of permisos">
+        <td>{{ permiso.idPermiso }}</td>
+        <td>{{ permiso.nombre }}</td>
+        <td>{{ permiso.descripcion }}</td>
+        <td>{{ permiso.nombreMenu }}</td>
+        <td>{{ permiso.estado }}</td>
+        <td>
+          <button (click)="irAEditar(permiso.idPermiso!)">Editar</button>
+          <button *ngIf="permiso.estado === 'ACTIVO'" (click)="desactivar(permiso.idPermiso!)">Desactivar</button>
+          <button *ngIf="permiso.estado === 'INACTIVO'" (click)="activar(permiso.idPermiso!)">Activar</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p *ngIf="!cargando && !error && permisos.length === 0">No hay permisos registrados todavía.</p>
+</div>

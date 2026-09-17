@@ -1,0 +1,37 @@
+<div class="contenedor">
+  <h2>Asignar permisos a un rol</h2>
+
+  <div *ngIf="error" class="error">{{ error }}</div>
+
+  <div class="campo">
+    <label for="rol">Selecciona un rol</label>
+    <select id="rol" name="rol" [(ngModel)]="idRolSeleccionado" (ngModelChange)="onCambiarRol()">
+      <option [ngValue]="null" disabled>Selecciona un rol</option>
+      <option *ngFor="let rol of roles" [ngValue]="rol.idRol">{{ rol.nombre }}</option>
+    </select>
+  </div>
+
+  <div *ngIf="cargando">Cargando permisos...</div>
+
+  <table *ngIf="idRolSeleccionado && !cargando">
+    <thead>
+      <tr>
+        <th>Asignado</th>
+        <th>Permiso</th>
+        <th>Menú</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let permiso of permisos">
+        <td>
+          <input type="checkbox"
+                 [checked]="estaAsignado(permiso.idPermiso!)"
+                 (change)="alternarPermiso(permiso.idPermiso!)">
+        </td>
+        <td>{{ permiso.nombre }}</td>
+        <td>{{ permiso.nombreMenu }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+ 

@@ -6,6 +6,15 @@ import { UsuariosListComponent } from './features/usuarios/usuarios-list/usuario
 import { UsuariosFormularioComponent } from './features/usuarios/usuarios-formulario/usuarios-formulario.component';
 import { LoginComponent } from './features/login/login.component';
 import { authGuard } from './core/auth.guard';
+import { MenusFormularioComponent } from './features/menus/menus-formulario/menus-formulario.component';
+import { MenusListComponent } from './features/menus/menus-list/menus-list.component';
+import { ModulosFormularioComponent } from './features/modulos/modulos-formulario/modulos-formulario.component';
+import { ModulosListComponent } from './features/modulos/modulos-list/modulos-list.component';
+import { AsignarPermisosComponent } from './features/permisos/asignar-permisos/asignar-permisos.component';
+import { PermisosListComponent } from './features/permisos/permisos-list/permisos-list.component';
+import { PermisosFormularioComponent } from './features/permisos/permisos-formulario/permisos-formulario.component';
+import { DepartamentosFormularioComponent } from './features/departamentos/departamentos-formulario/departamentos-formulario.component';
+import { DepartamentosListComponent } from './features/departamentos/departamentos-list/departamentos-list.component';
 
 const routes: Routes = [
    { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -15,8 +24,20 @@ const routes: Routes = [
   { path: 'roles/editar/:id', component: RolesFormularioComponent, canActivate: [authGuard] },
   { path: 'usuarios', component: UsuariosListComponent, canActivate: [authGuard] },
   { path: 'usuarios/nuevo', component: UsuariosFormularioComponent, canActivate: [authGuard] },
-  { path: 'usuarios/editar/:id', component: UsuariosFormularioComponent, canActivate: [authGuard] }
-
+  { path: 'usuarios/editar/:id', component: UsuariosFormularioComponent, canActivate: [authGuard] },
+  { path: 'modulos', component: ModulosListComponent, canActivate: [authGuard] },
+{ path: 'modulos/nuevo', component: ModulosFormularioComponent, canActivate: [authGuard] },
+{ path: 'modulos/editar/:id', component: ModulosFormularioComponent, canActivate: [authGuard] },
+{ path: 'menus', component: MenusListComponent, canActivate: [authGuard] },
+{ path: 'menus/nuevo', component: MenusFormularioComponent, canActivate: [authGuard] },
+{ path: 'menus/editar/:id', component: MenusFormularioComponent, canActivate: [authGuard] },
+{ path: 'permisos', component: PermisosListComponent, canActivate: [authGuard] },
+{ path: 'permisos/nuevo', component: PermisosFormularioComponent, canActivate: [authGuard] },
+{ path: 'permisos/editar/:id', component: PermisosFormularioComponent, canActivate: [authGuard] },
+{ path: 'asignar-permisos', component: AsignarPermisosComponent, canActivate: [authGuard] },
+{ path: 'departamentos', component: DepartamentosListComponent, canActivate: [authGuard] },
+{ path: 'departamentos/nuevo', component: DepartamentosFormularioComponent, canActivate: [authGuard] },
+{ path: 'departamentos/editar/:id', component: DepartamentosFormularioComponent, canActivate: [authGuard] },
 ];
 
 @NgModule({

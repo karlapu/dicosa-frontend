@@ -1,0 +1,43 @@
+<aside class="sidebar">
+
+  <div class="marca-sidebar">
+    <div class="logos-sidebar">
+      <img src="img/toys-wonderwood-logo.jpg" alt="Toys WonderWood" class="logo-sidebar">
+      <img src="img/xepi-logo.jpg" alt="Xepi" class="logo-sidebar">
+    </div>
+    <div>
+      <h1>Dicosa</h1>
+      <p>Inventario y ventas</p>
+    </div>
+  </div>
+
+  <nav class="nav-sidebar">
+    <div *ngIf="cargando" class="nav-cargando">Cargando menú...</div>
+
+    <div class="seccion" *ngFor="let seccion of secciones">
+      <p class="titulo-seccion">{{ seccion.nombreModulo }}</p>
+
+      <a *ngFor="let menu of seccion.menus"
+         [routerLink]="menu.ruta"
+         routerLinkActive="link-activo"
+         class="link-menu">
+        {{ menu.nombre }}
+      </a>
+    </div>
+
+    <p *ngIf="!cargando && secciones.length === 0" class="nav-cargando">
+      No hay menús activos registrados.
+    </p>
+  </nav>
+
+  <div class="usuario-sidebar">
+    <div class="avatar-usuario">{{ inicialUsuario() }}</div>
+    <div class="datos-usuario">
+      <p class="nombre-usuario">{{ nombreUsuario || 'Usuario' }}</p>
+      <p class="rol-usuario">{{ rolUsuario }}</p>
+    </div>
+  </div>
+
+  <button class="boton-salir" (click)="cerrarSesion()">Cerrar sesión</button>
+
+</aside>

@@ -1,60 +1,19 @@
-.app-header {
-  background-color: var(--color-primary-dark);
-  color: #FFFFFF;
-  padding: 20px 32px;
-}
-
-.app-header h1 {
-  color: #FFFFFF;
-  font-size: 26px;
-}
-
-.app-header p {
-  margin: 4px 0 0;
-  color: #CFE3E0;
-  font-size: 14px;
-}
-
-.app-main {
-  padding: 32px;
-}
-.app-header {
-  background-color: var(--color-primary-dark);
-  padding: 14px 32px;
-}
-
-.marca {
+.app-shell {
   display: flex;
-  align-items: center;
-  gap: 14px;
+  min-height: 100vh;
 }
 
-.logo {
-  height: 44px;
-  width: 44px;
-  object-fit: contain;
-  border-radius: 8px;
-  background-color: #FFFFFF;
-  padding: 3px;
-}
-
-.logo-xepi {
-  height: 44px;
-  width: 44px;
-}
-
-.marca-texto h1 {
-  color: #FFFFFF;
-  font-size: 24px;
-}
-
-.marca-texto p {
-  margin: 2px 0 0;
-  color: #CFE0C9;
-  font-size: 13px;
+.app-shell.solo-login {
+  display: block;
 }
 
 .app-main {
+  flex: 1;
   padding: 32px;
+  overflow-x: auto;
 }
 
+.app-main.sin-padding {
+  padding: 0;
+}
+ 

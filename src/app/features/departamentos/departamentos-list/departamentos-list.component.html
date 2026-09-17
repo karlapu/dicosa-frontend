@@ -1,0 +1,108 @@
+<div class="contenedor">
+
+  <div class="encabezado">
+    <div>
+      <h2>Departamentos registrados</h2>
+      <p class="descripcion-pagina">
+        Gestiona los departamentos del sistema.
+      </p>
+    </div>
+
+
+<button class="boton-nuevo" (click)="irANuevo()">
+  + Nuevo departamento
+</button>
+
+
+  </div>
+
+  <div *ngIf="error" class="error">
+    {{ error }}
+  </div>
+
+  <div class="tarjeta">
+
+
+<div *ngIf="cargando" class="estado-carga">
+  <span class="spinner"></span>
+  <p>Cargando departamentos...</p>
+</div>
+
+<table *ngIf="!cargando && !error && departamentos.length > 0">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Nombre</th>
+      <th>Estado</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr *ngFor="let departamento of departamentos">
+
+      <td class="celda-id">
+        {{ departamento.idDepartamento }}
+      </td>
+
+      <td class="celda-nombre">
+        {{ departamento.nombre }}
+      </td>
+
+      <td>
+        <span
+          class="pill"
+          [class.pill-activo]="departamento.estado === 'ACTIVO'"
+          [class.pill-inactivo]="departamento.estado === 'INACTIVO'">
+          {{ departamento.estado }}
+        </span>
+      </td>
+
+      <td class="celda-acciones">
+
+        <button
+          class="btn-accion btn-editar"
+          (click)="irAEditar(departamento.idDepartamento!)">
+          Editar
+        </button>
+
+        <button
+          class="btn-accion btn-desactivar"
+          *ngIf="departamento.estado === 'ACTIVO'"
+          (click)="desactivar(departamento.idDepartamento!)">
+          Desactivar
+        </button>
+
+        <button
+          class="btn-accion btn-activar"
+          *ngIf="departamento.estado === 'INACTIVO'"
+          (click)="activar(departamento.idDepartamento!)">
+          Activar
+        </button>
+
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<div
+  *ngIf="!cargando && !error && departamentos.length === 0"
+  class="estado-vacio">
+
+  <p class="estado-vacio-titulo">
+    Todavía no hay departamentos registrados
+  </p>
+
+  <p class="estado-vacio-texto">
+    Crea el primero para empezar a organizar los departamentos del sistema.
+  </p>
+
+  <button class="boton-nuevo" (click)="irANuevo()">
+    + Nuevo departamento
+  </button>
+
+</div>
+
+
+  </div>
+</div>

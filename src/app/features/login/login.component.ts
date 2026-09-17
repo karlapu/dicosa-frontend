@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
 import { LoginRequest } from '../../core/models/login.model';
 
@@ -9,16 +9,25 @@ import { LoginRequest } from '../../core/models/login.model';
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
+export class LoginComponent implements OnInit {
 
-export class LoginComponent {
   credenciales: LoginRequest = { username: '', password: '' };
   cargando = false;
   error = '';
 
   constructor(
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute
   ) { }
+
+  ngOnInit(): void {
+    this.route.queryParams.subscribe(params => {
+      if (params['sesionExpirada'] === 'true') {
+        this.error = 'Tu sesión expiró. Por favor, inicia sesión de nuevo.';
+      }
+    });
+  }
 
   iniciarSesion(): void {
     this.cargando = true;
@@ -35,4 +44,3 @@ export class LoginComponent {
     });
   }
 }
-

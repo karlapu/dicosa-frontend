@@ -1,25 +1,73 @@
 <div class="pantalla-login">
-  <div class="tarjeta-login">
-    <h1>Dicosa</h1>
-    <p class="subtitulo">Sistema de inventario y ventas</p>
 
-    <div *ngIf="error" class="error">{{ error }}</div>
+  <div class="panel-marca">
+    <svg class="anillos" viewBox="0 0 500 700" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+      <circle cx="230" cy="260" r="80"  class="anillo anillo-1" />
+      <circle cx="230" cy="260" r="140" class="anillo anillo-2" />
+      <circle cx="230" cy="260" r="200" class="anillo anillo-3" />
+      <circle cx="230" cy="260" r="260" class="anillo anillo-4" />
 
-    <form (ngSubmit)="iniciarSesion()">
-      <div class="campo">
-        <label for="username">Usuario</label>
-        <input type="text" id="username" name="username" [(ngModel)]="credenciales.username" required autofocus>
+      <path class="pieza-xepi-sombra" d="M270,150
+        L320,150
+        A18,18 0 0 0 356,150
+        L406,150
+        L406,196
+        A18,18 0 0 0 406,232
+        L406,278
+        L270,278
+        Z" transform="translate(6,10) rotate(-6 338 214)" />
+      <path class="pieza-xepi" d="M270,150
+        L320,150
+        A18,18 0 0 0 356,150
+        L406,150
+        L406,196
+        A18,18 0 0 0 406,232
+        L406,278
+        L270,278
+        Z" transform="rotate(-6 338 214)" />
+
+      <ellipse class="hoja" cx="90"  cy="120" rx="7" ry="4" transform="rotate(-20 90 120)" />
+      <ellipse class="hoja" cx="140" cy="480" rx="6" ry="3.5" transform="rotate(15 140 480)" />
+      <ellipse class="hoja" cx="380" cy="430" rx="7" ry="4" transform="rotate(35 380 430)" />
+      <ellipse class="hoja" cx="60"  cy="330" rx="5" ry="3" transform="rotate(-10 60 330)" />
+      <ellipse class="hoja" cx="420" cy="560" rx="6" ry="3.5" transform="rotate(50 420 560)" />
+    </svg>
+
+    <div class="contenido-marca">
+      <p class="eslogan">Cada pieza<br>en su lugar.</p>
+      <p class="descripcion-marca">Sistema de inventario y ventas de</p>
+
+      <div class="logos-marca">
+        <img src="img/toys-wonderwood-logo.jpg" alt="Toys WonderWood" class="logo-marca">
+        <img src="img/xepi-logo.jpg" alt="Xepi" class="logo-marca logo-xepi">
       </div>
-
-      <div class="campo">
-        <label for="password">Contraseña</label>
-        <input type="password" id="password" name="password" [(ngModel)]="credenciales.password" required>
-      </div>
-
-      <button type="submit" [disabled]="cargando">
-        {{ cargando ? 'Ingresando...' : 'Ingresar' }}
-      </button>
-    </form>
+    </div>
   </div>
+
+  <div class="panel-formulario">
+    <div class="tarjeta-login">
+      <h1>Bienvenido de nuevo</h1>
+      <p class="subtitulo">Ingresa tus credenciales para continuar</p>
+
+      <div *ngIf="error" class="error">{{ error }}</div>
+
+      <form (ngSubmit)="iniciarSesion()">
+        <div class="campo">
+          <label for="username">Usuario</label>
+          <input type="text" id="username" name="username" [(ngModel)]="credenciales.username" required autofocus>
+        </div>
+
+        <div class="campo">
+          <label for="password">Contraseña</label>
+          <input type="password" id="password" name="password" [(ngModel)]="credenciales.password" required>
+        </div>
+
+        <button type="submit" [disabled]="cargando">
+          {{ cargando ? 'Ingresando...' : 'Ingresar' }}
+        </button>
+      </form>
+    </div>
+  </div>
+
 </div>
  

@@ -1,36 +1,57 @@
 <div class="contenedor">
-  <h2>Roles registrados</h2>
 
-  <button (click)="irANuevo()">+ Nuevo rol</button>
-
-  <div *ngIf="cargando">Cargando roles...</div>
+  <div class="encabezado">
+    <div>
+      <h2>Roles registrados</h2>
+      <p class="descripcion-pagina">Gestiona los roles del sistema y sus niveles de acceso.</p>
+    </div>
+    <button class="boton-nuevo" (click)="irANuevo()">+ Nuevo rol</button>
+  </div>
 
   <div *ngIf="error" class="error">{{ error }}</div>
 
-  <table *ngIf="!cargando && !error">
-    <thead>
-      <tr>
-        <th>ID</th>
-        <th>Nombre</th>
-        <th>Descripción</th>
-        <th>Estado</th>
-        <th>Acciones</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let rol of roles">
-        <td>{{ rol.idRol }}</td>
-        <td>{{ rol.nombre }}</td>
-        <td>{{ rol.descripcion }}</td>
-        <td>{{ rol.estado }}</td>
-        <td>
-          <button (click)="irAEditar(rol.idRol!)">Editar</button>
-          <button *ngIf="rol.estado === 'ACTIVO'" (click)="desactivar(rol.idRol!)">Desactivar</button>
-          <button *ngIf="rol.estado === 'INACTIVO'" (click)="activar(rol.idRol!)">Activar</button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+  <div class="tarjeta">
 
-  <p *ngIf="!cargando && !error && roles.length === 0">No hay roles registrados todavía.</p>
+    <div *ngIf="cargando" class="estado-carga">
+      <span class="spinner"></span>
+      <p>Cargando roles...</p>
+    </div>
+
+    <table *ngIf="!cargando && !error && roles.length > 0">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nombre</th>
+          <th>Descripción</th>
+          <th>Estado</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let rol of roles">
+          <td class="celda-id">{{ rol.idRol }}</td>
+          <td class="celda-nombre">{{ rol.nombre }}</td>
+          <td class="celda-descripcion">{{ rol.descripcion }}</td>
+          <td>
+            <span class="pill" [class.pill-activo]="rol.estado === 'ACTIVO'"
+                                [class.pill-inactivo]="rol.estado === 'INACTIVO'">
+              {{ rol.estado }}
+            </span>
+          </td>
+          <td class="celda-acciones">
+            <button class="btn-accion btn-editar" (click)="irAEditar(rol.idRol!)">Editar</button>
+            <button class="btn-accion btn-desactivar" *ngIf="rol.estado === 'ACTIVO'" (click)="desactivar(rol.idRol!)">Desactivar</button>
+            <button class="btn-accion btn-activar" *ngIf="rol.estado === 'INACTIVO'" (click)="activar(rol.idRol!)">Activar</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div *ngIf="!cargando && !error && roles.length === 0" class="estado-vacio">
+      <p class="estado-vacio-titulo">Todavía no hay roles registrados</p>
+      <p class="estado-vacio-texto">Crea el primero para empezar a organizar los accesos del sistema.</p>
+      <button class="boton-nuevo" (click)="irANuevo()">+ Nuevo rol</button>
+    </div>
+
+  </div>
 </div>
