@@ -15,6 +15,12 @@ import { PermisosListComponent } from './features/permisos/permisos-list/permiso
 import { PermisosFormularioComponent } from './features/permisos/permisos-formulario/permisos-formulario.component';
 import { DepartamentosFormularioComponent } from './features/departamentos/departamentos-formulario/departamentos-formulario.component';
 import { DepartamentosListComponent } from './features/departamentos/departamentos-list/departamentos-list.component';
+import { MunicipiosFormularioComponent } from './features/municipios/municipios-formulario/municipios-formulario.component';
+import { MunicipiosListComponent } from './features/municipios/municipios-list/municipios-list.component';
+import { CategoriasListComponent } from './features/categorias/categorias-list/categorias-list.component';
+import { CategoriasFormularioComponent } from './features/categorias/categorias-formulario/categorias-formulario.component';
+import { CatMetodoPagoListComponent } from './features/cat-metodos-pago/cat-metodos-pago-list/cat-metodos-pago-list.component';
+import { CatMetodoPagoFormularioComponent } from './features/cat-metodos-pago/cat-metodos-pago-formulario/cat-metodos-pago-formulario.component';
 
 const routes: Routes = [
    { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -38,6 +44,16 @@ const routes: Routes = [
 { path: 'departamentos', component: DepartamentosListComponent, canActivate: [authGuard] },
 { path: 'departamentos/nuevo', component: DepartamentosFormularioComponent, canActivate: [authGuard] },
 { path: 'departamentos/editar/:id', component: DepartamentosFormularioComponent, canActivate: [authGuard] },
+{ path: 'municipios', component: MunicipiosListComponent, canActivate: [authGuard] },
+{ path: 'municipios/nuevo', component: MunicipiosFormularioComponent, canActivate: [authGuard] },
+{ path: 'municipios/editar/:id', component: MunicipiosFormularioComponent, canActivate: [authGuard] },
+{ path: 'categorias', component: CategoriasListComponent, canActivate: [authGuard] },
+{ path: 'categorias/nuevo', component: CategoriasFormularioComponent, canActivate: [authGuard] },
+{ path: 'categorias/editar/:id', component: CategoriasFormularioComponent, canActivate: [authGuard] },
+ { path: 'cat-metodos-pago', component: CatMetodoPagoListComponent, canActivate: [authGuard] },
+  { path: 'cat-metodos-pago/nuevo', component: CatMetodoPagoFormularioComponent, canActivate: [authGuard] },
+  { path: 'cat-metodos-pago/editar/:id', component: CatMetodoPagoFormularioComponent, canActivate: [authGuard] },
+
 ];
 
 @NgModule({

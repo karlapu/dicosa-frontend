@@ -1,0 +1,103 @@
+<div class="contenedor">
+
+  <div class="encabezado">
+    <div>
+      <h2>Métodos de pago registrados</h2>
+      <p class="descripcion-pagina">
+        Gestiona los métodos de pago del sistema.
+      </p>
+    </div>
+
+    <button class="boton-nuevo" (click)="irANuevo()">
+      + Nuevo método de pago
+    </button>
+  </div>
+
+  <div *ngIf="error" class="error">
+    {{ error }}
+  </div>
+
+  <div class="tarjeta">
+
+    <div *ngIf="cargando" class="estado-carga">
+      <span class="spinner"></span>
+      <p>Cargando métodos de pago...</p>
+    </div>
+
+    <table *ngIf="!cargando && !error && catMetodoPagos.length > 0">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nombre</th>
+          <th>Estado</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let catMetodoPago of catMetodoPagos">
+
+          <td class="celda-id">
+            {{ catMetodoPago.idCatMetodoPago }}
+          </td>
+
+          <td class="celda-nombre">
+            {{ catMetodoPago.nombre }}
+          </td>
+
+          <td>
+            <span
+              class="pill"
+              [class.pill-activo]="catMetodoPago.estado === 'ACTIVO'"
+              [class.pill-inactivo]="catMetodoPago.estado === 'INACTIVO'">
+              {{ catMetodoPago.estado }}
+            </span>
+          </td>
+
+          <td class="celda-acciones">
+
+            <button
+              class="btn-accion btn-editar"
+              (click)="irAEditar(catMetodoPago.idCatMetodoPago!)">
+              Editar
+            </button>
+
+            <button
+              class="btn-accion btn-desactivar"
+              *ngIf="catMetodoPago.estado === 'ACTIVO'"
+              (click)="desactivar(catMetodoPago.idCatMetodoPago!)">
+              Desactivar
+            </button>
+
+            <button
+              class="btn-accion btn-activar"
+              *ngIf="catMetodoPago.estado === 'INACTIVO'"
+              (click)="activar(catMetodoPago.idCatMetodoPago!)">
+              Activar
+            </button>
+
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div
+      *ngIf="!cargando && !error && catMetodoPagos.length === 0"
+      class="estado-vacio">
+
+      <p class="estado-vacio-titulo">
+        Todavía no hay métodos de pago registrados
+      </p>
+
+      <p class="estado-vacio-texto">
+        Crea el primero para empezar a registrar los métodos de pago del sistema.
+      </p>
+
+      <button class="boton-nuevo" (click)="irANuevo()">
+        + Nuevo método de pago
+      </button>
+
+    </div>
+
+  </div>
+</div>

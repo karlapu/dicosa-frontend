@@ -1,0 +1,114 @@
+<div class="contenedor">
+
+  <div class="encabezado">
+    <div>
+      <h2>Municipios</h2>
+      <p class="descripcion-pagina">
+        Listado de municipios registrados
+      </p>
+    </div>
+
+    <button class="boton-nuevo" (click)="nuevo()">
+      + Nuevo municipio
+    </button>
+  </div>
+
+  <div *ngIf="error" class="error">
+    {{ error }}
+  </div>
+
+  <div *ngIf="cargando" class="estado-carga">
+    <div class="spinner"></div>
+    <span>Cargando municipios...</span>
+  </div>
+
+  <div
+    class="tarjeta"
+    *ngIf="!cargando && municipios.length > 0">
+
+    <table>
+
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Municipio</th>
+          <th>Departamento</th>
+          <th>Estado</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let municipio of municipios">
+
+          <td class="celda-id">
+            {{ municipio.idMunicipio }}
+          </td>
+
+          <td class="celda-nombre">
+            {{ municipio.nombre }}
+          </td>
+
+          <td>
+            {{ municipio.idDepartamento }}
+          </td>
+
+          <td>
+            <span
+              class="pill"
+              [class.pill-activo]="municipio.estado === 'ACTIVO'"
+              [class.pill-inactivo]="municipio.estado === 'INACTIVO'">
+              {{ municipio.estado }}
+            </span>
+          </td>
+
+          <td class="celda-acciones">
+
+            <button
+              class="btn-accion btn-editar"
+              (click)="editar(municipio.idMunicipio!)">
+              Editar
+            </button>
+
+            <button
+              *ngIf="municipio.estado === 'ACTIVO'"
+              class="btn-accion btn-desactivar"
+              (click)="desactivar(municipio.idMunicipio!)">
+              Desactivar
+            </button>
+
+            <button
+              *ngIf="municipio.estado === 'INACTIVO'"
+              class="btn-accion btn-activar"
+              (click)="activar(municipio.idMunicipio!)">
+              Activar
+            </button>
+
+          </td>
+
+        </tr>
+      </tbody>
+
+    </table>
+
+  </div>
+
+  <div
+    *ngIf="!cargando && municipios.length === 0 && !error"
+    class="estado-vacio">
+
+    <p class="estado-vacio-titulo">
+      No hay municipios registrados
+    </p>
+
+    <p class="estado-vacio-texto">
+      Aún no se ha registrado ningún municipio.
+    </p>
+
+    <button class="boton-nuevo" (click)="nuevo()">
+      + Nuevo municipio
+    </button>
+
+  </div>
+
+</div>

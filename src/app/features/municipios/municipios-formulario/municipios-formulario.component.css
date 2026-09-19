@@ -1,0 +1,107 @@
+.contenedor {
+  max-width: 480px;
+  margin: 0 auto;
+  background-color: var(--color-surface);
+  padding: 28px;
+  border-radius: var(--radius);
+  border: 1px solid var(--color-border);
+}
+
+.contenedor h2 {
+  font-size: 20px;
+  margin-bottom: 20px;
+}
+
+.volver {
+  display: inline-block;
+  color: var(--color-text-muted);
+  font-size: 13px;
+  text-decoration: none;
+  cursor: pointer;
+  margin-bottom: 14px;
+}
+
+.volver:hover {
+  color: var(--color-primary);
+}
+
+.campo {
+  margin-bottom: 18px;
+}
+
+.campo label {
+  display: block;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-text-muted);
+  margin-bottom: 6px;
+}
+
+.campo input,
+.campo textarea,
+.campo select {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  font-family: var(--font-body);
+  font-size: 14px;
+  color: var(--color-text);
+  background-color: var(--color-bg);
+}
+
+.campo input:focus,
+.campo textarea:focus,
+.campo select:focus {
+  outline: none;
+  border-color: var(--color-primary);
+}
+
+.campo textarea {
+  min-height: 80px;
+  resize: vertical;
+}
+
+.acciones {
+  display: flex;
+  gap: 10px;
+  margin-top: 24px;
+}
+
+.acciones button {
+  border-radius: var(--radius);
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: 500;
+  border: none;
+}
+
+.acciones button[type="submit"] {
+  background-color: var(--color-primary);
+  color: #FFFFFF;
+}
+
+.acciones button[type="submit"]:hover {
+  background-color: var(--color-primary-dark);
+}
+
+.acciones button[type="submit"]:disabled {
+  background-color: var(--color-border);
+  color: var(--color-text-muted);
+  cursor: not-allowed;
+}
+
+.acciones button[type="button"] {
+  background-color: transparent;
+  border: 1px solid var(--color-border);
+  color: var(--color-text-muted);
+}
+
+.error {
+  background-color: #FBEAE5;
+  color: var(--color-warn);
+  padding: 12px 16px;
+  border-radius: var(--radius);
+  margin-bottom: 18px;
+  font-size: 14px;
+}

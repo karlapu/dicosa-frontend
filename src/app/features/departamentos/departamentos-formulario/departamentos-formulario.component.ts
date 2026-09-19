@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Departamento } from '../../../core/models/departamento';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Departamento } from '../../../core/models/departamento';
 import { DepartamentoService } from '../../../core/services/departamento.servicel';
+
 
 @Component({
   selector: 'app-departamentos-formulario',
@@ -9,39 +10,37 @@ import { DepartamentoService } from '../../../core/services/departamento.service
   templateUrl: './departamentos-formulario.component.html',
   styleUrl: './departamentos-formulario.component.css'
 })
-export class DepartamentosFormularioComponent implements OnInit{
+export class DepartamentosFormularioComponent implements OnInit {
 
-departamento: Departamento = { nombre: ''};
-modoEdicion = false;
-idDepartamento: number | null = null;
-guardando = false;
-error = '';
+  departamento: Departamento = { nombre: '' };
+  modoEdicion = false;
+  idDepartamento: number | null = null;
+  guardando = false;
+  error = '';
 
-constructor(
-private departamentoService: DepartamentoService,
-private route: ActivatedRoute,
-private router: Router
+  constructor(
+    private departamentoService: DepartamentoService,
+    private route: ActivatedRoute,
+    private router: Router
+  ) { }
 
-) { }
+  ngOnInit(): void {
+    const idParam = this.route.snapshot.paramMap.get('id');
+    if (idParam) {
+      this.modoEdicion = true;
+      this.idDepartamento = Number(idParam);
+      this.cargarDepartamento(this.idDepartamento);
+    }
+  }
 
-ngOnInit(): void {
-const idParam = this.route.snapshot.paramMap.get('id');
-if (idParam){
-  this.modoEdicion = true;
-  this.idDepartamento = Number(idParam);
-  this.cargarDepartamento(this.idDepartamento);
+  cargarDepartamento(id: number): void {
+    this.departamentoService.buscarPorId(id).subscribe({
+      next: (data) => this.departamento = data,
+      error: () => this.error = 'No se pudo cargar la información del departamento.'
+    });
+  }
 
-}
-}
-
-cargarDepartamento(id: number): void {
-  this.departamentoService.buscarPorId(id).subscribe({
-    next: (data) => this.departamento = data,
-    error: () => this.error = 'No se pudo cargar la información del departamento.'
-  });
-}
-
-guardar(): void {
+  guardar(): void {
     this.guardando = true;
     this.error = '';
 
@@ -62,7 +61,6 @@ guardar(): void {
     this.router.navigate(['/departamentos']);
   }
 }
-
 
 
 

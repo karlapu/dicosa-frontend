@@ -1,0 +1,98 @@
+<div class="contenedor">
+
+  <div class="encabezado">
+    <div>
+      <h2>Categorías registradas</h2>
+      <p class="descripcion-pagina">
+        Categorías utilizadas para clasificar los productos.
+      </p>
+    </div>
+
+    <button class="boton-nuevo" (click)="irANuevo()">
+      + Nueva categoría
+    </button>
+  </div>
+
+  <div *ngIf="error" class="error">
+    {{ error }}
+  </div>
+
+  <div *ngIf="cargando" class="estado-carga">
+    <div class="spinner"></div>
+    <span>Cargando categorías...</span>
+  </div>
+
+  <div class="tarjeta" *ngIf="!cargando && !error">
+
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nombre</th>
+          <th>Descripción</th>
+          <th>Estado</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+
+      <tbody>
+
+        <tr *ngFor="let categoria of categorias">
+          <td class="celda-id">
+            {{ categoria.idCategoria }}
+          </td>
+
+          <td class="celda-nombre">
+            {{ categoria.nombre }}
+          </td>
+
+          <td class="celda-descripcion">
+            {{ categoria.descripcion }}
+          </td>
+
+          <td>
+            <span
+              class="pill"
+              [class.pill-activo]="categoria.estado === 'ACTIVO'"
+              [class.pill-inactivo]="categoria.estado === 'INACTIVO'">
+              {{ categoria.estado }}
+            </span>
+          </td>
+
+          <td class="celda-acciones">
+
+            <button
+              class="btn-accion btn-editar"
+              (click)="irAEditar(categoria.idCategoria!)">
+              Editar
+            </button>
+
+            <button
+              class="btn-accion btn-desactivar"
+              *ngIf="categoria.estado === 'ACTIVO'"
+              (click)="desactivar(categoria.idCategoria!)">
+              Desactivar
+            </button>
+
+            <button
+              class="btn-accion btn-activar"
+              *ngIf="categoria.estado === 'INACTIVO'"
+              (click)="activar(categoria.idCategoria!)">
+              Activar
+            </button>
+
+          </td>
+        </tr>
+
+        <tr *ngIf="categorias.length === 0">
+          <td colspan="5" style="text-align: center;">
+            No hay categorías registradas.
+          </td>
+        </tr>
+
+      </tbody>
+    </table>
+
+  </div>
+
+</div>

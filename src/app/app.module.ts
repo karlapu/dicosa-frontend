@@ -21,6 +21,14 @@ import { AsignarPermisosComponent } from './features/permisos/asignar-permisos/a
 import { SidebarComponent } from './core/layout/sidebar/sidebar.component';
 import { DepartamentosListComponent } from './features/departamentos/departamentos-list/departamentos-list.component';
 import { DepartamentosFormularioComponent } from './features/departamentos/departamentos-formulario/departamentos-formulario.component';
+import { MunicipiosFormularioComponent } from './features/municipios/municipios-formulario/municipios-formulario.component';
+import { MunicipiosListComponent } from './features/municipios/municipios-list/municipios-list.component';
+import { CategoriasListComponent } from './features/categorias/categorias-list/categorias-list.component';
+import { CategoriasFormularioComponent } from './features/categorias/categorias-formulario/categorias-formulario.component';
+import { CatMetodoPagoFormularioComponent } from './features/cat-metodos-pago/cat-metodos-pago-formulario/cat-metodos-pago-formulario.component';
+import { CatMetodoPagoListComponent } from './features/cat-metodos-pago/cat-metodos-pago-list/cat-metodos-pago-list.component';
+
+
 
 @NgModule({
   declarations: [
@@ -39,11 +47,19 @@ import { DepartamentosFormularioComponent } from './features/departamentos/depar
     AsignarPermisosComponent,
     SidebarComponent,
     DepartamentosListComponent,
-    DepartamentosFormularioComponent
+    DepartamentosFormularioComponent,
+    MunicipiosFormularioComponent,
+    MunicipiosListComponent,
+    CategoriasListComponent,
+    CategoriasFormularioComponent,
+    CatMetodoPagoListComponent,
+    CatMetodoPagoFormularioComponent
+
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
+
 
     FormsModule
   ],
