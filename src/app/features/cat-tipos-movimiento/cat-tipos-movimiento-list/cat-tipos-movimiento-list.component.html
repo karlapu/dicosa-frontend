@@ -1,0 +1,103 @@
+<div class="contenedor">
+
+  <div class="encabezado">
+    <div>
+      <h2>Tipos de movimiento registrados</h2>
+      <p class="descripcion-pagina">
+        Gestiona los tipos de movimiento de inventario del sistema.
+      </p>
+    </div>
+
+    <button class="boton-nuevo" (click)="irANuevo()">
+      + Nuevo tipo de movimiento
+    </button>
+  </div>
+
+  <div *ngIf="error" class="error">
+    {{ error }}
+  </div>
+
+  <div class="tarjeta">
+
+    <div *ngIf="cargando" class="estado-carga">
+      <span class="spinner"></span>
+      <p>Cargando tipos de movimiento...</p>
+    </div>
+
+    <table *ngIf="!cargando && !error && catTiposMovimiento.length > 0">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nombre</th>
+          <th>Estado</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let catTipoMovimiento of catTiposMovimiento">
+
+          <td class="celda-id">
+            {{ catTipoMovimiento.idTipoMovimiento }}
+          </td>
+
+          <td class="celda-nombre">
+            {{ catTipoMovimiento.nombre }}
+          </td>
+
+          <td>
+            <span
+              class="pill"
+              [class.pill-activo]="catTipoMovimiento.estado === 'ACTIVO'"
+              [class.pill-inactivo]="catTipoMovimiento.estado === 'INACTIVO'">
+              {{ catTipoMovimiento.estado }}
+            </span>
+          </td>
+
+          <td class="celda-acciones">
+
+            <button
+              class="btn-accion btn-editar"
+              (click)="irAEditar(catTipoMovimiento.idTipoMovimiento!)">
+              Editar
+            </button>
+
+            <button
+              class="btn-accion btn-desactivar"
+              *ngIf="catTipoMovimiento.estado === 'ACTIVO'"
+              (click)="desactivar(catTipoMovimiento.idTipoMovimiento!)">
+              Desactivar
+            </button>
+
+            <button
+              class="btn-accion btn-activar"
+              *ngIf="catTipoMovimiento.estado === 'INACTIVO'"
+              (click)="activar(catTipoMovimiento.idTipoMovimiento!)">
+              Activar
+            </button>
+
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div
+      *ngIf="!cargando && !error && catTiposMovimiento.length === 0"
+      class="estado-vacio">
+
+      <p class="estado-vacio-titulo">
+        Todavía no hay tipos de movimiento registrados
+      </p>
+
+      <p class="estado-vacio-texto">
+        Crea el primero para empezar a registrar los tipos de movimiento del sistema.
+      </p>
+
+      <button class="boton-nuevo" (click)="irANuevo()">
+        + Nuevo tipo de movimiento
+      </button>
+
+    </div>
+
+  </div>
+</div>

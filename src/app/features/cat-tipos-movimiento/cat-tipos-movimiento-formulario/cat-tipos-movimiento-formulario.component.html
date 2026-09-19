@@ -1,0 +1,27 @@
+<div class="contenedor">
+  <a class="volver" routerLink="/cat-tipos-movimiento">← Volver al listado</a>
+
+  <h2>{{ modoEdicion ? 'Editar' : 'Nuevo' }} Tipo de Movimiento</h2>
+
+  <p *ngIf="error" class="error">{{ error }}</p>
+
+  <form (ngSubmit)="guardar()">
+    <div class="campo">
+      <label for="nombre">Nombre</label>
+      <input
+        type="text"
+        id="nombre"
+        name="nombre"
+        [(ngModel)]="catTipoMovimiento.nombre"
+        required
+        placeholder="Ingresa el nombre" />
+    </div>
+
+    <div class="acciones">
+      <button type="submit" [disabled]="guardando">
+        {{ guardando ? 'Guardando...' : 'Guardar' }}
+      </button>
+      <button type="button" (click)="cancelar()">Cancelar</button>
+    </div>
+  </form>
+</div>
