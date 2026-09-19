@@ -21,6 +21,8 @@ import { CategoriasListComponent } from './features/categorias/categorias-list/c
 import { CategoriasFormularioComponent } from './features/categorias/categorias-formulario/categorias-formulario.component';
 import { CatMetodoPagoListComponent } from './features/cat-metodos-pago/cat-metodos-pago-list/cat-metodos-pago-list.component';
 import { CatMetodoPagoFormularioComponent } from './features/cat-metodos-pago/cat-metodos-pago-formulario/cat-metodos-pago-formulario.component';
+import { CatMonedasListComponent } from './features/cat-monedas/cat-monedas-list/cat-monedas-list.component';
+import { CatMonedasFormularioComponent } from './features/cat-monedas/cat-monedas-formulario/cat-monedas-formulario.component';
 
 const routes: Routes = [
    { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -53,6 +55,9 @@ const routes: Routes = [
  { path: 'cat-metodos-pago', component: CatMetodoPagoListComponent, canActivate: [authGuard] },
   { path: 'cat-metodos-pago/nuevo', component: CatMetodoPagoFormularioComponent, canActivate: [authGuard] },
   { path: 'cat-metodos-pago/editar/:id', component: CatMetodoPagoFormularioComponent, canActivate: [authGuard] },
+  { path: 'cat-monedas', component: CatMonedasListComponent, canActivate: [authGuard] },
+{ path: 'cat-monedas/nuevo', component: CatMonedasFormularioComponent, canActivate: [authGuard] },
+{ path: 'cat-monedas/editar/:id', component: CatMonedasFormularioComponent, canActivate: [authGuard] }
 
 ];
 

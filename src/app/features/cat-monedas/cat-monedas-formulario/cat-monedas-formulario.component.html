@@ -1,0 +1,39 @@
+<div class="contenedor">
+  <a class="volver" routerLink="/cat-monedas">← Volver al listado</a>
+
+  <h2>{{ modoEdicion ? 'Editar' : 'Nueva' }} Moneda</h2>
+
+  <p *ngIf="error" class="error">{{ error }}</p>
+
+  <form (ngSubmit)="guardar()">
+    <div class="campo">
+      <label for="nombre">Nombre</label>
+      <input
+        type="text"
+        id="nombre"
+        name="nombre"
+        [(ngModel)]="catMoneda.nombre"
+        required
+        placeholder="Ingresa el nombre" />
+    </div>
+
+    <div class="campo">
+      <label for="simbolo">Símbolo</label>
+      <input
+        type="text"
+        id="simbolo"
+        name="simbolo"
+        [(ngModel)]="catMoneda.simbolo"
+        required
+        maxlength="10"
+        placeholder="Ej. Q, $" />
+    </div>
+
+    <div class="acciones">
+      <button type="submit" [disabled]="guardando">
+        {{ guardando ? 'Guardando...' : 'Guardar' }}
+      </button>
+      <button type="button" (click)="cancelar()">Cancelar</button>
+    </div>
+  </form>
+</div>

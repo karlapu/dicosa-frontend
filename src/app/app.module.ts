@@ -27,6 +27,8 @@ import { CategoriasListComponent } from './features/categorias/categorias-list/c
 import { CategoriasFormularioComponent } from './features/categorias/categorias-formulario/categorias-formulario.component';
 import { CatMetodoPagoFormularioComponent } from './features/cat-metodos-pago/cat-metodos-pago-formulario/cat-metodos-pago-formulario.component';
 import { CatMetodoPagoListComponent } from './features/cat-metodos-pago/cat-metodos-pago-list/cat-metodos-pago-list.component';
+import { CatMonedasFormularioComponent } from './features/cat-monedas/cat-monedas-formulario/cat-monedas-formulario.component';
+import { CatMonedasListComponent } from './features/cat-monedas/cat-monedas-list/cat-monedas-list.component';
 
 
 
@@ -53,7 +55,9 @@ import { CatMetodoPagoListComponent } from './features/cat-metodos-pago/cat-meto
     CategoriasListComponent,
     CategoriasFormularioComponent,
     CatMetodoPagoListComponent,
-    CatMetodoPagoFormularioComponent
+    CatMetodoPagoFormularioComponent,
+    CatMonedasFormularioComponent,
+    CatMonedasListComponent
 
   ],
   imports: [

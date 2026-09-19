@@ -1,0 +1,108 @@
+<div class="contenedor">
+
+  <div class="encabezado">
+    <div>
+      <h2>Monedas registradas</h2>
+      <p class="descripcion-pagina">
+        Gestiona las monedas que utiliza el sistema.
+      </p>
+    </div>
+
+    <button class="boton-nuevo" (click)="irANuevo()">
+      + Nueva moneda
+    </button>
+  </div>
+
+  <div *ngIf="error" class="error">
+    {{ error }}
+  </div>
+
+  <div class="tarjeta">
+
+    <div *ngIf="cargando" class="estado-carga">
+      <span class="spinner"></span>
+      <p>Cargando monedas...</p>
+    </div>
+
+    <table *ngIf="!cargando && !error && catMonedas.length > 0">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nombre</th>
+          <th>Símbolo</th>
+          <th>Estado</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let catMoneda of catMonedas">
+
+          <td class="celda-id">
+            {{ catMoneda.idMoneda }}
+          </td>
+
+          <td class="celda-nombre">
+            {{ catMoneda.nombre }}
+          </td>
+
+          <td>
+            {{ catMoneda.simbolo }}
+          </td>
+
+          <td>
+            <span
+              class="pill"
+              [class.pill-activo]="catMoneda.estado === 'ACTIVO'"
+              [class.pill-inactivo]="catMoneda.estado === 'INACTIVO'">
+              {{ catMoneda.estado }}
+            </span>
+          </td>
+
+          <td class="celda-acciones">
+
+            <button
+              class="btn-accion btn-editar"
+              (click)="irAEditar(catMoneda.idMoneda!)">
+              Editar
+            </button>
+
+            <button
+              class="btn-accion btn-desactivar"
+              *ngIf="catMoneda.estado === 'ACTIVO'"
+              (click)="desactivar(catMoneda.idMoneda!)">
+              Desactivar
+            </button>
+
+            <button
+              class="btn-accion btn-activar"
+              *ngIf="catMoneda.estado === 'INACTIVO'"
+              (click)="activar(catMoneda.idMoneda!)">
+              Activar
+            </button>
+
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div
+      *ngIf="!cargando && !error && catMonedas.length === 0"
+      class="estado-vacio">
+
+      <p class="estado-vacio-titulo">
+        Todavía no hay monedas registradas
+      </p>
+
+      <p class="estado-vacio-texto">
+        Crea la primera para empezar a registrar las monedas del sistema.
+      </p>
+
+      <button class="boton-nuevo" (click)="irANuevo()">
+        + Nueva moneda
+      </button>
+
+    </div>
+
+  </div>
+</div>
