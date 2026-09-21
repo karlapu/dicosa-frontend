@@ -31,6 +31,8 @@ import { CatMonedasFormularioComponent } from './features/cat-monedas/cat-moneda
 import { CatMonedasListComponent } from './features/cat-monedas/cat-monedas-list/cat-monedas-list.component';
 import { CatTiposMovimientoFormularioComponent } from './features/cat-tipos-movimiento/cat-tipos-movimiento-formulario/cat-tipos-movimiento-formulario.component';
 import { CatTiposMovimientoListComponent } from './features/cat-tipos-movimiento/cat-tipos-movimiento-list/cat-tipos-movimiento-list.component';
+import { CatTiposSucursalFormularioComponent } from './features/cat-tipos-sucursal/cat-tipos-sucursal-formulario/cat-tipos-sucursal-formulario.component';
+import { CatTiposSucursalListComponent } from './features/cat-tipos-sucursal/cat-tipos-sucursal-list/cat-tipos-sucursal-list.component';
 
 
 
@@ -61,7 +63,9 @@ import { CatTiposMovimientoListComponent } from './features/cat-tipos-movimiento
     CatMonedasFormularioComponent,
     CatMonedasListComponent,
     CatTiposMovimientoFormularioComponent,
-    CatTiposMovimientoListComponent
+    CatTiposMovimientoListComponent,
+    CatTiposSucursalFormularioComponent,
+    CatTiposSucursalListComponent
 
   ],
   imports: [

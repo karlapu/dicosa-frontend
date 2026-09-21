@@ -23,6 +23,10 @@ import { CatMetodoPagoListComponent } from './features/cat-metodos-pago/cat-meto
 import { CatMetodoPagoFormularioComponent } from './features/cat-metodos-pago/cat-metodos-pago-formulario/cat-metodos-pago-formulario.component';
 import { CatMonedasListComponent } from './features/cat-monedas/cat-monedas-list/cat-monedas-list.component';
 import { CatMonedasFormularioComponent } from './features/cat-monedas/cat-monedas-formulario/cat-monedas-formulario.component';
+import { CatTiposMovimientoListComponent } from './features/cat-tipos-movimiento/cat-tipos-movimiento-list/cat-tipos-movimiento-list.component';
+import { CatTiposMovimientoFormularioComponent } from './features/cat-tipos-movimiento/cat-tipos-movimiento-formulario/cat-tipos-movimiento-formulario.component';
+import { CatTiposSucursalListComponent } from './features/cat-tipos-sucursal/cat-tipos-sucursal-list/cat-tipos-sucursal-list.component';
+import { CatTiposSucursalFormularioComponent } from './features/cat-tipos-sucursal/cat-tipos-sucursal-formulario/cat-tipos-sucursal-formulario.component';
 
 const routes: Routes = [
    { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -57,7 +61,13 @@ const routes: Routes = [
   { path: 'cat-metodos-pago/editar/:id', component: CatMetodoPagoFormularioComponent, canActivate: [authGuard] },
   { path: 'cat-monedas', component: CatMonedasListComponent, canActivate: [authGuard] },
 { path: 'cat-monedas/nuevo', component: CatMonedasFormularioComponent, canActivate: [authGuard] },
-{ path: 'cat-monedas/editar/:id', component: CatMonedasFormularioComponent, canActivate: [authGuard] }
+{ path: 'cat-monedas/editar/:id', component: CatMonedasFormularioComponent, canActivate: [authGuard] },
+{ path: 'cat-tipos-movimiento', component: CatTiposMovimientoListComponent, canActivate: [authGuard] },
+{ path: 'cat-tipos-movimiento/nuevo', component: CatTiposMovimientoFormularioComponent, canActivate: [authGuard] },
+{ path: 'cat-tipos-movimiento/editar/:id', component: CatTiposMovimientoFormularioComponent, canActivate: [authGuard] },
+{ path: 'cat-tipos-sucursal', component: CatTiposSucursalListComponent, canActivate: [authGuard] },
+{ path: 'cat-tipos-sucursal/nuevo', component: CatTiposSucursalFormularioComponent, canActivate: [authGuard] },
+{ path: 'cat-tipos-sucursal/editar/:id', component: CatTiposSucursalFormularioComponent, canActivate: [authGuard] }
 
 ];
 

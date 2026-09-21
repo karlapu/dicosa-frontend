@@ -1,0 +1,103 @@
+<div class="contenedor">
+
+  <div class="encabezado">
+    <div>
+      <h2>Tipos de sucursal registrados</h2>
+      <p class="descripcion-pagina">
+        Gestiona los tipos de sucursal del sistema.
+      </p>
+    </div>
+
+    <button class="boton-nuevo" (click)="irANuevo()">
+      + Nuevo tipo de sucursal
+    </button>
+  </div>
+
+  <div *ngIf="error" class="error">
+    {{ error }}
+  </div>
+
+  <div class="tarjeta">
+
+    <div *ngIf="cargando" class="estado-carga">
+      <span class="spinner"></span>
+      <p>Cargando tipos de sucursal...</p>
+    </div>
+
+    <table *ngIf="!cargando && !error && catTiposSucursal.length > 0">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nombre</th>
+          <th>Estado</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let catTipoSucursal of catTiposSucursal">
+
+          <td class="celda-id">
+            {{ catTipoSucursal.idTipoSucursal }}
+          </td>
+
+          <td class="celda-nombre">
+            {{ catTipoSucursal.nombre }}
+          </td>
+
+          <td>
+            <span
+              class="pill"
+              [class.pill-activo]="catTipoSucursal.estado === 'ACTIVO'"
+              [class.pill-inactivo]="catTipoSucursal.estado === 'INACTIVO'">
+              {{ catTipoSucursal.estado }}
+            </span>
+          </td>
+
+          <td class="celda-acciones">
+
+            <button
+              class="btn-accion btn-editar"
+              (click)="irAEditar(catTipoSucursal.idTipoSucursal!)">
+              Editar
+            </button>
+
+            <button
+              class="btn-accion btn-desactivar"
+              *ngIf="catTipoSucursal.estado === 'ACTIVO'"
+              (click)="desactivar(catTipoSucursal.idTipoSucursal!)">
+              Desactivar
+            </button>
+
+            <button
+              class="btn-accion btn-activar"
+              *ngIf="catTipoSucursal.estado === 'INACTIVO'"
+              (click)="activar(catTipoSucursal.idTipoSucursal!)">
+              Activar
+            </button>
+
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div
+      *ngIf="!cargando && !error && catTiposSucursal.length === 0"
+      class="estado-vacio">
+
+      <p class="estado-vacio-titulo">
+        Todavía no hay tipos de sucursal registrados
+      </p>
+
+      <p class="estado-vacio-texto">
+        Crea el primero para empezar a registrar los tipos de sucursal del sistema.
+      </p>
+
+      <button class="boton-nuevo" (click)="irANuevo()">
+        + Nuevo tipo de sucursal
+      </button>
+
+    </div>
+
+  </div>
+</div>
