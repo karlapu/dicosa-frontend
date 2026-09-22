@@ -1,0 +1,124 @@
+<div class="contenedor">
+
+  <div class="encabezado">
+    <div>
+      <h2>Proveedores registrados</h2>
+      <p class="descripcion-pagina">
+        Gestiona los proveedores del sistema.
+      </p>
+    </div>
+
+    <button class="boton-nuevo" (click)="nuevo()">
+      + Nuevo proveedor
+    </button>
+  </div>
+
+  <div *ngIf="error" class="error">
+    {{ error }}
+  </div>
+
+  <div *ngIf="cargando" class="estado-carga">
+    <div class="spinner"></div>
+    <span>Cargando proveedores...</span>
+  </div>
+
+  <div class="tarjeta" *ngIf="!cargando && proveedores.length > 0">
+
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Empresa</th>
+          <th>NIT</th>
+          <th>Contacto</th>
+          <th>Teléfono</th>
+          <th>Municipio</th>
+          <th>Estado</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let proveedor of proveedores">
+
+          <td class="celda-id">
+            {{ proveedor.idProveedor }}
+          </td>
+
+          <td class="celda-nombre">
+            {{ proveedor.nombreEmpresa }}
+          </td>
+
+          <td>
+            {{ proveedor.nit || '—' }}
+          </td>
+
+          <td>
+            {{ proveedor.contacto || '—' }}
+          </td>
+
+          <td>
+            {{ proveedor.telefono || '—' }}
+          </td>
+
+          <td>
+            {{ proveedor.nombreMunicipio }}
+          </td>
+
+          <td>
+            <span
+              class="pill"
+              [class.pill-activo]="proveedor.estado === 'ACTIVO'"
+              [class.pill-inactivo]="proveedor.estado === 'INACTIVO'">
+              {{ proveedor.estado }}
+            </span>
+          </td>
+
+          <td class="celda-acciones">
+
+            <button
+              class="btn-accion btn-editar"
+              (click)="editar(proveedor.idProveedor!)">
+              Editar
+            </button>
+
+            <button
+              class="btn-accion btn-desactivar"
+              *ngIf="proveedor.estado === 'ACTIVO'"
+              (click)="desactivar(proveedor.idProveedor!)">
+              Desactivar
+            </button>
+
+            <button
+              class="btn-accion btn-activar"
+              *ngIf="proveedor.estado === 'INACTIVO'"
+              (click)="activar(proveedor.idProveedor!)">
+              Activar
+            </button>
+
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+
+  <div
+    *ngIf="!cargando && proveedores.length === 0 && !error"
+    class="estado-vacio">
+
+    <p class="estado-vacio-titulo">
+      Todavía no hay proveedores registrados
+    </p>
+
+    <p class="estado-vacio-texto">
+      Crea el primero para empezar a registrar tus proveedores.
+    </p>
+
+    <button class="boton-nuevo" (click)="nuevo()">
+      + Nuevo proveedor
+    </button>
+
+  </div>
+
+</div>

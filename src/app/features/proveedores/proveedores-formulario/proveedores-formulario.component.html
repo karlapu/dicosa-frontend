@@ -1,0 +1,97 @@
+<div class="contenedor">
+  <a class="volver" routerLink="/proveedores">← Volver al listado</a>
+
+  <h2>{{ modoEdicion ? 'Editar' : 'Nuevo' }} Proveedor</h2>
+
+  <p *ngIf="error" class="error">{{ error }}</p>
+
+  <form (ngSubmit)="guardar()">
+
+    <div class="campo">
+      <label for="nombreEmpresa">Nombre de la empresa</label>
+      <input
+        type="text"
+        id="nombreEmpresa"
+        name="nombreEmpresa"
+        [(ngModel)]="proveedor.nombreEmpresa"
+        required
+        placeholder="Ingresa el nombre de la empresa" />
+    </div>
+
+    <div class="campo">
+      <label for="nit">NIT</label>
+      <input
+        type="text"
+        id="nit"
+        name="nit"
+        [(ngModel)]="proveedor.nit"
+        placeholder="Ingresa el NIT" />
+    </div>
+
+    <div class="campo">
+      <label for="contacto">Contacto</label>
+      <input
+        type="text"
+        id="contacto"
+        name="contacto"
+        [(ngModel)]="proveedor.contacto"
+        placeholder="Nombre de la persona de contacto" />
+    </div>
+
+    <div class="campo">
+      <label for="telefono">Teléfono</label>
+      <input
+        type="text"
+        id="telefono"
+        name="telefono"
+        [(ngModel)]="proveedor.telefono"
+        placeholder="Ingresa el teléfono" />
+    </div>
+
+    <div class="campo">
+      <label for="correo">Correo</label>
+      <input
+        type="email"
+        id="correo"
+        name="correo"
+        [(ngModel)]="proveedor.correo"
+        placeholder="Ingresa el correo" />
+    </div>
+
+    <div class="campo">
+      <label for="municipio">Municipio</label>
+      <select
+        id="municipio"
+        name="idmunicipio"
+        [(ngModel)]="proveedor.idMunicipio"
+        required>
+
+        <option [ngValue]="0" disabled>
+          Selecciona un municipio
+        </option>
+
+        <option
+          *ngFor="let municipio of municipios"
+          [ngValue]="municipio.idMunicipio">
+          {{ municipio.nombre }}
+        </option>
+      </select>
+    </div>
+
+    <div class="campo">
+      <label for="direccion">Dirección</label>
+      <textarea
+        id="direccion"
+        name="direccion"
+        [(ngModel)]="proveedor.direccion"
+        placeholder="Ingresa la dirección"></textarea>
+    </div>
+
+    <div class="acciones">
+      <button type="submit" [disabled]="guardando">
+        {{ guardando ? 'Guardando...' : 'Guardar' }}
+      </button>
+      <button type="button" (click)="cancelar()">Cancelar</button>
+    </div>
+  </form>
+</div>

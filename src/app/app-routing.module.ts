@@ -27,6 +27,8 @@ import { CatTiposMovimientoListComponent } from './features/cat-tipos-movimiento
 import { CatTiposMovimientoFormularioComponent } from './features/cat-tipos-movimiento/cat-tipos-movimiento-formulario/cat-tipos-movimiento-formulario.component';
 import { CatTiposSucursalListComponent } from './features/cat-tipos-sucursal/cat-tipos-sucursal-list/cat-tipos-sucursal-list.component';
 import { CatTiposSucursalFormularioComponent } from './features/cat-tipos-sucursal/cat-tipos-sucursal-formulario/cat-tipos-sucursal-formulario.component';
+import { ProveedoresListComponent } from './features/proveedores/proveedores-list/proveedores-list.component';
+import { ProveedoresFormularioComponent } from './features/proveedores/proveedores-formulario/proveedores-formulario.component';
 
 const routes: Routes = [
    { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -67,7 +69,10 @@ const routes: Routes = [
 { path: 'cat-tipos-movimiento/editar/:id', component: CatTiposMovimientoFormularioComponent, canActivate: [authGuard] },
 { path: 'cat-tipos-sucursal', component: CatTiposSucursalListComponent, canActivate: [authGuard] },
 { path: 'cat-tipos-sucursal/nuevo', component: CatTiposSucursalFormularioComponent, canActivate: [authGuard] },
-{ path: 'cat-tipos-sucursal/editar/:id', component: CatTiposSucursalFormularioComponent, canActivate: [authGuard] }
+{ path: 'cat-tipos-sucursal/editar/:id', component: CatTiposSucursalFormularioComponent, canActivate: [authGuard] },
+{ path: 'proveedores', component: ProveedoresListComponent, canActivate: [authGuard] },
+{ path: 'proveedores/nuevo', component: ProveedoresFormularioComponent, canActivate: [authGuard] },
+{ path: 'proveedores/editar/:id', component: ProveedoresFormularioComponent, canActivate: [authGuard] }
 
 ];
 

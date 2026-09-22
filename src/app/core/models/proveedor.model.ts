@@ -1,7 +1,7 @@
 export interface Proveedor {
-  idproveedor?: number;
-  idmunicipio: number;
-  nombremunicipio?: string;
+  idProveedor?: number;
+  idMunicipio: number;
+  nombreMunicipio?: string;
   nit?: string;
   nombreEmpresa: string;
   contacto?: string;
