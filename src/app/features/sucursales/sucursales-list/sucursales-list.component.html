@@ -1,0 +1,119 @@
+<div class="contenedor">
+
+  <div class="encabezado">
+    <div>
+      <h2>Sucursales registradas</h2>
+      <p class="descripcion-pagina">
+        Gestiona las sucursales del sistema.
+      </p>
+    </div>
+
+    <button class="boton-nuevo" (click)="nuevo()">
+      + Nueva sucursal
+    </button>
+  </div>
+
+  <div *ngIf="error" class="error">
+    {{ error }}
+  </div>
+
+  <div *ngIf="cargando" class="estado-carga">
+    <div class="spinner"></div>
+    <span>Cargando sucursales...</span>
+  </div>
+
+  <div class="tarjeta" *ngIf="!cargando && sucursales.length > 0">
+
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nombre</th>
+          <th>Tipo</th>
+          <th>Municipio</th>
+          <th>Teléfono</th>
+          <th>Estado</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let sucursal of sucursales">
+
+          <td class="celda-id">
+            {{ sucursal.idSucursal }}
+          </td>
+
+          <td class="celda-nombre">
+            {{ sucursal.nombre }}
+          </td>
+
+          <td>
+            {{ sucursal.nombreTipoSucursal }}
+          </td>
+
+          <td>
+            {{ sucursal.nombreMunicipio }}
+          </td>
+
+          <td>
+            {{ sucursal.telefono || '—' }}
+          </td>
+
+          <td>
+            <span
+              class="pill"
+              [class.pill-activo]="sucursal.estado === 'ACTIVO'"
+              [class.pill-inactivo]="sucursal.estado === 'INACTIVO'">
+              {{ sucursal.estado }}
+            </span>
+          </td>
+
+          <td class="celda-acciones">
+
+            <button
+              class="btn-accion btn-editar"
+              (click)="editar(sucursal.idSucursal!)">
+              Editar
+            </button>
+
+            <button
+              class="btn-accion btn-desactivar"
+              *ngIf="sucursal.estado === 'ACTIVO'"
+              (click)="desactivar(sucursal.idSucursal!)">
+              Desactivar
+            </button>
+
+            <button
+              class="btn-accion btn-activar"
+              *ngIf="sucursal.estado === 'INACTIVO'"
+              (click)="activar(sucursal.idSucursal!)">
+              Activar
+            </button>
+
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+
+  <div
+    *ngIf="!cargando && sucursales.length === 0 && !error"
+    class="estado-vacio">
+
+    <p class="estado-vacio-titulo">
+      Todavía no hay sucursales registradas
+    </p>
+
+    <p class="estado-vacio-texto">
+      Crea la primera para empezar a registrar tus sucursales.
+    </p>
+
+    <button class="boton-nuevo" (click)="nuevo()">
+      + Nueva sucursal
+    </button>
+
+  </div>
+
+</div>

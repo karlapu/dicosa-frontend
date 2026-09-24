@@ -1,0 +1,87 @@
+<div class="contenedor">
+  <a class="volver" routerLink="/sucursales">← Volver al listado</a>
+
+  <h2>{{ modoEdicion ? 'Editar' : 'Nueva' }} Sucursal</h2>
+
+  <p *ngIf="error" class="error">{{ error }}</p>
+
+  <form (ngSubmit)="guardar()">
+
+    <div class="campo">
+      <label for="nombre">Nombre de la sucursal</label>
+      <input
+        type="text"
+        id="nombre"
+        name="nombre"
+        [(ngModel)]="sucursal.nombre"
+        required
+        placeholder="Ingresa el nombre de la sucursal" />
+    </div>
+
+    <div class="campo">
+      <label for="tipoSucursal">Tipo de sucursal</label>
+      <select
+        id="tipoSucursal"
+        name="idTipoSucursal"
+        [(ngModel)]="sucursal.idTipoSucursal"
+        required>
+
+        <option [ngValue]="0" disabled>
+          Selecciona un tipo de sucursal
+        </option>
+
+        <option
+          *ngFor="let tipo of tiposSucursal"
+          [ngValue]="tipo.idTipoSucursal">
+          {{ tipo.nombre }}
+        </option>
+      </select>
+    </div>
+
+    <div class="campo">
+      <label for="municipio">Municipio</label>
+      <select
+        id="municipio"
+        name="idMunicipio"
+        [(ngModel)]="sucursal.idMunicipio"
+        required>
+
+        <option [ngValue]="0" disabled>
+          Selecciona un municipio
+        </option>
+
+        <option
+          *ngFor="let municipio of municipios"
+          [ngValue]="municipio.idMunicipio">
+          {{ municipio.nombre }}
+        </option>
+      </select>
+    </div>
+
+    <div class="campo">
+      <label for="telefono">Teléfono</label>
+      <input
+        type="text"
+        id="telefono"
+        name="telefono"
+        [(ngModel)]="sucursal.telefono"
+        placeholder="Ingresa el teléfono" />
+    </div>
+
+    <div class="campo">
+      <label for="direccion">Dirección</label>
+      <textarea
+        id="direccion"
+        name="direccion"
+        [(ngModel)]="sucursal.direccion"
+        placeholder="Ingresa la dirección"></textarea>
+    </div>
+
+    <div class="acciones">
+      <button type="submit" [disabled]="guardando">
+        {{ guardando ? 'Guardando...' : 'Guardar' }}
+      </button>
+      <button type="button" (click)="cancelar()">Cancelar</button>
+    </div>
+  </form>
+</div>

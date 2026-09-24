@@ -35,6 +35,8 @@ import { CatTiposSucursalFormularioComponent } from './features/cat-tipos-sucurs
 import { CatTiposSucursalListComponent } from './features/cat-tipos-sucursal/cat-tipos-sucursal-list/cat-tipos-sucursal-list.component';
 import { ProveedoresFormularioComponent } from './features/proveedores/proveedores-formulario/proveedores-formulario.component';
 import { ProveedoresListComponent } from './features/proveedores/proveedores-list/proveedores-list.component';
+import { SucursalesListComponent } from './features/sucursales/sucursales-list/sucursales-list.component';
+import { SucursalesFormularioComponent } from './features/sucursales/sucursales-formulario/sucursales-formulario.component';
 
 
 
@@ -69,7 +71,9 @@ import { ProveedoresListComponent } from './features/proveedores/proveedores-lis
     CatTiposSucursalFormularioComponent,
     CatTiposSucursalListComponent,
     ProveedoresFormularioComponent,
-    ProveedoresListComponent
+    ProveedoresListComponent,
+    SucursalesListComponent,
+    SucursalesFormularioComponent
 
   ],
   imports: [
