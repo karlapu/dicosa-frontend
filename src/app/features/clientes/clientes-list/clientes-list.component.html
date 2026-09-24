@@ -1,0 +1,119 @@
+<div class="contenedor">
+
+  <div class="encabezado">
+    <div>
+      <h2>Clientes registrados</h2>
+      <p class="descripcion-pagina">
+        Gestiona los clientes del sistema.
+      </p>
+    </div>
+
+    <button class="boton-nuevo" (click)="nuevo()">
+      + Nuevo cliente
+    </button>
+  </div>
+
+  <div *ngIf="error" class="error">
+    {{ error }}
+  </div>
+
+  <div *ngIf="cargando" class="estado-carga">
+    <div class="spinner"></div>
+    <span>Cargando clientes...</span>
+  </div>
+
+  <div class="tarjeta" *ngIf="!cargando && clientes.length > 0">
+
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nombre</th>
+          <th>NIT</th>
+          <th>Teléfono</th>
+          <th>Municipio</th>
+          <th>Estado</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let cliente of clientes">
+
+          <td class="celda-id">
+            {{ cliente.idCliente }}
+          </td>
+
+          <td class="celda-nombre">
+            {{ cliente.nombre }}
+          </td>
+
+          <td>
+            {{ cliente.nit || '—' }}
+          </td>
+
+          <td>
+            {{ cliente.telefono || '—' }}
+          </td>
+
+          <td>
+            {{ cliente.nombreMunicipio }}
+          </td>
+
+          <td>
+            <span
+              class="pill"
+              [class.pill-activo]="cliente.estado === 'ACTIVO'"
+              [class.pill-inactivo]="cliente.estado === 'INACTIVO'">
+              {{ cliente.estado }}
+            </span>
+          </td>
+
+          <td class="celda-acciones">
+
+            <button
+              class="btn-accion btn-editar"
+              (click)="editar(cliente.idCliente!)">
+              Editar
+            </button>
+
+            <button
+              class="btn-accion btn-desactivar"
+              *ngIf="cliente.estado === 'ACTIVO'"
+              (click)="desactivar(cliente.idCliente!)">
+              Desactivar
+            </button>
+
+            <button
+              class="btn-accion btn-activar"
+              *ngIf="cliente.estado === 'INACTIVO'"
+              (click)="activar(cliente.idCliente!)">
+              Activar
+            </button>
+
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+
+  <div
+    *ngIf="!cargando && clientes.length === 0 && !error"
+    class="estado-vacio">
+
+    <p class="estado-vacio-titulo">
+      Todavía no hay clientes registrados
+    </p>
+
+    <p class="estado-vacio-texto">
+      Crea el primero para empezar a registrar tus clientes.
+    </p>
+
+    <button class="boton-nuevo" (click)="nuevo()">
+      + Nuevo cliente
+    </button>
+
+  </div>
+
+</div>

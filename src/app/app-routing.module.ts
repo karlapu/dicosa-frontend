@@ -31,6 +31,8 @@ import { ProveedoresListComponent } from './features/proveedores/proveedores-lis
 import { ProveedoresFormularioComponent } from './features/proveedores/proveedores-formulario/proveedores-formulario.component';
 import { SucursalesListComponent } from './features/sucursales/sucursales-list/sucursales-list.component';
 import { SucursalesFormularioComponent } from './features/sucursales/sucursales-formulario/sucursales-formulario.component';
+import { ClientesListComponent } from './features/clientes/clientes-list/clientes-list.component';
+import { ClientesFormularioComponent } from './features/clientes/clientes-formulario/clientes-formulario.component';
 
 const routes: Routes = [
    { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -77,7 +79,10 @@ const routes: Routes = [
 { path: 'proveedores/editar/:id', component: ProveedoresFormularioComponent, canActivate: [authGuard] },
 { path: 'sucursales', component: SucursalesListComponent, canActivate: [authGuard] },
 { path: 'sucursales/nuevo', component: SucursalesFormularioComponent, canActivate: [authGuard] },
-{ path: 'sucursales/editar/:id', component: SucursalesFormularioComponent, canActivate: [authGuard] }
+{ path: 'sucursales/editar/:id', component: SucursalesFormularioComponent, canActivate: [authGuard] },
+{ path: 'clientes', component: ClientesListComponent, canActivate: [authGuard] },
+{ path: 'clientes/nuevo', component: ClientesFormularioComponent, canActivate: [authGuard] },
+{ path: 'clientes/editar/:id', component: ClientesFormularioComponent, canActivate: [authGuard] }
 
 
 ];
