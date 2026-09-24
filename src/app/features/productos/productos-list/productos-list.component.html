@@ -1,0 +1,129 @@
+<div class="contenedor">
+
+  <div class="encabezado">
+    <div>
+      <h2>Productos registrados</h2>
+      <p class="descripcion-pagina">
+        Gestiona el catálogo de productos del sistema.
+      </p>
+    </div>
+
+    <button class="boton-nuevo" (click)="nuevo()">
+      + Nuevo producto
+    </button>
+  </div>
+
+  <div *ngIf="error" class="error">
+    {{ error }}
+  </div>
+
+  <div *ngIf="cargando" class="estado-carga">
+    <div class="spinner"></div>
+    <span>Cargando productos...</span>
+  </div>
+
+  <div class="tarjeta" *ngIf="!cargando && productos.length > 0">
+
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nombre</th>
+          <th>Categoría</th>
+          <th>Código de barra</th>
+          <th>Precio costo</th>
+          <th>Precio venta</th>
+          <th>Stock mínimo</th>
+          <th>Estado</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let producto of productos">
+
+          <td class="celda-id">
+            {{ producto.idProducto }}
+          </td>
+
+          <td class="celda-nombre">
+            {{ producto.nombre }}
+          </td>
+
+          <td>
+            {{ producto.nombreCategoria }}
+          </td>
+
+          <td>
+            {{ producto.codigoBarra || '—' }}
+          </td>
+
+          <td>
+            {{ producto.precioCosto | number:'1.2-2' }}
+          </td>
+
+          <td>
+            {{ producto.precioVenta | number:'1.2-2' }}
+          </td>
+
+          <td>
+            {{ producto.stockMinimo }}
+          </td>
+
+          <td>
+            <span
+              class="pill"
+              [class.pill-activo]="producto.estado === 'ACTIVO'"
+              [class.pill-inactivo]="producto.estado === 'INACTIVO'">
+              {{ producto.estado }}
+            </span>
+          </td>
+
+          <td class="celda-acciones">
+
+            <button
+              class="btn-accion btn-editar"
+              (click)="editar(producto.idProducto!)">
+              Editar
+            </button>
+
+            <button
+              class="btn-accion btn-desactivar"
+              *ngIf="producto.estado === 'ACTIVO'"
+              (click)="desactivar(producto.idProducto!)">
+              Desactivar
+            </button>
+
+            <button
+              class="btn-accion btn-activar"
+              *ngIf="producto.estado === 'INACTIVO'"
+              (click)="activar(producto.idProducto!)">
+              Activar
+            </button>
+
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+
+  <div
+    *ngIf="!cargando && productos.length === 0 && !error"
+    class="estado-vacio">
+
+    <p class="estado-vacio-titulo">
+      Todavía no hay productos registrados
+    </p>
+
+    <p class="estado-vacio-texto">
+      Crea el primero para empezar a registrar tu catálogo.
+    </p>
+
+    <button class="boton-nuevo" (click)="nuevo()">
+      + Nuevo producto
+    </button>
+
+  </div>
+
+</div>

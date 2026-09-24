@@ -1,0 +1,38 @@
+.contenedor {
+  max-width: 480px;
+  margin: 0 auto;
+  background-color: var(--color-surface);
+  padding: 28px;
+  border-radius: var(--radius);
+  border: 1px solid var(--color-border);
+}
+
+.contenedor h2 {
+  font-size: 20px;
+  margin-bottom: 20px;
+}
+
+.volver {
+  display: inline-block;
+  color: var(--color-text-muted);
+  font-size: 13px;
+  text-decoration: none;
+  cursor: pointer;
+  margin-bottom: 14px;
+}
+
+.volver:hover {
+  color: var(--color-primary);
+}
+
+.campo {
+  margin-bottom: 18px;
+}
+
+.campo label {
+  display: block;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-text-muted);
+  margin-bottom: 6px;
+}

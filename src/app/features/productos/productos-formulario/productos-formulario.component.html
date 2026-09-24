@@ -1,0 +1,114 @@
+<div class="contenedor">
+  <a class="volver" routerLink="/productos">← Volver al listado</a>
+
+  <h2>{{ modoEdicion ? 'Editar' : 'Nuevo' }} Producto</h2>
+
+  <p *ngIf="error" class="error">{{ error }}</p>
+
+  <form (ngSubmit)="guardar()">
+
+    <div class="campo">
+      <label for="nombre">Nombre</label>
+      <input
+        type="text"
+        id="nombre"
+        name="nombre"
+        [(ngModel)]="producto.nombre"
+        required
+        placeholder="Ingresa el nombre del producto" />
+    </div>
+
+    <div class="campo">
+      <label for="codigoBarra">Código de barra</label>
+      <input
+        type="text"
+        id="codigoBarra"
+        name="codigoBarra"
+        [(ngModel)]="producto.codigoBarra"
+        placeholder="Ingresa el código de barra" />
+    </div>
+
+    <div class="campo">
+      <label for="categoria">Categoría</label>
+      <select
+        id="categoria"
+        name="idCategoria"
+        [(ngModel)]="producto.idCategoria"
+        required>
+
+        <option [ngValue]="0" disabled>
+          Selecciona una categoría
+        </option>
+
+        <option
+          *ngFor="let categoria of categorias"
+          [ngValue]="categoria.idCategoria">
+          {{ categoria.nombre }}
+        </option>
+      </select>
+    </div>
+
+    <div class="campo">
+      <label for="precioCosto">Precio de costo</label>
+      <input
+        type="number"
+        id="precioCosto"
+        name="precioCosto"
+        [(ngModel)]="producto.precioCosto"
+        step="0.01"
+        min="0"
+        required
+        placeholder="0.00" />
+    </div>
+
+    <div class="campo">
+      <label for="precioVenta">Precio de venta</label>
+      <input
+        type="number"
+        id="precioVenta"
+        name="precioVenta"
+        [(ngModel)]="producto.precioVenta"
+        step="0.01"
+        min="0"
+        required
+        placeholder="0.00" />
+    </div>
+
+    <div class="campo">
+      <label for="stockMinimo">Stock mínimo</label>
+      <input
+        type="number"
+        id="stockMinimo"
+        name="stockMinimo"
+        [(ngModel)]="producto.stockMinimo"
+        min="0"
+        placeholder="0" />
+    </div>
+
+    <div class="campo">
+      <label for="imagen">Imagen (URL o nombre de archivo)</label>
+      <input
+        type="text"
+        id="imagen"
+        name="imagen"
+        [(ngModel)]="producto.imagen"
+        placeholder="Ingresa la ruta o URL de la imagen" />
+    </div>
+
+    <div class="campo">
+      <label for="descripcion">Descripción</label>
+      <textarea
+        id="descripcion"
+        name="descripcion"
+        [(ngModel)]="producto.descripcion"
+        placeholder="Ingresa una descripción"></textarea>
+    </div>
+
+    <div class="acciones">
+      <button type="submit" [disabled]="guardando">
+        {{ guardando ? 'Guardando...' : 'Guardar' }}
+      </button>
+      <button type="button" (click)="cancelar()">Cancelar</button>
+    </div>
+  </form>
+</div>

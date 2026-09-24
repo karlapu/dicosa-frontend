@@ -33,6 +33,8 @@ import { SucursalesListComponent } from './features/sucursales/sucursales-list/s
 import { SucursalesFormularioComponent } from './features/sucursales/sucursales-formulario/sucursales-formulario.component';
 import { ClientesListComponent } from './features/clientes/clientes-list/clientes-list.component';
 import { ClientesFormularioComponent } from './features/clientes/clientes-formulario/clientes-formulario.component';
+import { ProductosListComponent } from './features/productos/productos-list/productos-list.component';
+import { ProductosFormularioComponent } from './features/productos/productos-formulario/productos-formulario.component';
 
 const routes: Routes = [
    { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -82,7 +84,10 @@ const routes: Routes = [
 { path: 'sucursales/editar/:id', component: SucursalesFormularioComponent, canActivate: [authGuard] },
 { path: 'clientes', component: ClientesListComponent, canActivate: [authGuard] },
 { path: 'clientes/nuevo', component: ClientesFormularioComponent, canActivate: [authGuard] },
-{ path: 'clientes/editar/:id', component: ClientesFormularioComponent, canActivate: [authGuard] }
+{ path: 'clientes/editar/:id', component: ClientesFormularioComponent, canActivate: [authGuard] },
+{ path: 'productos', component: ProductosListComponent, canActivate: [authGuard] },
+{ path: 'roductos/nuevo', component: ProductosFormularioComponent, canActivate: [authGuard] },
+{ path: 'productos/editar/:id', component: ProductosFormularioComponent, canActivate: [authGuard] }
 
 
 ];

@@ -39,6 +39,8 @@ import { SucursalesListComponent } from './features/sucursales/sucursales-list/s
 import { SucursalesFormularioComponent } from './features/sucursales/sucursales-formulario/sucursales-formulario.component';
 import { ClientesFormularioComponent } from './features/clientes/clientes-formulario/clientes-formulario.component';
 import { ClientesListComponent } from './features/clientes/clientes-list/clientes-list.component';
+import { ProductosFormularioComponent } from './features/productos/productos-formulario/productos-formulario.component';
+import { ProductosListComponent } from './features/productos/productos-list/productos-list.component';
 
 
 
@@ -77,7 +79,9 @@ import { ClientesListComponent } from './features/clientes/clientes-list/cliente
     SucursalesListComponent,
     SucursalesFormularioComponent,
     ClientesFormularioComponent,
-    ClientesListComponent
+    ClientesListComponent,
+    ProductosFormularioComponent,
+    ProductosListComponent
 
   ],
   imports: [
