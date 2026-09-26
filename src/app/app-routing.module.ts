@@ -39,6 +39,9 @@ import { InventarioListComponent } from './features/inventario/inventario-list/i
 import { InventarioFormularioComponent } from './features/inventario/inventario-formulario/inventario-formulario.component';
 import { MovimientosListComponent } from './features/movimientos/movimientos-list/movimientos-list.component';
 import { MovimientosFormularioComponent } from './features/movimientos/movimientos-formulario/movimientos-formulario.component';
+import { CatTiposInventarioListComponent } from './features/cat-tipos-inventario/cat-tipos-inventario-list/cat-tipos-inventario-list.component';
+import { CatTiposInventarioFormularioComponent } from './features/cat-tipos-inventario/cat-tipos-inventario-formulario/cat-tipos-inventario-formulario.component';
+import { ConfiguracionFormularioComponent } from './features/configuracion/configuracion-formulario/configuracion-formulario.component';
 
 const routes: Routes = [
    { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -96,7 +99,11 @@ const routes: Routes = [
 { path: 'inventario/nuevo', component: InventarioFormularioComponent, canActivate: [authGuard] },
 { path: 'inventario/editar/:id', component: InventarioFormularioComponent, canActivate: [authGuard] },
 { path: 'movimientos', component: MovimientosListComponent, canActivate: [authGuard] },
-{ path: 'movimientos/nuevo', component: MovimientosFormularioComponent, canActivate: [authGuard] }
+{ path: 'movimientos/nuevo', component: MovimientosFormularioComponent, canActivate: [authGuard] },
+{ path: 'cat-tipos-inventario',component: CatTiposInventarioListComponent,canActivate: [authGuard]},
+{path: 'cat-tipos-inventario/nuevo', component: CatTiposInventarioFormularioComponent, canActivate: [authGuard]},
+{path: 'cat-tipos-inventario/editar/:id',component: CatTiposInventarioFormularioComponent,canActivate: [authGuard]},
+{path: 'configuracion', component: ConfiguracionFormularioComponent, canActivate: [authGuard]}
 
 
 

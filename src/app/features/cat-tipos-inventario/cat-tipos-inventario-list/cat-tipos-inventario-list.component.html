@@ -1,0 +1,37 @@
+<div class="contenedor">
+  <div class="encabezado">
+    <h2>Tipos de Inventario</h2>
+    <button class="btn-nuevo" (click)="nuevo()">+ Nuevo</button>
+  </div>
+
+  <p *ngIf="error" class="mensaje-error">{{ error }}</p>
+  <p *ngIf="cargando">Cargando...</p>
+
+  <table *ngIf="!cargando" class="tabla">
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Estado</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let tipo of tipos">
+        <td>{{ tipo.nombre }}</td>
+        <td>
+          <span [class.activo]="tipo.estado === 'ACTIVO'" [class.inactivo]="tipo.estado === 'INACTIVO'">
+            {{ tipo.estado }}
+          </span>
+        </td>
+        <td>
+          <button (click)="editar(tipo.idTipoInventario)">Editar</button>
+          <button *ngIf="tipo.estado === 'ACTIVO'" (click)="desactivar(tipo.idTipoInventario)">Desactivar</button>
+          <button *ngIf="tipo.estado === 'INACTIVO'" (click)="activar(tipo.idTipoInventario)">Activar</button>
+        </td>
+      </tr>
+      <tr *ngIf="tipos.length === 0">
+        <td colspan="3">No hay tipos de inventario registrados.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

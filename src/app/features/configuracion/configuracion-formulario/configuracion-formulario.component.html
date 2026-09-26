@@ -1,0 +1,96 @@
+<div class="contenedor">
+  <h2>Configuración del Sistema</h2>
+
+  <p *ngIf="error" class="mensaje-error">{{ error }}</p>
+  <p *ngIf="mensajeExito" class="mensaje-exito">{{ mensajeExito }}</p>
+  <p *ngIf="cargando">Cargando...</p>
+
+  <form *ngIf="!cargando" #formRef="ngForm" (ngSubmit)="guardar()">
+    <div class="campo">
+      <label for="nombreEmpresa">Nombre de la empresa *</label>
+      <input
+        type="text"
+        id="nombreEmpresa"
+        name="nombreEmpresa"
+        [(ngModel)]="configuracion.nombreEmpresa"
+        required
+        minlength="2"
+        maxlength="150"
+        #nombreEmpresaRef="ngModel"
+        class="input"
+        [class.input-invalido]="nombreEmpresaRef.invalid && nombreEmpresaRef.touched"
+      />
+      <p *ngIf="nombreEmpresaRef.invalid && nombreEmpresaRef.touched" class="mensaje-advertencia">
+        El nombre de la empresa es obligatorio.
+      </p>
+    </div>
+
+    <div class="campo">
+      <label for="idMoneda">Moneda *</label>
+      <select
+        id="idMoneda"
+        name="idMoneda"
+        [(ngModel)]="configuracion.idMoneda"
+        required
+        #idMonedaRef="ngModel"
+        class="input"
+        [class.input-invalido]="idMonedaRef.invalid && idMonedaRef.touched"
+      >
+        <option [ngValue]="null" disabled>Seleccione una moneda</option>
+        <option *ngFor="let moneda of monedas" [ngValue]="moneda.idMoneda">{{ moneda.nombre }}</option>
+      </select>
+      <p *ngIf="idMonedaRef.invalid && idMonedaRef.touched" class="mensaje-advertencia">
+        Debe seleccionar una moneda.
+      </p>
+    </div>
+
+    <div class="campo">
+      <label for="idTipoInventario">Tipo de inventario *</label>
+      <select
+        id="idTipoInventario"
+        name="idTipoInventario"
+        [(ngModel)]="configuracion.idTipoInventario"
+        required
+        #idTipoInventarioRef="ngModel"
+        class="input"
+        [class.input-invalido]="idTipoInventarioRef.invalid && idTipoInventarioRef.touched"
+      >
+        <option [ngValue]="null" disabled>Seleccione un tipo de inventario</option>
+        <option *ngFor="let tipo of tiposInventario" [ngValue]="tipo.idTipoInventario">{{ tipo.nombre }}</option>
+      </select>
+      <p *ngIf="idTipoInventarioRef.invalid && idTipoInventarioRef.touched" class="mensaje-advertencia">
+        Debe seleccionar un tipo de inventario.
+      </p>
+    </div>
+
+    <div class="campo">
+      <label for="telefono">Teléfono</label>
+      <input
+        type="text"
+        id="telefono"
+        name="telefono"
+        [(ngModel)]="configuracion.telefono"
+        maxlength="30"
+        class="input"
+      />
+    </div>
+
+    <div class="campo">
+      <label for="direccion">Dirección</label>
+      <input
+        type="text"
+        id="direccion"
+        name="direccion"
+        [(ngModel)]="configuracion.direccion"
+        maxlength="255"
+        class="input"
+      />
+    </div>
+
+    <div class="acciones">
+      <button type="submit" [disabled]="guardando || formRef.invalid">
+        {{ guardando ? 'Guardando...' : 'Guardar cambios' }}
+      </button>
+    </div>
+  </form>
+</div>

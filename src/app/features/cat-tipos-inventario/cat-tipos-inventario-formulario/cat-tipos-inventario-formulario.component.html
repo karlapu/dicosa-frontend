@@ -1,0 +1,33 @@
+<div class="contenedor">
+  <h2>{{ esEdicion ? 'Editar' : 'Nuevo' }} Tipo de Inventario</h2>
+
+  <p *ngIf="error" class="mensaje-error">{{ error }}</p>
+
+  <form #formRef="ngForm" (ngSubmit)="guardar()">
+    <div class="campo">
+      <label for="nombre">Nombre *</label>
+      <input
+        type="text"
+        id="nombre"
+        name="nombre"
+        [(ngModel)]="tipo.nombre"
+        required
+        minlength="2"
+        maxlength="100"
+        #nombreRef="ngModel"
+        class="input"
+        [class.input-invalido]="nombreRef.invalid && nombreRef.touched"
+      />
+      <p *ngIf="nombreRef.invalid && nombreRef.touched" class="mensaje-advertencia">
+        El nombre es obligatorio (mínimo 2 caracteres).
+      </p>
+    </div>
+
+    <div class="acciones">
+      <button type="button" (click)="cancelar()">Cancelar</button>
+      <button type="submit" [disabled]="guardando || formRef.invalid">
+        {{ guardando ? 'Guardando...' : 'Guardar' }}
+      </button>
+    </div>
+  </form>
+</div>
