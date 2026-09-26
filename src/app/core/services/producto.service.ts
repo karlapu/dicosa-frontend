@@ -37,4 +37,11 @@ export class ProductoService {
   activar(id: number): Observable<void> {
     return this.http.patch<void>(`${this.baseUrl}/${id}/activar`, {});
   }
+
+  subirImagen(archivo: File): Observable<{ imagen: string }> {
+    const formData = new FormData();
+    formData.append('archivo', archivo);
+    return this.http.post<{ imagen: string }>(`${this.baseUrl}/imagen`, formData);
+  }
 }
+

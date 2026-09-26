@@ -41,6 +41,10 @@ import { ClientesFormularioComponent } from './features/clientes/clientes-formul
 import { ClientesListComponent } from './features/clientes/clientes-list/clientes-list.component';
 import { ProductosFormularioComponent } from './features/productos/productos-formulario/productos-formulario.component';
 import { ProductosListComponent } from './features/productos/productos-list/productos-list.component';
+import { InventarioFormularioComponent } from './features/inventario/inventario-formulario/inventario-formulario.component';
+import { InventarioListComponent } from './features/inventario/inventario-list/inventario-list.component';
+import { MovimientosListComponent } from './features/movimientos/movimientos-list/movimientos-list.component';
+import { MovimientosFormularioComponent } from './features/movimientos/movimientos-formulario/movimientos-formulario.component';
 
 
 
@@ -81,7 +85,11 @@ import { ProductosListComponent } from './features/productos/productos-list/prod
     ClientesFormularioComponent,
     ClientesListComponent,
     ProductosFormularioComponent,
-    ProductosListComponent
+    ProductosListComponent,
+    InventarioFormularioComponent,
+    InventarioListComponent,
+    MovimientosListComponent,
+    MovimientosFormularioComponent
 
   ],
   imports: [

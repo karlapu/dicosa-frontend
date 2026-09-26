@@ -86,13 +86,20 @@
     </div>
 
     <div class="campo">
-      <label for="imagen">Imagen (URL o nombre de archivo)</label>
+      <label for="imagen">Imagen del producto</label>
       <input
-        type="text"
+        type="file"
         id="imagen"
-        name="imagen"
-        [(ngModel)]="producto.imagen"
-        placeholder="Ingresa la ruta o URL de la imagen" />
+        accept="image/*"
+        (change)="onImagenSeleccionada($event)" />
+
+      <p *ngIf="subiendoImagen" class="texto-ayuda">Subiendo imagen...</p>
+
+      <img
+        *ngIf="producto.imagen && !subiendoImagen"
+        [src]="imagenPreviewUrl"
+        alt="Vista previa de la imagen"
+        class="vista-previa-imagen" />
     </div>
 
     <div class="campo">
@@ -105,7 +112,7 @@
     </div>
 
     <div class="acciones">
-      <button type="submit" [disabled]="guardando">
+      <button type="submit" [disabled]="guardando || subiendoImagen">
         {{ guardando ? 'Guardando...' : 'Guardar' }}
       </button>
       <button type="button" (click)="cancelar()">Cancelar</button>

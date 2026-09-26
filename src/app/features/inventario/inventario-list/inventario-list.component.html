@@ -1,0 +1,119 @@
+<div class="contenedor">
+
+  <div class="encabezado">
+    <div>
+      <h2>Inventario</h2>
+      <p class="descripcion-pagina">
+        Existencias de cada producto por sucursal.
+      </p>
+    </div>
+
+    <button class="boton-nuevo" (click)="nuevo()">
+      + Nuevo registro
+    </button>
+  </div>
+
+  <div *ngIf="error" class="error">
+    {{ error }}
+  </div>
+
+  <div *ngIf="cargando" class="estado-carga">
+    <div class="spinner"></div>
+    <span>Cargando inventario...</span>
+  </div>
+
+  <div class="tarjeta" *ngIf="!cargando && registros.length > 0">
+
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Producto</th>
+          <th>Sucursal</th>
+          <th>Cantidad</th>
+          <th>Última actualización</th>
+          <th>Estado</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let registro of registros">
+
+          <td class="celda-id">
+            {{ registro.idInventario }}
+          </td>
+
+          <td class="celda-nombre">
+            {{ registro.nombreProducto }}
+          </td>
+
+          <td>
+            {{ registro.nombreSucursal }}
+          </td>
+
+          <td>
+            {{ registro.cantidad }}
+          </td>
+
+          <td>
+            {{ registro.ultimaActualizacion | date:'dd/MM/yyyy HH:mm' }}
+          </td>
+
+          <td>
+            <span
+              class="pill"
+              [class.pill-activo]="registro.estado === 'ACTIVO'"
+              [class.pill-inactivo]="registro.estado === 'INACTIVO'">
+              {{ registro.estado }}
+            </span>
+          </td>
+
+          <td class="celda-acciones">
+
+            <button
+              class="btn-accion btn-editar"
+              (click)="editar(registro.idInventario!)">
+              Editar
+            </button>
+
+            <button
+              class="btn-accion btn-desactivar"
+              *ngIf="registro.estado === 'ACTIVO'"
+              (click)="desactivar(registro.idInventario!)">
+              Desactivar
+            </button>
+
+            <button
+              class="btn-accion btn-activar"
+              *ngIf="registro.estado === 'INACTIVO'"
+              (click)="activar(registro.idInventario!)">
+              Activar
+            </button>
+
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+
+  <div
+    *ngIf="!cargando && registros.length === 0 && !error"
+    class="estado-vacio">
+
+    <p class="estado-vacio-titulo">
+      Todavía no hay registros de inventario
+    </p>
+
+    <p class="estado-vacio-texto">
+      Crea el primero para empezar a controlar existencias.
+    </p>
+
+    <button class="boton-nuevo" (click)="nuevo()">
+      + Nuevo registro
+    </button>
+
+  </div>
+
+</div>

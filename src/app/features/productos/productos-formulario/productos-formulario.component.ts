@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { Producto } from '../../../core/models/producto.model';
-import { Categoria } from '../../../core/models/categoria.model';
-import { ProductoService } from '../../../core/services/producto.service';
-import { CategoriaService } from '../../../core/services/categoria.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Producto } from '../../../core/models/producto.model';
+import { ProductoService } from '../../../core/services/producto.service';
+import { Categoria } from '../../../core/models/categoria.model';
+import { CategoriaService } from '../../../core/services/categoria.service';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-productos-formulario',
@@ -29,6 +30,7 @@ export class ProductosFormularioComponent implements OnInit {
   modoEdicion = false;
   idProducto: number | null = null;
   guardando = false;
+  subiendoImagen = false;
   error = '';
 
   constructor(
@@ -60,6 +62,37 @@ export class ProductosFormularioComponent implements OnInit {
     this.productoService.buscarPorId(id).subscribe({
       next: (data) => this.producto = data,
       error: () => this.error = 'No se pudo cargar la información del producto.'
+    });
+  }
+
+  // URL completa para mostrar la vista previa de la imagen (el backend guarda solo la ruta relativa).
+  get imagenPreviewUrl(): string {
+    if (!this.producto.imagen) {
+      return '';
+    }
+    const urlBase = environment.apiUrl.replace('/api', '');
+    return `${urlBase}${this.producto.imagen}`;
+  }
+
+  onImagenSeleccionada(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (!input.files || input.files.length === 0) {
+      return;
+    }
+
+    const archivo = input.files[0];
+    this.subiendoImagen = true;
+    this.error = '';
+
+    this.productoService.subirImagen(archivo).subscribe({
+      next: (respuesta) => {
+        this.producto.imagen = respuesta.imagen;
+        this.subiendoImagen = false;
+      },
+      error: () => {
+        this.error = 'No se pudo subir la imagen.';
+        this.subiendoImagen = false;
+      }
     });
   }
 

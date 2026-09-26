@@ -35,6 +35,10 @@ import { ClientesListComponent } from './features/clientes/clientes-list/cliente
 import { ClientesFormularioComponent } from './features/clientes/clientes-formulario/clientes-formulario.component';
 import { ProductosListComponent } from './features/productos/productos-list/productos-list.component';
 import { ProductosFormularioComponent } from './features/productos/productos-formulario/productos-formulario.component';
+import { InventarioListComponent } from './features/inventario/inventario-list/inventario-list.component';
+import { InventarioFormularioComponent } from './features/inventario/inventario-formulario/inventario-formulario.component';
+import { MovimientosListComponent } from './features/movimientos/movimientos-list/movimientos-list.component';
+import { MovimientosFormularioComponent } from './features/movimientos/movimientos-formulario/movimientos-formulario.component';
 
 const routes: Routes = [
    { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -86,8 +90,14 @@ const routes: Routes = [
 { path: 'clientes/nuevo', component: ClientesFormularioComponent, canActivate: [authGuard] },
 { path: 'clientes/editar/:id', component: ClientesFormularioComponent, canActivate: [authGuard] },
 { path: 'productos', component: ProductosListComponent, canActivate: [authGuard] },
-{ path: 'roductos/nuevo', component: ProductosFormularioComponent, canActivate: [authGuard] },
-{ path: 'productos/editar/:id', component: ProductosFormularioComponent, canActivate: [authGuard] }
+{ path: 'productos/nuevo', component: ProductosFormularioComponent, canActivate: [authGuard] },
+{ path: 'productos/editar/:id', component: ProductosFormularioComponent, canActivate: [authGuard] },
+{ path: 'inventario', component: InventarioListComponent, canActivate: [authGuard] },
+{ path: 'inventario/nuevo', component: InventarioFormularioComponent, canActivate: [authGuard] },
+{ path: 'inventario/editar/:id', component: InventarioFormularioComponent, canActivate: [authGuard] },
+{ path: 'movimientos', component: MovimientosListComponent, canActivate: [authGuard] },
+{ path: 'movimientos/nuevo', component: MovimientosFormularioComponent, canActivate: [authGuard] }
+
 
 
 ];

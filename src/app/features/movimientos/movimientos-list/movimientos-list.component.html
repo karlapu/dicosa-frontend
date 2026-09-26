@@ -1,0 +1,105 @@
+<div class="contenedor">
+
+  <div class="encabezado">
+    <div>
+      <h2>Movimientos de inventario</h2>
+      <p class="descripcion-pagina">
+        Historial de entradas, salidas y traslados. Cada uno se aplica de inmediato al stock.
+      </p>
+    </div>
+
+    <button class="boton-nuevo" (click)="nuevo()">
+      + Nuevo movimiento
+    </button>
+  </div>
+
+  <div *ngIf="error" class="error">
+    {{ error }}
+  </div>
+
+  <div *ngIf="cargando" class="estado-carga">
+    <div class="spinner"></div>
+    <span>Cargando movimientos...</span>
+  </div>
+
+  <div class="tarjeta" *ngIf="!cargando && movimientos.length > 0">
+
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Fecha</th>
+          <th>Producto</th>
+          <th>Tipo</th>
+          <th>Origen</th>
+          <th>Destino</th>
+          <th>Cantidad</th>
+          <th>Estado</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let mov of movimientos">
+
+          <td class="celda-id">
+            {{ mov.idMovimiento }}
+          </td>
+
+          <td>
+            {{ mov.fechaMovimiento | date:'dd/MM/yyyy HH:mm' }}
+          </td>
+
+          <td class="celda-nombre">
+            {{ mov.nombreProducto }}
+          </td>
+
+          <td>
+            {{ tipoDeMovimiento(mov) }}
+          </td>
+
+          <td>
+            {{ mov.nombreSucursalOrigen || '—' }}
+          </td>
+
+          <td>
+            {{ mov.nombreSucursalDestino || '—' }}
+          </td>
+
+          <td>
+            {{ mov.cantidad }}
+          </td>
+
+          <td>
+            <span
+              class="pill"
+              [class.pill-activo]="mov.estado === 'PROCESADO'"
+              [class.pill-inactivo]="mov.estado !== 'PROCESADO'">
+              {{ mov.estado }}
+            </span>
+          </td>
+
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+
+  <div
+    *ngIf="!cargando && movimientos.length === 0 && !error"
+    class="estado-vacio">
+
+    <p class="estado-vacio-titulo">
+      Todavía no hay movimientos registrados
+    </p>
+
+    <p class="estado-vacio-texto">
+      Registra el primero para empezar a mover existencias.
+    </p>
+
+    <button class="boton-nuevo" (click)="nuevo()">
+      + Nuevo movimiento
+    </button>
+
+  </div>
+
+</div>

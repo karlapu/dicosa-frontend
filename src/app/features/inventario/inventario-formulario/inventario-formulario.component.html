@@ -1,0 +1,73 @@
+<div class="contenedor">
+  <a class="volver" routerLink="/inventario">← Volver al listado</a>
+
+  <h2>{{ modoEdicion ? 'Editar' : 'Nuevo' }} registro de inventario</h2>
+
+  <p *ngIf="error" class="error">{{ error }}</p>
+
+  <form (ngSubmit)="guardar()" #formRef="ngForm">
+
+    <div class="campo">
+      <label for="producto">Producto</label>
+      <select
+        id="producto"
+        name="idProducto"
+        [(ngModel)]="inventario.idProducto"
+        required>
+
+        <option [ngValue]="0" disabled>
+          Selecciona un producto
+        </option>
+
+        <option
+          *ngFor="let producto of productos"
+          [ngValue]="producto.idProducto">
+          {{ producto.nombre }}
+        </option>
+      </select>
+    </div>
+
+    <div class="campo">
+      <label for="sucursal">Sucursal</label>
+      <select
+        id="sucursal"
+        name="idSucursal"
+        [(ngModel)]="inventario.idSucursal"
+        required>
+
+        <option [ngValue]="0" disabled>
+          Selecciona una sucursal
+        </option>
+
+        <option
+          *ngFor="let sucursal of sucursales"
+          [ngValue]="sucursal.idSucursal">
+          {{ sucursal.nombre }}
+        </option>
+      </select>
+    </div>
+
+    <div class="campo">
+      <label for="cantidad">Cantidad</label>
+      <input
+        type="number"
+        id="cantidad"
+        name="cantidad"
+        [(ngModel)]="inventario.cantidad"
+        min="0"
+        required
+        placeholder="0" />
+    </div>
+
+    <p *ngIf="formRef.invalid && formRef.touched" class="mensaje-error-formulario">
+      Completa todos los campos obligatorios (marcados en rojo) antes de guardar.
+    </p>
+
+    <div class="acciones">
+      <button type="submit" [disabled]="guardando || formRef.invalid">
+        {{ guardando ? 'Guardando...' : 'Guardar' }}
+      </button>
+      <button type="button" (click)="cancelar()">Cancelar</button>
+    </div>
+  </form>
+</div>

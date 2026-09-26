@@ -62,6 +62,23 @@
   resize: vertical;
 }
 
+/* ===== VALIDACIÓN DE CAMPOS OBLIGATORIOS ===== */
+
+input.ng-invalid.ng-touched,
+select.ng-invalid.ng-touched,
+textarea.ng-invalid.ng-touched {
+  border-color: #e53935 !important;
+}
+
+.mensaje-error-formulario {
+  background-color: #FBEAE5;
+  color: var(--color-warn);
+  padding: 10px 14px;
+  border-radius: var(--radius);
+  margin-bottom: 16px;
+  font-size: 13px;
+}
+
 .acciones {
   display: flex;
   gap: 10px;
@@ -79,6 +96,7 @@
 .acciones button[type="submit"] {
   background-color: var(--color-primary);
   color: #FFFFFF;
+  cursor: pointer;
 }
 
 .acciones button[type="submit"]:hover {
@@ -95,6 +113,7 @@
   background-color: transparent;
   border: 1px solid var(--color-border);
   color: var(--color-text-muted);
+  cursor: pointer;
 }
 
 .error {
@@ -105,18 +124,3 @@
   margin-bottom: 18px;
   font-size: 14px;
 }
-.vista-previa-imagen {
-  margin-top: 0.5rem;
-  max-width: 180px;
-  max-height: 180px;
-  border-radius: 8px;
-  border: 1px solid #ddd;
-  object-fit: cover;
-}
-
-.texto-ayuda {
-  margin-top: 0.35rem;
-  font-size: 0.85rem;
-  color: #777;
-}
-

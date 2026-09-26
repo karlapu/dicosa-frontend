@@ -1,0 +1,156 @@
+<div class="contenedor">
+  <a class="volver" routerLink="/movimientos">← Volver al listado</a>
+
+  <h2>Nuevo movimiento de inventario</h2>
+
+  <p *ngIf="error" class="error">{{ error }}</p>
+
+  <form (ngSubmit)="guardar()" #formRef="ngForm">
+
+    <div class="campo">
+      <label>Tipo de movimiento</label>
+
+      <div class="opciones-naturaleza">
+        <button
+          type="button"
+          class="chip"
+          [class.chip-activo]="naturaleza === 'ENTRADA'"
+          (click)="cambiarNaturaleza('ENTRADA')">
+          Entrada
+        </button>
+        <button
+          type="button"
+          class="chip"
+          [class.chip-activo]="naturaleza === 'SALIDA'"
+          (click)="cambiarNaturaleza('SALIDA')">
+          Salida
+        </button>
+        <button
+          type="button"
+          class="chip"
+          [class.chip-activo]="naturaleza === 'TRASLADO'"
+          (click)="cambiarNaturaleza('TRASLADO')">
+          Traslado
+        </button>
+      </div>
+
+      <p class="texto-ayuda">
+        <span *ngIf="naturaleza === 'ENTRADA'">Suma la cantidad al stock de la sucursal destino.</span>
+        <span *ngIf="naturaleza === 'SALIDA'">Resta la cantidad del stock de la sucursal origen.</span>
+        <span *ngIf="naturaleza === 'TRASLADO'">Resta del origen y suma al destino, en el mismo movimiento.</span>
+      </p>
+    </div>
+
+    <div class="campo">
+      <label for="tipoMovimiento">Motivo (catálogo)</label>
+      <select
+        id="tipoMovimiento"
+        name="idTipoMovimiento"
+        [(ngModel)]="movimiento.idTipoMovimiento"
+        required>
+
+        <option [ngValue]="0" disabled>
+          Selecciona un motivo
+        </option>
+
+        <option
+          *ngFor="let tipo of tiposMovimiento"
+          [ngValue]="tipo.idTipoMovimiento">
+          {{ tipo.nombre }}
+        </option>
+      </select>
+    </div>
+
+    <div class="campo">
+      <label for="producto">Producto</label>
+      <select
+        id="producto"
+        name="idProducto"
+        [(ngModel)]="movimiento.idProducto"
+        required>
+
+        <option [ngValue]="0" disabled>
+          Selecciona un producto
+        </option>
+
+        <option
+          *ngFor="let producto of productos"
+          [ngValue]="producto.idProducto">
+          {{ producto.nombre }}
+        </option>
+      </select>
+    </div>
+
+    <div class="campo" *ngIf="naturaleza === 'SALIDA' || naturaleza === 'TRASLADO'">
+      <label for="sucursalOrigen">Sucursal origen</label>
+      <select
+        id="sucursalOrigen"
+        name="idSucursalOrigen"
+        [(ngModel)]="movimiento.idSucursalOrigen"
+        required>
+
+        <option [ngValue]="null" disabled>
+          Selecciona la sucursal origen
+        </option>
+
+        <option
+          *ngFor="let sucursal of sucursales"
+          [ngValue]="sucursal.idSucursal">
+          {{ sucursal.nombre }}
+        </option>
+      </select>
+    </div>
+
+    <div class="campo" *ngIf="naturaleza === 'ENTRADA' || naturaleza === 'TRASLADO'">
+      <label for="sucursalDestino">Sucursal destino</label>
+      <select
+        id="sucursalDestino"
+        name="idSucursalDestino"
+        [(ngModel)]="movimiento.idSucursalDestino"
+        required>
+
+        <option [ngValue]="null" disabled>
+          Selecciona la sucursal destino
+        </option>
+
+        <option
+          *ngFor="let sucursal of sucursales"
+          [ngValue]="sucursal.idSucursal">
+          {{ sucursal.nombre }}
+        </option>
+      </select>
+    </div>
+
+    <div class="campo">
+      <label for="cantidad">Cantidad</label>
+      <input
+        type="number"
+        id="cantidad"
+        name="cantidad"
+        [(ngModel)]="movimiento.cantidad"
+        min="1"
+        required
+        placeholder="0" />
+    </div>
+
+    <div class="campo">
+      <label for="descripcion">Descripción / referencia</label>
+      <textarea
+        id="descripcion"
+        name="descripcion"
+        [(ngModel)]="movimiento.descripcion"
+        placeholder="Opcional: número de factura, motivo, etc."></textarea>
+    </div>
+
+    <p *ngIf="formRef.invalid && formRef.touched" class="mensaje-error-formulario">
+      Completa todos los campos obligatorios (marcados en rojo) antes de guardar.
+    </p>
+
+    <div class="acciones">
+      <button type="submit" [disabled]="guardando || formRef.invalid">
+        {{ guardando ? 'Guardando...' : 'Registrar movimiento' }}
+      </button>
+      <button type="button" (click)="cancelar()">Cancelar</button>
+    </div>
+  </form>
+</div>
