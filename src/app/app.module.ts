@@ -48,6 +48,9 @@ import { MovimientosFormularioComponent } from './features/movimientos/movimient
 import { CatTiposInventarioListComponent } from './features/cat-tipos-inventario/cat-tipos-inventario-list/cat-tipos-inventario-list.component';
 import { CatTiposInventarioFormularioComponent } from './features/cat-tipos-inventario/cat-tipos-inventario-formulario/cat-tipos-inventario-formulario.component';
 import { ConfiguracionFormularioComponent } from './features/configuracion/configuracion-formulario/configuracion-formulario.component';
+import { AuditoriaListComponent } from './features/audutoria/auditoria-list/auditoria-list.component';
+import { ComprasFormulariosComponent } from './features/compras/compras-formularios/compras-formularios.component';
+import { ComprasListComponent } from './features/compras/compras-list/compras-list.component';
 
 
 
@@ -95,7 +98,10 @@ import { ConfiguracionFormularioComponent } from './features/configuracion/confi
     MovimientosFormularioComponent,
     CatTiposInventarioListComponent,
     CatTiposInventarioFormularioComponent,
-    ConfiguracionFormularioComponent
+    ConfiguracionFormularioComponent,
+    AuditoriaListComponent,
+    ComprasFormulariosComponent,
+    ComprasListComponent
 
   ],
   imports: [

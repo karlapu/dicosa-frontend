@@ -1,0 +1,53 @@
+<div class="contenedor">
+  <h2>Auditoría del Sistema</h2>
+
+  <div class="filtros">
+    <div class="campo-filtro">
+      <label for="filtroTabla">Tabla</label>
+      <input type="text" id="filtroTabla" [(ngModel)]="filtroTabla" placeholder="ej: producto" name="filtroTabla" />
+    </div>
+    <div class="campo-filtro">
+      <label for="filtroDesde">Desde</label>
+      <input type="datetime-local" id="filtroDesde" [(ngModel)]="filtroDesde" name="filtroDesde" />
+    </div>
+    <div class="campo-filtro">
+      <label for="filtroHasta">Hasta</label>
+      <input type="datetime-local" id="filtroHasta" [(ngModel)]="filtroHasta" name="filtroHasta" />
+    </div>
+    <div class="campo-filtro botones-filtro">
+      <button (click)="cargar()">Filtrar</button>
+      <button (click)="limpiarFiltros()">Limpiar</button>
+    </div>
+  </div>
+
+  <p *ngIf="error" class="mensaje-error">{{ error }}</p>
+  <p *ngIf="cargando">Cargando...</p>
+
+  <table *ngIf="!cargando" class="tabla">
+    <thead>
+      <tr>
+        <th>Fecha</th>
+        <th>Usuario</th>
+        <th>Tabla</th>
+        <th>Registro</th>
+        <th>Acción</th>
+        <th>Descripción</th>
+        <th>IP</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let registro of registros">
+        <td>{{ registro.fechaEvento | date:'dd/MM/yyyy HH:mm:ss' }}</td>
+        <td>{{ registro.nombreUsuario }}</td>
+        <td>{{ registro.tablaAfectada }}</td>
+        <td>{{ registro.registroAfectado ?? '-' }}</td>
+        <td>{{ registro.accion }}</td>
+        <td>{{ registro.descripcion }}</td>
+        <td>{{ registro.ipUsuario }}</td>
+      </tr>
+      <tr *ngIf="registros.length === 0">
+        <td colspan="7">No hay registros de auditoría con estos filtros.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
