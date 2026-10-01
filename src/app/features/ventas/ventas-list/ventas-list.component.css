@@ -40,17 +40,17 @@
   font-weight: bold;
 }
 
-.badge.completada {
+.badge.vendida {
   background-color: #e8f5e9;
   color: #2e7d32;
 }
 
-.badge.pendiente {
+.badge.proforma {
   background-color: #fff8e1;
   color: #f57f17;
 }
 
-.badge.cancelada {
+.badge.anulada {
   background-color: #ffebee;
   color: #c62828;
 }

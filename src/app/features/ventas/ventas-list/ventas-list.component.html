@@ -1,0 +1,41 @@
+<div class="contenedor">
+  <div class="encabezado">
+    <h2>Ventas</h2>
+    <button class="btn-nuevo" (click)="nueva()">+ Nueva venta</button>
+  </div>
+
+  <p *ngIf="error" class="mensaje-error">{{ error }}</p>
+  <p *ngIf="cargando">Cargando...</p>
+
+  <table *ngIf="!cargando" class="tabla">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Fecha</th>
+        <th>Cliente</th>
+        <th>Sucursal</th>
+        <th>Total</th>
+        <th>Estado</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let venta of ventas">
+        <td>{{ venta.idVenta }}</td>
+        <td>{{ venta.fechaVenta | date:'dd/MM/yyyy HH:mm' }}</td>
+        <td>{{ venta.nombreCliente }}</td>
+        <td>{{ venta.nombreSucursal }}</td>
+        <td>Q{{ venta.total | number:'1.2-2' }}</td>
+        <td>
+          <span class="badge" [ngClass]="venta.estado?.toLowerCase()">{{ venta.estado }}</span>
+        </td>
+        <td>
+          <button (click)="verDetalle(venta.idVenta)">Ver</button>
+        </td>
+      </tr>
+      <tr *ngIf="ventas.length === 0">
+        <td colspan="7">No hay ventas registradas.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

@@ -1,29 +1,29 @@
 import { Component, OnInit } from '@angular/core';
-import { Compra, DetalleCompra } from '../../../core/models/comprar.model';
-import { Proveedor } from '../../../core/models/proveedor.model';
+import { Venta, DetalleVenta } from '../../../core/models/venta.model';
+import { Cliente } from '../../../core/models/cliente.model';
 import { Sucursal } from '../../../core/models/sucursal.model';
 import { Producto } from '../../../core/models/producto.model';
-import { CompraService } from '../../../core/services/compra.service';
-import { ProveedorService } from '../../../core/services/proveedor.service';
+import { VentaService } from '../../../core/services/venta.service';
+import { ClienteService } from '../../../core/services/cliente.service';
 import { SucursalService } from '../../../core/services/sucursal.service';
 import { ProductoService } from '../../../core/services/producto.service';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-compras-formularios',
+  selector: 'app-ventas-formularios',
   standalone: false,
-  templateUrl: './compras-formularios.component.html',
-  styleUrl: './compras-formularios.component.css'
+  templateUrl: './ventas-formularios.component.html',
+  styleUrl: './ventas-formularios.component.css'
 })
-export class ComprasFormulariosComponent  implements OnInit {
+export class VentasFormulariosComponent implements OnInit {
 
-  compra: Compra = {
-    idProveedor: null,
+  venta: Venta = {
+    idCliente: null,
     idSucursal: null,
     detalles: []
   };
 
-  proveedores: Proveedor[] = [];
+  clientes: Cliente[] = [];
   sucursales: Sucursal[] = [];
   productos: Producto[] = [];
 
@@ -31,17 +31,17 @@ export class ComprasFormulariosComponent  implements OnInit {
   error = '';
 
   constructor(
-    private compraService: CompraService,
-    private proveedorService: ProveedorService,
+    private ventaService: VentaService,
+    private clienteService: ClienteService,
     private sucursalService: SucursalService,
     private productoService: ProductoService,
     private router: Router
   ) { }
 
   ngOnInit(): void {
-    this.proveedorService.listarTodos().subscribe({
-      next: (data) => this.proveedores = data,
-      error: () => this.error = 'No se pudieron cargar los proveedores'
+    this.clienteService.listarTodos().subscribe({
+      next: (data) => this.clientes = data,
+      error: () => this.error = 'No se pudieron cargar los clientes'
     });
 
     this.sucursalService.listarTodos().subscribe({
@@ -58,7 +58,7 @@ export class ComprasFormulariosComponent  implements OnInit {
   }
 
   agregarLinea(): void {
-    this.compra.detalles.push({
+    this.venta.detalles.push({
       idProducto: null,
       cantidad: null,
       precioUnitario: null
@@ -66,13 +66,21 @@ export class ComprasFormulariosComponent  implements OnInit {
   }
 
   quitarLinea(index: number): void {
-    this.compra.detalles.splice(index, 1);
-    if (this.compra.detalles.length === 0) {
+    this.venta.detalles.splice(index, 1);
+    if (this.venta.detalles.length === 0) {
       this.agregarLinea();
     }
   }
 
-  calcularSubtotalLinea(detalle: DetalleCompra): number {
+
+  onProductoSeleccionado(detalle: DetalleVenta): void {
+    const producto = this.productos.find(p => p.idProducto === detalle.idProducto);
+    if (producto) {
+      detalle.precioUnitario = producto.precioVenta;
+    }
+  }
+
+  calcularSubtotalLinea(detalle: DetalleVenta): number {
     if (!detalle.cantidad || !detalle.precioUnitario) {
       return 0;
     }
@@ -80,17 +88,17 @@ export class ComprasFormulariosComponent  implements OnInit {
   }
 
   calcularTotal(): number {
-    return this.compra.detalles.reduce((total, d) => total + this.calcularSubtotalLinea(d), 0);
+    return this.venta.detalles.reduce((total, d) => total + this.calcularSubtotalLinea(d), 0);
   }
 
   formularioValido(): boolean {
-    if (!this.compra.idProveedor || !this.compra.idSucursal) {
+    if (!this.venta.idCliente || !this.venta.idSucursal) {
       return false;
     }
-    if (this.compra.detalles.length === 0) {
+    if (this.venta.detalles.length === 0) {
       return false;
     }
-    return this.compra.detalles.every(d =>
+    return this.venta.detalles.every(d =>
       d.idProducto !== null &&
       d.cantidad !== null && d.cantidad > 0 &&
       d.precioUnitario !== null && d.precioUnitario > 0
@@ -105,19 +113,19 @@ export class ComprasFormulariosComponent  implements OnInit {
     this.guardando = true;
     this.error = '';
 
-    this.compraService.crear(this.compra).subscribe({
+    this.ventaService.crear(this.venta).subscribe({
       next: () => {
         this.guardando = false;
-        this.router.navigate(['/compras']);
+        this.router.navigate(['/ventas']);
       },
       error: (err) => {
         this.guardando = false;
-        this.error = err.error?.mensaje || 'No se pudo registrar la compra';
+        this.error = err.error?.mensaje || 'No se pudo registrar la venta';
       }
     });
   }
 
   cancelar(): void {
-    this.router.navigate(['/compras']);
+    this.router.navigate(['/ventas']);
   }
 }

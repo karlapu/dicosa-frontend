@@ -1,0 +1,98 @@
+.contenedor {
+  padding: 20px;
+  max-width: 800px;
+}
+
+.encabezado {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.btn-volver {
+  background-color: #eee;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.tarjeta-info {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  background-color: #f9f9f9;
+  padding: 16px;
+  border-radius: 6px;
+  margin-bottom: 24px;
+}
+
+.campo {
+  display: flex;
+  flex-direction: column;
+}
+
+.etiqueta {
+  font-size: 0.8em;
+  color: #666;
+  margin-bottom: 2px;
+}
+
+.valor {
+  font-weight: bold;
+}
+
+.badge {
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.85em;
+  font-weight: bold;
+  width: fit-content;
+}
+
+.badge.completada {
+  background-color: #e8f5e9;
+  color: #2e7d32;
+}
+
+.badge.pendiente {
+  background-color: #fff8e1;
+  color: #f57f17;
+}
+
+.badge.cancelada {
+  background-color: #ffebee;
+  color: #c62828;
+}
+
+.tabla {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 16px;
+}
+
+.tabla th, .tabla td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+.tabla th {
+  background-color: #f5f5f5;
+}
+
+.resumen-total {
+  text-align: right;
+}
+
+.resumen-total .total {
+  font-size: 1.2em;
+}
+
+.mensaje-error {
+  color: #c62828;
+  background-color: #ffebee;
+  padding: 10px;
+  border-radius: 4px;
+}

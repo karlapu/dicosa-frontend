@@ -1,1 +1,41 @@
-<p>compras-list works!</p>
+<div class="contenedor">
+  <div class="encabezado">
+    <h2>Compras</h2>
+    <button class="btn-nuevo" (click)="nueva()">+ Nueva compra</button>
+  </div>
+
+  <p *ngIf="error" class="mensaje-error">{{ error }}</p>
+  <p *ngIf="cargando">Cargando...</p>
+
+  <table *ngIf="!cargando" class="tabla">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Fecha</th>
+        <th>Proveedor</th>
+        <th>Sucursal</th>
+        <th>Total</th>
+        <th>Estado</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let compra of compras">
+        <td>{{ compra.idCompra }}</td>
+        <td>{{ compra.fechaCompra | date:'dd/MM/yyyy HH:mm' }}</td>
+        <td>{{ compra.nombreProveedor }}</td>
+        <td>{{ compra.nombreSucursal }}</td>
+        <td>Q{{ compra.total | number:'1.2-2' }}</td>
+        <td>
+          <span class="badge" [ngClass]="compra.estado?.toLowerCase()">{{ compra.estado }}</span>
+        </td>
+        <td>
+          <button (click)="verDetalle(compra.idCompra)">Ver</button>
+        </td>
+      </tr>
+      <tr *ngIf="compras.length === 0">
+        <td colspan="7">No hay compras registradas.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

@@ -1,0 +1,66 @@
+<div class="contenedor">
+  <div class="encabezado">
+    <h2>Detalle de Compra</h2>
+    <button class="btn-volver" (click)="volver()">← Volver</button>
+  </div>
+
+  <p *ngIf="error" class="mensaje-error">{{ error }}</p>
+  <p *ngIf="cargando">Cargando...</p>
+
+  <div *ngIf="compra && !cargando">
+
+    <div class="tarjeta-info">
+      <div class="campo">
+        <span class="etiqueta">ID Compra</span>
+        <span class="valor">{{ compra.idCompra }}</span>
+      </div>
+      <div class="campo">
+        <span class="etiqueta">Fecha</span>
+        <span class="valor">{{ compra.fechaCompra | date:'dd/MM/yyyy HH:mm' }}</span>
+      </div>
+      <div class="campo">
+        <span class="etiqueta">Proveedor</span>
+        <span class="valor">{{ compra.nombreProveedor }}</span>
+      </div>
+      <div class="campo">
+        <span class="etiqueta">Sucursal</span>
+        <span class="valor">{{ compra.nombreSucursal }}</span>
+      </div>
+      <div class="campo">
+        <span class="etiqueta">Registrado por</span>
+        <span class="valor">{{ compra.nombreUsuario }}</span>
+      </div>
+      <div class="campo">
+        <span class="etiqueta">Estado</span>
+        <span class="badge" [ngClass]="compra.estado?.toLowerCase()">{{ compra.estado }}</span>
+      </div>
+    </div>
+
+    <h3>Productos</h3>
+
+    <table class="tabla">
+      <thead>
+        <tr>
+          <th>Producto</th>
+          <th>Cantidad</th>
+          <th>Precio unitario</th>
+          <th>Subtotal</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let detalle of compra.detalles">
+          <td>{{ detalle.nombreProducto }}</td>
+          <td>{{ detalle.cantidad }}</td>
+          <td>Q{{ detalle.precioUnitario | number:'1.2-2' }}</td>
+          <td>Q{{ detalle.subtotal | number:'1.2-2' }}</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="resumen-total">
+      <p>Subtotal: Q{{ compra.subtotal | number:'1.2-2' }}</p>
+      <p class="total"><strong>Total: Q{{ compra.total | number:'1.2-2' }}</strong></p>
+    </div>
+
+  </div>
+</div>

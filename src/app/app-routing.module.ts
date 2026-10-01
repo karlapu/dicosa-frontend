@@ -43,6 +43,12 @@ import { CatTiposInventarioListComponent } from './features/cat-tipos-inventario
 import { CatTiposInventarioFormularioComponent } from './features/cat-tipos-inventario/cat-tipos-inventario-formulario/cat-tipos-inventario-formulario.component';
 import { ConfiguracionFormularioComponent } from './features/configuracion/configuracion-formulario/configuracion-formulario.component';
 import { AuditoriaListComponent } from './features/audutoria/auditoria-list/auditoria-list.component';
+import { ComprasListComponent } from './features/compras/compras-list/compras-list.component';
+import { ComprasFormulariosComponent } from './features/compras/compras-formularios/compras-formularios.component';
+import { ComprasVerComponent } from './features/compras/compras-ver/compras-ver.component';
+import { VentasListComponent } from './features/ventas/ventas-list/ventas-list.component';
+import { VentasFormulariosComponent } from './features/ventas/ventas-formularios/ventas-formularios.component';
+import { VentasVerComponent } from './features/ventas/ventas-ver/ventas-ver.component';
 
 const routes: Routes = [
    { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -105,7 +111,15 @@ const routes: Routes = [
 {path: 'cat-tipos-inventario/nuevo', component: CatTiposInventarioFormularioComponent, canActivate: [authGuard]},
 {path: 'cat-tipos-inventario/editar/:id',component: CatTiposInventarioFormularioComponent,canActivate: [authGuard]},
 {path: 'configuracion', component: ConfiguracionFormularioComponent, canActivate: [authGuard]},
-{ path: 'auditoria', component: AuditoriaListComponent, canActivate: [authGuard]}
+{ path: 'auditoria', component: AuditoriaListComponent, canActivate: [authGuard]},
+{ path: 'compras', component: ComprasListComponent, canActivate: [authGuard]},
+{ path: 'compras/nueva', component: ComprasFormulariosComponent, canActivate: [authGuard]},
+{ path: 'compras/ver/:id',component: ComprasVerComponent, canActivate: [authGuard]},
+{ path: 'ventas', component: VentasListComponent, canActivate: [authGuard]},
+{ path: 'ventas/nueva', component: VentasFormulariosComponent, canActivate: [authGuard]},
+{ path: 'ventas/ver/:id', component: VentasVerComponent, canActivate: [authGuard]}
+
+
 
 
 ];

@@ -1,0 +1,67 @@
+<div class="contenedor">
+  <div class="encabezado">
+    <h2>Detalle de Venta</h2>
+    <button class="btn-volver" (click)="volver()">← Volver</button>
+  </div>
+
+  <p *ngIf="error" class="mensaje-error">{{ error }}</p>
+  <p *ngIf="cargando">Cargando...</p>
+
+  <div *ngIf="venta && !cargando">
+
+    <div class="tarjeta-info">
+      <div class="campo">
+        <span class="etiqueta">ID Venta</span>
+        <span class="valor">{{ venta.idVenta }}</span>
+      </div>
+      <div class="campo">
+        <span class="etiqueta">Fecha</span>
+        <span class="valor">{{ venta.fechaVenta | date:'dd/MM/yyyy HH:mm' }}</span>
+      </div>
+      <div class="campo">
+        <span class="etiqueta">Cliente</span>
+        <span class="valor">{{ venta.nombreCliente }}</span>
+      </div>
+      <div class="campo">
+        <span class="etiqueta">Sucursal</span>
+        <span class="valor">{{ venta.nombreSucursal }}</span>
+      </div>
+      <div class="campo">
+        <span class="etiqueta">Registrado por</span>
+        <span class="valor">{{ venta.nombreUsuario }}</span>
+      </div>
+      <div class="campo">
+        <span class="etiqueta">Estado</span>
+        <span class="badge" [ngClass]="venta.estado?.toLowerCase()">{{ venta.estado }}</span>
+      </div>
+    </div>
+
+    <h3>Productos</h3>
+
+    <table class="tabla">
+      <thead>
+        <tr>
+          <th>Producto</th>
+          <th>Cantidad</th>
+          <th>Precio unitario</th>
+          <th>Subtotal</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let detalle of venta.detalles">
+          <td>{{ detalle.nombreProducto }}</td>
+          <td>{{ detalle.cantidad }}</td>
+          <td>Q{{ detalle.precioUnitario | number:'1.2-2' }}</td>
+          <td>Q{{ detalle.subtotal | number:'1.2-2' }}</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="resumen-total">
+      <p>Subtotal: Q{{ venta.subtotal | number:'1.2-2' }}</p>
+      <p *ngIf="venta.descuento">Descuento: -Q{{ venta.descuento | number:'1.2-2' }}</p>
+      <p class="total"><strong>Total: Q{{ venta.total | number:'1.2-2' }}</strong></p>
+    </div>
+
+  </div>
+</div>

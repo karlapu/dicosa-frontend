@@ -51,6 +51,10 @@ import { ConfiguracionFormularioComponent } from './features/configuracion/confi
 import { AuditoriaListComponent } from './features/audutoria/auditoria-list/auditoria-list.component';
 import { ComprasFormulariosComponent } from './features/compras/compras-formularios/compras-formularios.component';
 import { ComprasListComponent } from './features/compras/compras-list/compras-list.component';
+import { ComprasVerComponent } from './features/compras/compras-ver/compras-ver.component';
+import { VentasListComponent } from './features/ventas/ventas-list/ventas-list.component';
+import { VentasFormulariosComponent } from './features/ventas/ventas-formularios/ventas-formularios.component';
+import { VentasVerComponent } from './features/ventas/ventas-ver/ventas-ver.component';
 
 
 
@@ -101,7 +105,11 @@ import { ComprasListComponent } from './features/compras/compras-list/compras-li
     ConfiguracionFormularioComponent,
     AuditoriaListComponent,
     ComprasFormulariosComponent,
-    ComprasListComponent
+    ComprasListComponent,
+    ComprasVerComponent,
+    VentasListComponent,
+    VentasFormulariosComponent,
+    VentasVerComponent
 
   ],
   imports: [
