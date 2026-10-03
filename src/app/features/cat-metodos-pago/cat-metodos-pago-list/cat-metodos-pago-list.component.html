@@ -38,7 +38,7 @@
         <tr *ngFor="let catMetodoPago of catMetodoPagos">
 
           <td class="celda-id">
-            {{ catMetodoPago.idCatMetodoPago }}
+            {{ catMetodoPago.idMetodoPago }}
           </td>
 
           <td class="celda-nombre">
@@ -58,21 +58,21 @@
 
             <button
               class="btn-accion btn-editar"
-              (click)="irAEditar(catMetodoPago.idCatMetodoPago!)">
+              (click)="irAEditar(catMetodoPago.idMetodoPago!)">
               Editar
             </button>
 
             <button
               class="btn-accion btn-desactivar"
               *ngIf="catMetodoPago.estado === 'ACTIVO'"
-              (click)="desactivar(catMetodoPago.idCatMetodoPago!)">
+              (click)="desactivar(catMetodoPago.idMetodoPago!)">
               Desactivar
             </button>
 
             <button
               class="btn-accion btn-activar"
               *ngIf="catMetodoPago.estado === 'INACTIVO'"
-              (click)="activar(catMetodoPago.idCatMetodoPago!)">
+              (click)="activar(catMetodoPago.idMetodoPago!)">
               Activar
             </button>
 

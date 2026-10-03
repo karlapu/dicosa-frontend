@@ -1,5 +1,6 @@
 export interface CatMetodoPago {
-  idCatMetodoPago?: number;
+  //idCatMetodoPago?: number;
+    idMetodoPago?: number;
   nombre: string;
   estado?: 'ACTIVO' | 'INACTIVO';
 }

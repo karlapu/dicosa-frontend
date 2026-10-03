@@ -1,0 +1,40 @@
+<div class="contenedor">
+  <div class="encabezado">
+    <h2>Pagos</h2>
+  </div>
+
+  <p *ngIf="error" class="mensaje-error">{{ error }}</p>
+  <p *ngIf="cargando">Cargando...</p>
+
+  <table *ngIf="!cargando" class="tabla">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Fecha</th>
+        <th>Venta</th>
+        <th>Cliente</th>
+        <th>Total pagado</th>
+        <th>Estado</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let pago of pagos">
+        <td>{{ pago.idPago }}</td>
+        <td>{{ pago.fechaPago | date:'dd/MM/yyyy HH:mm' }}</td>
+        <td>#{{ pago.idVenta }}</td>
+        <td>{{ pago.nombreCliente }}</td>
+        <td>Q{{ pago.totalPagado | number:'1.2-2' }}</td>
+        <td>
+          <span class="badge" [ngClass]="pago.estado?.toLowerCase()">{{ pago.estado }}</span>
+        </td>
+        <td>
+          <button (click)="verVenta(pago.idVenta)">Ver venta</button>
+        </td>
+      </tr>
+      <tr *ngIf="pagos.length === 0">
+        <td colspan="7">No hay pagos registrados.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

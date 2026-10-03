@@ -105,4 +105,30 @@
               class="input input-numero"
             />
           </td>
-          <td class="subtotal">Q{{ calcularSubtotalLinea(detalle) | number:'1.2-2'
+<td class="subtotal">Q{{ calcularSubtotalLinea(detalle) | number:'1.2-2' }}</td>
+
+          <td>
+            <button type="button" class="btn-quitar" (click)="quitarLinea(i)">✕</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <button type="button" class="btn-agregar-linea" (click)="agregarLinea()">+ Agregar producto</button>
+
+    <div class="resumen-total">
+      <strong>Total: Q{{ calcularTotal() | number:'1.2-2' }}</strong>
+    </div>
+
+    <p *ngIf="!formularioValido()" class="mensaje-advertencia">
+      Completa cliente, sucursal y todos los productos (con cantidad y precio mayor a cero) antes de guardar.
+    </p>
+
+    <div class="acciones">
+      <button type="button" (click)="cancelar()">Cancelar</button>
+      <button type="submit" [disabled]="guardando || !formularioValido()">
+        {{ guardando ? 'Guardando...' : 'Registrar venta' }}
+      </button>
+    </div>
+  </form>
+</div>

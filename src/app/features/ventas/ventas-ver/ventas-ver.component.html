@@ -1,7 +1,10 @@
 <div class="contenedor">
   <div class="encabezado">
     <h2>Detalle de Venta</h2>
-    <button class="btn-volver" (click)="volver()">← Volver</button>
+    <div class="botones-encabezado">
+      <button class="btn-nuevo" (click)="irAPagar()" *ngIf="venta?.estado !== 'ANULADA' && (!saldo || saldo.saldoPendiente > 0)">+ Registrar pago</button>
+      <button class="btn-volver" (click)="volver()">← Volver</button>
+    </div>
   </div>
 
   <p *ngIf="error" class="mensaje-error">{{ error }}</p>
@@ -33,6 +36,19 @@
       <div class="campo">
         <span class="etiqueta">Estado</span>
         <span class="badge" [ngClass]="venta.estado?.toLowerCase()">{{ venta.estado }}</span>
+      </div>
+    </div>
+
+    <div class="tarjeta-info" *ngIf="saldo">
+      <div class="campo">
+        <span class="etiqueta">Total pagado</span>
+        <span class="valor">Q{{ saldo.totalPagado | number:'1.2-2' }}</span>
+      </div>
+      <div class="campo">
+        <span class="etiqueta">Saldo pendiente</span>
+        <span class="valor" [class.saldo-pendiente]="saldo.saldoPendiente > 0">
+          Q{{ saldo.saldoPendiente | number:'1.2-2' }}
+        </span>
       </div>
     </div>
 

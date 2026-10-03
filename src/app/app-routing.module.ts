@@ -49,6 +49,8 @@ import { ComprasVerComponent } from './features/compras/compras-ver/compras-ver.
 import { VentasListComponent } from './features/ventas/ventas-list/ventas-list.component';
 import { VentasFormulariosComponent } from './features/ventas/ventas-formularios/ventas-formularios.component';
 import { VentasVerComponent } from './features/ventas/ventas-ver/ventas-ver.component';
+import { PagosListComponent } from './features/pagos/pagos-list/pagos-list.component';
+import { PagosFormulariosComponent } from './features/pagos/pagos-formularios/pagos-formularios.component';
 
 const routes: Routes = [
    { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -117,7 +119,9 @@ const routes: Routes = [
 { path: 'compras/ver/:id',component: ComprasVerComponent, canActivate: [authGuard]},
 { path: 'ventas', component: VentasListComponent, canActivate: [authGuard]},
 { path: 'ventas/nueva', component: VentasFormulariosComponent, canActivate: [authGuard]},
-{ path: 'ventas/ver/:id', component: VentasVerComponent, canActivate: [authGuard]}
+{ path: 'ventas/ver/:id', component: VentasVerComponent, canActivate: [authGuard]},
+{path: 'pagos', component: PagosListComponent, canActivate: [authGuard]},
+{ path: 'pagos/nueva/:idVenta', component: PagosFormulariosComponent, canActivate: [authGuard]},
 
 
 

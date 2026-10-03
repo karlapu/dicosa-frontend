@@ -55,6 +55,8 @@ import { ComprasVerComponent } from './features/compras/compras-ver/compras-ver.
 import { VentasListComponent } from './features/ventas/ventas-list/ventas-list.component';
 import { VentasFormulariosComponent } from './features/ventas/ventas-formularios/ventas-formularios.component';
 import { VentasVerComponent } from './features/ventas/ventas-ver/ventas-ver.component';
+import { PagosListComponent } from './features/pagos/pagos-list/pagos-list.component';
+import { PagosFormulariosComponent } from './features/pagos/pagos-formularios/pagos-formularios.component';
 
 
 
@@ -109,7 +111,9 @@ import { VentasVerComponent } from './features/ventas/ventas-ver/ventas-ver.comp
     ComprasVerComponent,
     VentasListComponent,
     VentasFormulariosComponent,
-    VentasVerComponent
+    VentasVerComponent,
+    PagosListComponent,
+    PagosFormulariosComponent
 
   ],
   imports: [

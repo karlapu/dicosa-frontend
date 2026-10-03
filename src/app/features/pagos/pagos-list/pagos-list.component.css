@@ -1,0 +1,54 @@
+.contenedor {
+  padding: 20px;
+}
+
+.encabezado {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.tabla {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.tabla th, .tabla td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+.tabla th {
+  background-color: #f5f5f5;
+}
+
+.badge {
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.85em;
+  font-weight: bold;
+}
+
+.badge.pagado {
+  background-color: #e8f5e9;
+  color: #2e7d32;
+}
+
+.badge.pendiente {
+  background-color: #fff8e1;
+  color: #f57f17;
+}
+
+.badge.anulado {
+  background-color: #ffebee;
+  color: #c62828;
+}
+
+.mensaje-error {
+  color: #c62828;
+  background-color: #ffebee;
+  padding: 10px;
+  border-radius: 4px;
+}

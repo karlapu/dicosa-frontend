@@ -1,0 +1,90 @@
+<div class="contenedor">
+  <h2>Registrar Pago</h2>
+
+  <p *ngIf="error" class="mensaje-error">{{ error }}</p>
+  <p *ngIf="cargando">Cargando...</p>
+
+  <div *ngIf="!cargando && saldo" class="tarjeta-saldo">
+    <div class="campo">
+      <span class="etiqueta">Venta #</span>
+      <span class="valor">{{ idVenta }}</span>
+    </div>
+    <div class="campo" *ngIf="venta">
+      <span class="etiqueta">Cliente</span>
+      <span class="valor">{{ venta.nombreCliente }}</span>
+    </div>
+    <div class="campo">
+      <span class="etiqueta">Total venta</span>
+      <span class="valor">Q{{ saldo.totalVenta | number:'1.2-2' }}</span>
+    </div>
+    <div class="campo">
+      <span class="etiqueta">Ya pagado</span>
+      <span class="valor">Q{{ saldo.totalPagado | number:'1.2-2' }}</span>
+    </div>
+    <div class="campo">
+      <span class="etiqueta">Saldo pendiente</span>
+      <span class="valor saldo-pendiente">Q{{ saldo.saldoPendiente | number:'1.2-2' }}</span>
+    </div>
+  </div>
+
+  <form *ngIf="!cargando" #formRef="ngForm" (ngSubmit)="guardar()">
+
+    <h3>Formas de pago</h3>
+
+    <table class="tabla-lineas">
+      <thead>
+        <tr>
+          <th>Método de pago</th>
+          <th>Monto</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let detalle of pago.detalles; let i = index">
+          <td>
+            <select
+              [name]="'metodo' + i"
+              [(ngModel)]="detalle.idMetodoPago"
+              required
+              class="input"
+            >
+              <option [ngValue]="null" disabled>Seleccione un método</option>
+              <option *ngFor="let m of metodosPago" [ngValue]="m.idMetodoPago">{{ m.nombre }}</option>
+            </select>
+          </td>
+          <td>
+            <input
+              type="number"
+              [name]="'monto' + i"
+              [(ngModel)]="detalle.monto"
+              required
+              min="0.01"
+              step="0.01"
+              class="input input-numero"
+            />
+          </td>
+          <td>
+            <button type="button" class="btn-quitar" (click)="quitarLinea(i)">✕</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <button type="button" class="btn-agregar-linea" (click)="agregarLinea()">+ Agregar forma de pago</button>
+
+    <div class="resumen-total">
+      <strong>Total a pagar: Q{{ calcularTotalPago() | number:'1.2-2' }}</strong>
+    </div>
+
+    <p *ngIf="excedeSaldo()" class="mensaje-advertencia">
+      El total ingresado (Q{{ calcularTotalPago() | number:'1.2-2' }}) excede el saldo pendiente de la venta.
+    </p>
+
+    <div class="acciones">
+      <button type="button" (click)="cancelar()">Cancelar</button>
+      <button type="submit" [disabled]="guardando || !formularioValido()">
+        {{ guardando ? 'Guardando...' : 'Registrar pago' }}
+      </button>
+    </div>
+  </form>
+</div>

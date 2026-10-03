@@ -96,3 +96,20 @@
   padding: 10px;
   border-radius: 4px;
 }
+.botones-encabezado {
+  display: flex;
+  gap: 10px;
+}
+
+.btn-nuevo {
+  background-color: #2e7d32;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.saldo-pendiente {
+  color: #c62828;
+}
