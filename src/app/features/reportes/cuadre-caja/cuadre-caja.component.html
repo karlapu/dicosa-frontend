@@ -5,27 +5,35 @@
 
   <div class="filtro-fecha">
     <label for="tipoReporte">Reporte</label>
-    <select id="tipoReporte" [(ngModel)]="tipoReporte" class="input">
+    <select id="tipoReporte" name="tipoReporte" [(ngModel)]="tipoReporte" (ngModelChange)="cambiarTipo()" class="input">
       <option *ngFor="let t of tiposReporte" [ngValue]="t.valor">{{ t.nombre }}</option>
     </select>
 
-    <label for="fecha">Fecha</label>
-    <input type="date" id="fecha" name="fecha" [(ngModel)]="fecha" class="input" />
+    <ng-container *ngIf="tipoReporte === 'CUADRE_CAJA'">
+      <label for="fecha">Fecha</label>
+      <input type="date" id="fecha" name="fecha" [(ngModel)]="fecha" class="input" />
+    </ng-container>
+
+    <ng-container *ngIf="tipoReporte === 'MOVIMIENTOS'">
+      <label for="desde">Desde</label>
+      <input type="date" id="desde" name="desde" [(ngModel)]="desde" class="input" />
+      <label for="hasta">Hasta</label>
+      <input type="date" id="hasta" name="hasta" [(ngModel)]="hasta" class="input" />
+      <label for="sucursal">Sucursal</label>
+      <select id="sucursal" name="sucursal" [(ngModel)]="idSucursal" class="input">
+        <option [ngValue]="null">Todas</option>
+        <option *ngFor="let s of sucursales" [ngValue]="s.idSucursal">{{ s.nombre }}</option>
+      </select>
+    </ng-container>
 
     <button class="btn-nuevo" (click)="buscar()">Consultar</button>
-    <button class="btn-descargar" (click)="descargarExcel()" [disabled]="!cuadre || cargando">
-      Descargar Excel
-    </button>
-
-       <button class="btn-descargar" (click)="descargarPdf()" [disabled]="!cuadre || cargando">
-      Descargar PDF
-    </button>
+    <button class="btn-descargar" (click)="descargarExcel()" [disabled]="!puedeDescargar">Descargar Excel</button>
+    <button class="btn-descargar" (click)="descargarPdf()" [disabled]="!puedeDescargar">Descargar PDF</button>
   </div>
-
-
 
   <p *ngIf="error" class="mensaje-error">{{ error }}</p>
   <p *ngIf="cargando">Cargando...</p>
+
 
   <div *ngIf="tipoReporte === 'CUADRE_CAJA' && cuadre && !cargando">
 
@@ -61,6 +69,67 @@
             <td>Q{{ metodo.total | number:'1.2-2' }}</td>
           </tr>
         </tbody>
+      </table>
+    </div>
+
+  </div>
+
+
+  <div *ngIf="tipoReporte === 'MOVIMIENTOS' && movimientos && !cargando">
+
+    <div class="tarjeta-info">
+      <div class="campo">
+        <span class="etiqueta">Total entradas</span>
+        <span class="valor"><strong>{{ movimientos.totalEntradas | number }}</strong></span>
+      </div>
+      <div class="campo">
+        <span class="etiqueta">Total salidas</span>
+        <span class="valor"><strong>{{ movimientos.totalSalidas | number }}</strong></span>
+      </div>
+      <div class="campo">
+        <span class="etiqueta">Movimientos</span>
+        <span class="valor"><strong>{{ movimientos.movimientos.length }}</strong></span>
+      </div>
+    </div>
+
+    <div *ngIf="movimientos.movimientos.length === 0" class="estado-vacio">
+      <p>No hay movimientos en el rango seleccionado.</p>
+    </div>
+
+    <div class="tabla-scroll" *ngIf="movimientos.movimientos.length > 0">
+      <table class="tabla">
+        <thead>
+          <tr>
+            <th>Fecha</th>
+            <th>Tipo</th>
+            <th>Referencia</th>
+            <th>Producto</th>
+            <th>Sucursal</th>
+            <th class="num">Entrada</th>
+            <th class="num">Salida</th>
+            <th>Detalle</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let m of movimientos.movimientos">
+            <td>{{ formatearFechaHora(m.fecha) }}</td>
+            <td>{{ m.tipo }}</td>
+            <td>{{ m.referencia }}</td>
+            <td>{{ m.producto }}</td>
+            <td>{{ m.sucursal }}</td>
+            <td class="num">{{ m.entrada || '' }}</td>
+            <td class="num">{{ m.salida || '' }}</td>
+            <td>{{ m.descripcion }}</td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="5"><strong>TOTAL</strong></td>
+            <td class="num"><strong>{{ movimientos.totalEntradas | number }}</strong></td>
+            <td class="num"><strong>{{ movimientos.totalSalidas | number }}</strong></td>
+            <td></td>
+          </tr>
+        </tfoot>
       </table>
     </div>
 

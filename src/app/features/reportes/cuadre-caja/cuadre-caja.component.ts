@@ -1,12 +1,24 @@
 import { Component, OnInit } from '@angular/core';
 import { CuadreCaja } from '../../../core/models/cuadrecaja.model';
+import { MovimientosReporte } from '../../../core/models/movimientosreporte.model';
+import { Sucursal } from '../../../core/models/sucursal.model';
 import { ReporteService } from '../../../core/services/Reporte.service';
+import { SucursalService } from '../../../core/services/sucursal.service';
 
-interface TablaCuadre {
+
+type TipoColumna = 'texto' | 'moneda' | 'entero' | 'centro';
+
+
+interface ConfigReporte {
+  titulo: string;
+  subtitulo: string;
+  archivo: string;
   encabezados: string[];
+  tipos: TipoColumna[];
   filas: (string | number)[][];
   totales: (string | number)[];
-  pendiente: number;
+  pendiente?: number;
+  orientacion: 'portrait' | 'landscape';
 }
 
 @Component({
@@ -18,36 +30,90 @@ interface TablaCuadre {
 export class CuadreCajaComponent implements OnInit {
 
   tiposReporte = [
-    { valor: 'CUADRE_CAJA', nombre: 'Cuadre de caja' }
+    { valor: 'CUADRE_CAJA', nombre: 'Cuadre de caja' },
+    { valor: 'MOVIMIENTOS', nombre: 'Movimientos de inventario' }
   ];
   tipoReporte = 'CUADRE_CAJA';
 
+  // Cuadre de caja
   fecha: string = this.obtenerFechaHoy();
   cuadre: CuadreCaja | null = null;
+
+  // Movimientos de inventario
+  desde: string = this.obtenerPrimerDiaMes();
+  hasta: string = this.obtenerFechaHoy();
+  idSucursal: number | null = null;
+  sucursales: Sucursal[] = [];
+  movimientos: MovimientosReporte | null = null;
+
   cargando = false;
   error = '';
 
-  constructor(private reporteService: ReporteService) { }
+  constructor(
+    private reporteService: ReporteService,
+    private sucursalService: SucursalService
+  ) { }
 
   ngOnInit(): void {
+    this.sucursalService.listarTodos().subscribe({
+      next: (data) => (this.sucursales = data),
+      error: () => (this.sucursales = [])
+    });
     this.buscar();
   }
 
-  obtenerFechaHoy(): string {
-    const hoy = new Date();
-    const anio = hoy.getFullYear();
-    const mes = String(hoy.getMonth() + 1).padStart(2, '0');
-    const dia = String(hoy.getDate()).padStart(2, '0');
+
+  private aIso(fecha: Date): string {
+    const anio = fecha.getFullYear();
+    const mes = String(fecha.getMonth() + 1).padStart(2, '0');
+    const dia = String(fecha.getDate()).padStart(2, '0');
     return `${anio}-${mes}-${dia}`;
   }
 
+  obtenerFechaHoy(): string {
+    return this.aIso(new Date());
+  }
+
+  obtenerPrimerDiaMes(): string {
+    const hoy = new Date();
+    return this.aIso(new Date(hoy.getFullYear(), hoy.getMonth(), 1));
+  }
+
+
+  private formatearFecha(fechaIso: string): string {
+    const [anio, mes, dia] = fechaIso.substring(0, 10).split('-');
+    return `${dia}/${mes}/${anio}`;
+  }
+
+  /** yyyy-MM-ddTHH:mm:ss  ->  dd/MM/yyyy HH:mm */
+  formatearFechaHora(fechaIso: string): string {
+    if (!fechaIso) {
+      return '';
+    }
+    return `${this.formatearFecha(fechaIso)} ${fechaIso.substring(11, 16)}`;
+  }
+
+
+  cambiarTipo(): void {
+    this.error = '';
+    this.buscar();
+  }
+
   buscar(): void {
+    this.error = '';
+    if (this.tipoReporte === 'CUADRE_CAJA') {
+      this.buscarCuadre();
+    } else {
+      this.buscarMovimientos();
+    }
+  }
+
+  private buscarCuadre(): void {
     if (!this.fecha) {
       this.error = 'Selecciona una fecha';
       return;
     }
     this.cargando = true;
-    this.error = '';
     this.reporteService.obtenerCuadreCaja(this.fecha).subscribe({
       next: (data) => {
         this.cuadre = data;
@@ -60,10 +126,43 @@ export class CuadreCajaComponent implements OnInit {
     });
   }
 
+  private buscarMovimientos(): void {
+    if (!this.desde || !this.hasta) {
+      this.error = 'Selecciona las fechas "Desde" y "Hasta"';
+      return;
+    }
+    if (this.desde > this.hasta) {
+      this.error = 'La fecha "Desde" no puede ser mayor que "Hasta"';
+      return;
+    }
+    this.cargando = true;
+    this.reporteService.obtenerMovimientos(this.desde, this.hasta, this.idSucursal).subscribe({
+      next: (data) => {
+        this.movimientos = data;
+        this.cargando = false;
+      },
+      error: () => {
+        this.error = 'No se pudo cargar el reporte de movimientos';
+        this.cargando = false;
+      }
+    });
+  }
 
-  private prepararTabla(cuadre: CuadreCaja): TablaCuadre {
-    const redondear = (n: number) => Math.round(n * 100) / 100;
 
+  get puedeDescargar(): boolean {
+    if (this.cargando) {
+      return false;
+    }
+    return this.tipoReporte === 'CUADRE_CAJA' ? !!this.cuadre : !!this.movimientos;
+  }
+
+
+  private redondear(n: number): number {
+    return Math.round(n * 100) / 100;
+  }
+
+
+  private configCuadre(cuadre: CuadreCaja): ConfigReporte {
     const metodos: string[] = [];
     cuadre.vendedores.forEach((v) =>
       v.totalesPorMetodo.forEach((m) => {
@@ -77,6 +176,7 @@ export class CuadreCajaComponent implements OnInit {
     const nombreBonito = (n: string) => n.charAt(0).toUpperCase() + n.slice(1).toLowerCase();
 
     const encabezados = ['Vendedor', 'Total vendido', ...metodos.map(nombreBonito), '# Ventas'];
+    const tipos: TipoColumna[] = ['texto', 'moneda', ...metodos.map((): TipoColumna => 'moneda'), 'centro'];
 
     const filas = cuadre.vendedores.map((v) => {
       const porMetodo = metodos.map(
@@ -85,71 +185,107 @@ export class CuadreCajaComponent implements OnInit {
       return [v.nombreUsuario, v.totalVendido, ...porMetodo, v.cantidadVentas] as (string | number)[];
     });
 
-    const sumaColumna = (indice: number) =>
-      redondear(filas.reduce((acc, fila) => acc + Number(fila[indice]), 0));
-
     const totales: (string | number)[] = ['TOTAL'];
     for (let i = 1; i < encabezados.length; i++) {
-      totales.push(sumaColumna(i));
+      totales.push(this.redondear(filas.reduce((acc, fila) => acc + Number(fila[i]), 0)));
     }
 
-    const cobrado = redondear(
-
+    const cobrado = this.redondear(
       totales.slice(2, totales.length - 1).reduce<number>((acc, n) => acc + Number(n), 0)
     );
-    const pendiente = redondear(Number(totales[1]) - cobrado);
+    const pendiente = this.redondear(Number(totales[1]) - cobrado);
 
-    return { encabezados, filas, totales, pendiente };
+    return {
+      titulo: 'Cuadre de caja',
+      subtitulo: `Fecha: ${this.formatearFecha(cuadre.fecha)}`,
+      archivo: `cuadre-caja-${cuadre.fecha}`,
+      encabezados,
+      tipos,
+      filas,
+      totales,
+      pendiente,
+      orientacion: 'portrait'
+    };
   }
 
-  private formatearFecha(fechaIso: string): string {
-    const [anio, mes, dia] = fechaIso.split('-');
-    return `${dia}/${mes}/${anio}`;
+
+  private configMovimientos(rep: MovimientosReporte): ConfigReporte {
+    let subtitulo = `Del ${this.formatearFecha(rep.desde)} al ${this.formatearFecha(rep.hasta)}`;
+    if (this.idSucursal !== null) {
+      const suc = this.sucursales.find((s) => s.idSucursal === this.idSucursal);
+      if (suc) {
+        subtitulo += `  |  Sucursal: ${suc.nombre}`;
+      }
+    }
+
+    return {
+      titulo: 'Movimientos de inventario',
+      subtitulo,
+      archivo: `movimientos-${rep.desde}_a_${rep.hasta}`,
+      encabezados: ['Fecha', 'Tipo', 'Referencia', 'Producto', 'Sucursal', 'Entrada', 'Salida', 'Detalle'],
+      tipos: ['texto', 'texto', 'texto', 'texto', 'texto', 'entero', 'entero', 'texto'],
+      filas: rep.movimientos.map((m) => [
+        this.formatearFechaHora(m.fecha),
+        m.tipo,
+        m.referencia,
+        m.producto,
+        m.sucursal,
+        m.entrada,
+        m.salida,
+        m.descripcion ?? ''
+      ]),
+      totales: ['TOTAL', '', '', '', '', rep.totalEntradas, rep.totalSalidas, ''],
+      orientacion: 'landscape'
+    };
+  }
+
+  private configActual(): ConfigReporte | null {
+    if (this.tipoReporte === 'CUADRE_CAJA') {
+      return this.cuadre ? this.configCuadre(this.cuadre) : null;
+    }
+    return this.movimientos ? this.configMovimientos(this.movimientos) : null;
   }
 
 
   async descargarExcel(): Promise<void> {
-    if (this.tipoReporte === 'CUADRE_CAJA') {
-      await this.descargarCuadreCajaExcel();
-    }
-  }
-
-  private async descargarCuadreCajaExcel(): Promise<void> {
-    if (!this.cuadre) {
+    const config = this.configActual();
+    if (!config) {
       return;
     }
-    const cuadre = this.cuadre;
-    const tabla = this.prepararTabla(cuadre);
 
-    // La librería se carga solo al descargar.
+
     const modulo: any = await import('exceljs');
     const ExcelJS = modulo.default ?? modulo;
 
     const GRIS = 'FFD9D9D9';
     const GRIS_CLARO = 'FFF2F2F2';
     const FORMATO_Q = '"Q"#,##0.00';
+    const FORMATO_ENTERO = '#,##0';
     const linea = { style: 'thin' as const, color: { argb: 'FFBFBFBF' } };
     const bordes = { top: linea, left: linea, bottom: linea, right: linea };
     const relleno = (argb: string) => ({ type: 'pattern' as const, pattern: 'solid' as const, fgColor: { argb } });
 
     const libro = new ExcelJS.Workbook();
     libro.creator = 'Dicosa';
-    const hoja = libro.addWorksheet('Cuadre de caja', {
-      pageSetup: { orientation: 'landscape', fitToPage: true, fitToWidth: 1, fitToHeight: 0 }
+    const hoja = libro.addWorksheet(config.titulo.substring(0, 31), {
+      pageSetup: { orientation: config.orientacion, fitToPage: true, fitToWidth: 1, fitToHeight: 0 }
     });
 
-    const totalColumnas = tabla.encabezados.length;
-    hoja.columns = tabla.encabezados.map((_, i) => ({ width: i === 0 ? 28 : 17 }));
+    hoja.columns = config.encabezados.map((_, i) => {
+      const tipo = config.tipos[i];
+      const ancho = i === 0 ? (tipo === 'texto' ? 20 : 28) : tipo === 'texto' ? 24 : 15;
+      return { width: ancho };
+    });
 
-    // ---- Nombre del reporte y fecha ----
-    hoja.getCell('A1').value = 'Cuadre de caja';
+
+    hoja.getCell('A1').value = config.titulo;
     hoja.getCell('A1').font = { size: 16, bold: true };
-    hoja.getCell('A2').value = `Fecha: ${this.formatearFecha(cuadre.fecha)}`;
+    hoja.getCell('A2').value = config.subtitulo;
     hoja.getCell('A2').font = { size: 11 };
 
-    // ---- Encabezados (gris) ----
+
     const FILA_ENCABEZADO = 4;
-    tabla.encabezados.forEach((texto, i) => {
+    config.encabezados.forEach((texto, i) => {
       const celda = hoja.getCell(FILA_ENCABEZADO, i + 1);
       celda.value = texto;
       celda.font = { bold: true };
@@ -159,20 +295,19 @@ export class CuadreCajaComponent implements OnInit {
     });
     hoja.getRow(FILA_ENCABEZADO).height = 22;
 
-    // ---- Filas y totales ----
     const escribirFila = (fila: number, valores: (string | number)[], esTotal: boolean) => {
       valores.forEach((valor, i) => {
         const celda = hoja.getCell(fila, i + 1);
         celda.value = valor;
         celda.border = bordes;
-        const esUltima = i === totalColumnas - 1;
-        if (i === 0) {
+        const tipo = config.tipos[i];
+        if (tipo === 'texto') {
           celda.alignment = { horizontal: 'left', vertical: 'middle' };
-        } else if (esUltima) {
+        } else if (tipo === 'centro') {
           celda.alignment = { horizontal: 'center', vertical: 'middle' };
         } else {
           celda.alignment = { horizontal: 'right', vertical: 'middle' };
-          celda.numFmt = FORMATO_Q;
+          celda.numFmt = tipo === 'moneda' ? FORMATO_Q : FORMATO_ENTERO;
         }
         if (esTotal) {
           celda.font = { bold: true };
@@ -182,25 +317,25 @@ export class CuadreCajaComponent implements OnInit {
     };
 
     let fila = FILA_ENCABEZADO + 1;
-    tabla.filas.forEach((valores) => {
+    config.filas.forEach((valores) => {
       escribirFila(fila, valores, false);
       fila++;
     });
-    escribirFila(fila, tabla.totales, true);
+    escribirFila(fila, config.totales, true);
 
-    if (tabla.pendiente > 0.009) {
+    if (config.pendiente !== undefined && config.pendiente > 0.009) {
       fila++;
       const etiqueta = hoja.getCell(fila, 1);
       etiqueta.value = 'Pendiente de cobro';
       etiqueta.font = { bold: true, color: { argb: 'FFC00000' } };
       const monto = hoja.getCell(fila, 2);
-      monto.value = tabla.pendiente;
+      monto.value = config.pendiente;
       monto.numFmt = FORMATO_Q;
       monto.font = { bold: true, color: { argb: 'FFC00000' } };
       monto.alignment = { horizontal: 'right' };
     }
 
-    // ---- Descarga ----
+
     const buffer = await libro.xlsx.writeBuffer();
     const blob = new Blob([buffer], {
       type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
@@ -208,16 +343,9 @@ export class CuadreCajaComponent implements OnInit {
     const url = URL.createObjectURL(blob);
     const enlace = document.createElement('a');
     enlace.href = url;
-    enlace.download = `cuadre-caja-${cuadre.fecha}.xlsx`;
+    enlace.download = `${config.archivo}.xlsx`;
     enlace.click();
     URL.revokeObjectURL(url);
-  }
-
-
-  async descargarPdf(): Promise<void> {
-    if (this.tipoReporte === 'CUADRE_CAJA') {
-      await this.descargarCuadreCajaPdf();
-    }
   }
 
 
@@ -232,12 +360,11 @@ export class CuadreCajaComponent implements OnInit {
     });
   }
 
-  private async descargarCuadreCajaPdf(): Promise<void> {
-    if (!this.cuadre) {
+  async descargarPdf(): Promise<void> {
+    const config = this.configActual();
+    if (!config) {
       return;
     }
-    const cuadre = this.cuadre;
-    const tabla = this.prepararTabla(cuadre);
 
     const { jsPDF } = await import('jspdf');
     const moduloTabla: any = await import('jspdf-autotable');
@@ -245,70 +372,74 @@ export class CuadreCajaComponent implements OnInit {
 
     const q = (n: number) =>
       'Q' + n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    const entero = (n: number) => n.toLocaleString('en-US');
 
-    const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+    const doc = new jsPDF({ orientation: config.orientacion, unit: 'mm', format: 'a4' });
     const ancho = doc.internal.pageSize.getWidth();
     const alto = doc.internal.pageSize.getHeight();
 
 
-    const logos = [
-      { ruta: 'img/toys-wonderwood-logo.jpg' },
-      { ruta: 'img/xepi-logo.jpg' }
-    ];
+    const logos = ['img/toys-wonderwood-logo.jpg', 'img/xepi-logo.jpg'];
     const TAM_LOGO = 22;
     let x = 14;
-    for (const logo of logos) {
+    for (const ruta of logos) {
       try {
-        const imagen = await this.cargarImagen(logo.ruta);
+        const imagen = await this.cargarImagen(ruta);
         doc.addImage(imagen, 'JPEG', x, 8, TAM_LOGO, TAM_LOGO);
       } catch {
-        // Si un logo no carga, el PDF se genera igual.
+
       }
       x += TAM_LOGO + 4;
     }
+
 
     const xTexto = x + 4;
     doc.setTextColor(40, 40, 40);
     doc.setFont('helvetica', 'bold');
     doc.setFontSize(18);
-    doc.text('Cuadre de caja', xTexto, 17);
+    doc.text(config.titulo, xTexto, 17);
     doc.setFont('helvetica', 'normal');
     doc.setFontSize(11);
-    doc.text(`Fecha: ${this.formatearFecha(cuadre.fecha)}`, xTexto, 25);
+    doc.text(config.subtitulo, xTexto, 25);
 
     doc.setDrawColor(191, 191, 191);
     doc.line(14, 34, ancho - 14, 34);
 
-    const ultimaColumna = tabla.encabezados.length - 1;
-    const formatearFila = (valores: (string | number)[]) =>
-      valores.map((valor, i) => (i === 0 || i === ultimaColumna ? String(valor) : q(Number(valor))));
 
-    const columnStyles: any = { 0: { halign: 'left' } };
-    for (let i = 1; i < ultimaColumna; i++) {
-      columnStyles[i] = { halign: 'right' };
-    }
-    columnStyles[ultimaColumna] = { halign: 'center' };
+    const formatearFila = (valores: (string | number)[]) =>
+      valores.map((valor, i) => {
+        const tipo = config.tipos[i];
+        if (typeof valor === 'number') {
+          return tipo === 'moneda' ? q(valor) : tipo === 'entero' ? entero(valor) : String(valor);
+        }
+        return valor;
+      });
+
+    const columnStyles: any = {};
+    config.tipos.forEach((tipo, i) => {
+      columnStyles[i] = { halign: tipo === 'texto' ? 'left' : tipo === 'centro' ? 'center' : 'right' };
+    });
 
     autoTable(doc, {
       startY: 40,
-      head: [tabla.encabezados],
-      body: tabla.filas.map(formatearFila),
-      foot: [formatearFila(tabla.totales)],
+      head: [config.encabezados],
+      body: config.filas.map(formatearFila),
+      foot: [formatearFila(config.totales)],
       showFoot: 'lastPage',
       theme: 'grid',
-      styles: { fontSize: 10, cellPadding: 3, lineColor: [191, 191, 191], textColor: [40, 40, 40] },
+      styles: { fontSize: config.orientacion === 'landscape' ? 8.5 : 10, cellPadding: 2.5, lineColor: [191, 191, 191], textColor: [40, 40, 40] },
       headStyles: { fillColor: [217, 217, 217], textColor: [40, 40, 40], halign: 'center', fontStyle: 'bold' },
       footStyles: { fillColor: [242, 242, 242], textColor: [40, 40, 40], fontStyle: 'bold' },
       columnStyles
     });
 
 
-    if (tabla.pendiente > 0.009) {
+    if (config.pendiente !== undefined && config.pendiente > 0.009) {
       const yFinal = (doc as any).lastAutoTable.finalY + 8;
       doc.setFont('helvetica', 'bold');
       doc.setFontSize(10);
       doc.setTextColor(192, 0, 0);
-      doc.text(`Pendiente de cobro: ${q(tabla.pendiente)}`, 14, yFinal);
+      doc.text(`Pendiente de cobro: ${q(config.pendiente)}`, 14, yFinal);
     }
 
 
@@ -317,6 +448,6 @@ export class CuadreCajaComponent implements OnInit {
     doc.setTextColor(130, 130, 130);
     doc.text(`Generado el ${new Date().toLocaleString('es-GT')}`, 14, alto - 10);
 
-    doc.save(`cuadre-caja-${cuadre.fecha}.pdf`);
+    doc.save(`${config.archivo}.pdf`);
   }
 }

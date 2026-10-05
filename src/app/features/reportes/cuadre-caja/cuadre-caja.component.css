@@ -160,3 +160,15 @@
   opacity: 0.5;
   cursor: not-allowed;
 }
+.tabla-scroll {
+  overflow-x: auto;
+}
+
+.tabla .num {
+  text-align: right;
+}
+
+.tabla tfoot td {
+  background: #f2f2f2;
+  border-top: 2px solid #d6d2c4;
+}
