@@ -51,6 +51,7 @@ import { VentasFormulariosComponent } from './features/ventas/ventas-formularios
 import { VentasVerComponent } from './features/ventas/ventas-ver/ventas-ver.component';
 import { PagosListComponent } from './features/pagos/pagos-list/pagos-list.component';
 import { PagosFormulariosComponent } from './features/pagos/pagos-formularios/pagos-formularios.component';
+import { CuadreCajaComponent } from './features/reportes/cuadre-caja/cuadre-caja.component';
 
 const routes: Routes = [
    { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -122,7 +123,7 @@ const routes: Routes = [
 { path: 'ventas/ver/:id', component: VentasVerComponent, canActivate: [authGuard]},
 {path: 'pagos', component: PagosListComponent, canActivate: [authGuard]},
 { path: 'pagos/nueva/:idVenta', component: PagosFormulariosComponent, canActivate: [authGuard]},
-
+{ path: 'reportes/cuadre-caja', component: CuadreCajaComponent, canActivate: [authGuard]}
 
 
 

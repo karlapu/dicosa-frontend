@@ -1,0 +1,68 @@
+<div class="contenedor">
+  <div class="encabezado">
+    <h2>Reportes</h2>
+  </div>
+
+  <div class="filtro-fecha">
+    <label for="tipoReporte">Reporte</label>
+    <select id="tipoReporte" [(ngModel)]="tipoReporte" class="input">
+      <option *ngFor="let t of tiposReporte" [ngValue]="t.valor">{{ t.nombre }}</option>
+    </select>
+
+    <label for="fecha">Fecha</label>
+    <input type="date" id="fecha" name="fecha" [(ngModel)]="fecha" class="input" />
+
+    <button class="btn-nuevo" (click)="buscar()">Consultar</button>
+    <button class="btn-descargar" (click)="descargarExcel()" [disabled]="!cuadre || cargando">
+      Descargar Excel
+    </button>
+
+       <button class="btn-descargar" (click)="descargarPdf()" [disabled]="!cuadre || cargando">
+      Descargar PDF
+    </button>
+  </div>
+
+
+
+  <p *ngIf="error" class="mensaje-error">{{ error }}</p>
+  <p *ngIf="cargando">Cargando...</p>
+
+  <div *ngIf="tipoReporte === 'CUADRE_CAJA' && cuadre && !cargando">
+
+    <div class="tarjeta-info">
+      <div class="campo">
+        <span class="etiqueta">Fecha</span>
+        <span class="valor">{{ cuadre.fecha }}</span>
+      </div>
+      <div class="campo">
+        <span class="etiqueta">Total general del día</span>
+        <span class="valor"><strong>Q{{ cuadre.totalGeneral | number:'1.2-2' }}</strong></span>
+      </div>
+    </div>
+
+    <div *ngIf="cuadre.vendedores.length === 0" class="estado-vacio">
+      <p>No se registraron ventas en esta fecha.</p>
+    </div>
+
+    <div class="tarjeta-vendedor" *ngFor="let vendedor of cuadre.vendedores">
+      <h3>{{ vendedor.nombreUsuario }}</h3>
+      <p>{{ vendedor.cantidadVentas }} venta(s) — Total: Q{{ vendedor.totalVendido | number:'1.2-2' }}</p>
+
+      <table class="tabla">
+        <thead>
+          <tr>
+            <th>Método de pago</th>
+            <th>Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let metodo of vendedor.totalesPorMetodo">
+            <td>{{ metodo.nombreMetodoPago }}</td>
+            <td>Q{{ metodo.total | number:'1.2-2' }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+</div>
