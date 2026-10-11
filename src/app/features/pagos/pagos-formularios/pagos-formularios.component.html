@@ -15,15 +15,15 @@
     </div>
     <div class="campo">
       <span class="etiqueta">Total venta</span>
-      <span class="valor">Q{{ saldo.totalVenta | number:'1.2-2' }}</span>
+      <span class="valor">{{ saldo.totalVenta | moneda }}</span>
     </div>
     <div class="campo">
       <span class="etiqueta">Ya pagado</span>
-      <span class="valor">Q{{ saldo.totalPagado | number:'1.2-2' }}</span>
+      <span class="valor">{{ saldo.totalPagado | moneda }}</span>
     </div>
     <div class="campo">
       <span class="etiqueta">Saldo pendiente</span>
-      <span class="valor saldo-pendiente">Q{{ saldo.saldoPendiente | number:'1.2-2' }}</span>
+      <span class="valor saldo-pendiente">{{ saldo.saldoPendiente | moneda }}</span>
     </div>
   </div>
 
@@ -73,11 +73,11 @@
     <button type="button" class="btn-agregar-linea" (click)="agregarLinea()">+ Agregar forma de pago</button>
 
     <div class="resumen-total">
-      <strong>Total a pagar: Q{{ calcularTotalPago() | number:'1.2-2' }}</strong>
+      <strong>Total a pagar: {{ calcularTotalPago() | moneda }}</strong>
     </div>
 
     <p *ngIf="excedeSaldo()" class="mensaje-advertencia">
-      El total ingresado (Q{{ calcularTotalPago() | number:'1.2-2' }}) excede el saldo pendiente de la venta.
+      El total ingresado ({{ calcularTotalPago() | moneda }}) excede el saldo pendiente de la venta.
     </p>
 
     <div class="acciones">

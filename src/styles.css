@@ -162,3 +162,9 @@ button {
     page-break-inside: avoid;
   }
 }
+
+.campo:has([required]) > label::after {
+  content: " *";
+  color: var(--color-warn);
+  font-weight: 600;
+}

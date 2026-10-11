@@ -28,6 +28,7 @@
       <thead>
         <tr>
           <th>ID</th>
+          <th>Imagen</th>
           <th>Nombre</th>
           <th>Categoría</th>
           <th>Código de barra</th>
@@ -46,6 +47,11 @@
             {{ producto.idProducto }}
           </td>
 
+          <td class="celda-imagen">
+            <img *ngIf="producto.imagen" [src]="urlImagen(producto)" [alt]="producto.nombre" class="miniatura" />
+            <span *ngIf="!producto.imagen" class="sin-imagen">—</span>
+          </td>
+
           <td class="celda-nombre">
             {{ producto.nombre }}
           </td>
@@ -59,11 +65,11 @@
           </td>
 
           <td>
-            {{ producto.precioCosto | number:'1.2-2' }}
+            {{ producto.precioCosto | moneda }}
           </td>
 
           <td>
-            {{ producto.precioVenta | number:'1.2-2' }}
+            {{ producto.precioVenta | moneda }}
           </td>
 
           <td>

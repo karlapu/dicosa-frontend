@@ -4,6 +4,7 @@ import { CatMoneda } from '../../../core/models/catmoneda.model';
 import { CatTipoInventario } from '../../../core/models/CatTipoinventario.model';
 import { ConfiguracionService } from '../../../core/services/configuracion.service';
 import { CatMonedaService } from '../../../core/services/catmoneda.service';
+import { MonedaService } from '../../../core/services/moneda.service';
 import { CatTipoInventarioService } from '../../../core/services/cartipoinventario.service';
 
 @Component({
@@ -33,7 +34,8 @@ export class ConfiguracionFormularioComponent implements OnInit {
   constructor(
     private configuracionService: ConfiguracionService,
     private monedaService: CatMonedaService,
-    private tipoInventarioService: CatTipoInventarioService
+    private tipoInventarioService: CatTipoInventarioService,
+    private simboloMoneda: MonedaService
   ) { }
 
   ngOnInit(): void {
@@ -75,6 +77,7 @@ export class ConfiguracionFormularioComponent implements OnInit {
         this.configuracion = data;
         this.guardando = false;
         this.mensajeExito = 'Configuración guardada correctamente.';
+        this.simboloMoneda.cargar();
       },
       error: (err) => {
         this.guardando = false;

@@ -86,20 +86,48 @@
     </div>
 
     <div class="campo">
-      <label for="imagen">Imagen del producto</label>
+      <label>Imagen del producto</label>
+
       <input
         type="file"
         id="imagen"
-        accept="image/*"
+        name="imagen"
+        accept="image/png,image/jpeg,image/webp"
+        class="input-archivo"
+        #selectorImagen
         (change)="onImagenSeleccionada($event)" />
 
-      <p *ngIf="subiendoImagen" class="texto-ayuda">Subiendo imagen...</p>
+      <div
+        class="zona-imagen"
+        [class.arrastrando]="arrastrando"
+        [class.con-imagen]="imagenMostrada && !errorImagen"
+        (dragover)="onArrastrar($event)"
+        (dragleave)="onSalirArrastre($event)"
+        (drop)="onSoltar($event)">
 
-      <img
-        *ngIf="producto.imagen && !subiendoImagen"
-        [src]="imagenPreviewUrl"
-        alt="Vista previa de la imagen"
-        class="vista-previa-imagen" />
+        <ng-container *ngIf="imagenMostrada && !errorImagen; else sinImagen">
+          <img
+            [src]="imagenMostrada"
+            alt="Vista previa de la imagen"
+            class="vista-previa-imagen"
+            (error)="errorImagen = true" />
+
+          <div class="acciones-imagen">
+            <button type="button" class="btn-imagen" (click)="selectorImagen.click()" [disabled]="subiendoImagen">Cambiar</button>
+            <button type="button" class="btn-imagen btn-quitar" (click)="quitarImagen()" [disabled]="subiendoImagen">Quitar</button>
+          </div>
+        </ng-container>
+
+        <ng-template #sinImagen>
+          <div class="zona-vacia" (click)="selectorImagen.click()">
+            <span class="icono-imagen">🖼️</span>
+            <span class="texto-principal">{{ errorImagen ? 'No se pudo mostrar la imagen' : 'Haz clic o arrastra una imagen aquí' }}</span>
+            <span class="texto-ayuda">JPG, PNG o WEBP · máximo 5 MB</span>
+          </div>
+        </ng-template>
+
+        <div *ngIf="subiendoImagen" class="subiendo">Subiendo imagen...</div>
+      </div>
     </div>
 
     <div class="campo">

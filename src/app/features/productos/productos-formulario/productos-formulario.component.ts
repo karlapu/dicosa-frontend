@@ -31,6 +31,9 @@ export class ProductosFormularioComponent implements OnInit {
   idProducto: number | null = null;
   guardando = false;
   subiendoImagen = false;
+  vistaLocal = '';
+  errorImagen = false;
+  arrastrando = false;
   error = '';
 
   constructor(
@@ -65,7 +68,6 @@ export class ProductosFormularioComponent implements OnInit {
     });
   }
 
-  // URL completa para mostrar la vista previa de la imagen (el backend guarda solo la ruta relativa).
   get imagenPreviewUrl(): string {
     if (!this.producto.imagen) {
       return '';
@@ -74,15 +76,55 @@ export class ProductosFormularioComponent implements OnInit {
     return `${urlBase}${this.producto.imagen}`;
   }
 
+  get imagenMostrada(): string {
+    return this.vistaLocal || this.imagenPreviewUrl;
+  }
+
   onImagenSeleccionada(event: Event): void {
     const input = event.target as HTMLInputElement;
     if (!input.files || input.files.length === 0) {
       return;
     }
+    this.procesarArchivo(input.files[0]);
+    input.value = '';
+  }
 
-    const archivo = input.files[0];
-    this.subiendoImagen = true;
+  onArrastrar(event: DragEvent): void {
+    event.preventDefault();
+    this.arrastrando = true;
+  }
+
+  onSalirArrastre(event: DragEvent): void {
+    event.preventDefault();
+    this.arrastrando = false;
+  }
+
+  onSoltar(event: DragEvent): void {
+    event.preventDefault();
+    this.arrastrando = false;
+    const archivo = event.dataTransfer?.files?.[0];
+    if (archivo) {
+      this.procesarArchivo(archivo);
+    }
+  }
+
+  private procesarArchivo(archivo: File): void {
+    if (!archivo.type.startsWith('image/')) {
+      this.error = 'El archivo debe ser una imagen (JPG, PNG o WEBP).';
+      return;
+    }
+    if (archivo.size > 5 * 1024 * 1024) {
+      this.error = 'La imagen no debe pesar más de 5 MB.';
+      return;
+    }
+
     this.error = '';
+    this.errorImagen = false;
+    this.subiendoImagen = true;
+    if (this.vistaLocal) {
+      URL.revokeObjectURL(this.vistaLocal);
+    }
+    this.vistaLocal = URL.createObjectURL(archivo);
 
     this.productoService.subirImagen(archivo).subscribe({
       next: (respuesta) => {
@@ -91,9 +133,19 @@ export class ProductosFormularioComponent implements OnInit {
       },
       error: () => {
         this.error = 'No se pudo subir la imagen.';
+        this.quitarImagen();
         this.subiendoImagen = false;
       }
     });
+  }
+
+  quitarImagen(): void {
+    if (this.vistaLocal) {
+      URL.revokeObjectURL(this.vistaLocal);
+    }
+    this.vistaLocal = '';
+    this.errorImagen = false;
+    this.producto.imagen = '';
   }
 
   guardar(): void {

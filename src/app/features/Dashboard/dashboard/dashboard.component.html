@@ -37,14 +37,14 @@
     <div class="tarjetas">
       <div class="tarjeta">
         <span class="tarjeta-etiqueta">Ventas del período</span>
-        <span class="tarjeta-valor">Q{{ datos.ventasPeriodo | number:'1.2-2' }}</span>
+        <span class="tarjeta-valor">{{ datos.ventasPeriodo | moneda }}</span>
         <span class="tarjeta-detalle">{{ textoPeriodo() }}</span>
       </div>
 
       <div class="tarjeta">
         <span class="tarjeta-etiqueta">Ventas realizadas</span>
         <span class="tarjeta-valor">{{ datos.cantidadVentasPeriodo }}</span>
-        <span class="tarjeta-detalle">{{ datos.cantidadVentasPeriodo > 0 ? 'promedio Q' + (datos.ventasPeriodo / datos.cantidadVentasPeriodo | number:'1.2-2') + ' por venta' : 'sin ventas en el período' }}</span>
+        <span class="tarjeta-detalle">{{ datos.cantidadVentasPeriodo > 0 ? 'promedio ' + (datos.ventasPeriodo / datos.cantidadVentasPeriodo | moneda) + ' por venta' : 'sin ventas en el período' }}</span>
       </div>
 
       <div class="tarjeta">
@@ -55,7 +55,7 @@
 
       <div class="tarjeta">
         <span class="tarjeta-etiqueta">Valor del inventario</span>
-        <span class="tarjeta-valor">Q{{ datos.valorInventario | number:'1.2-2' }}</span>
+        <span class="tarjeta-valor">{{ datos.valorInventario | moneda }}</span>
         <span class="tarjeta-detalle">según el costo de cada lote</span>
       </div>
 
@@ -80,7 +80,7 @@
         <p *ngIf="sinVentas(datos.ventasPorDia)" class="vacio">No hay ventas en el período seleccionado.</p>
         <div class="columnas" [class.denso]="!mostrarValores(datos.ventasPorDia)" *ngIf="!sinVentas(datos.ventasPorDia)">
           <div class="columna" *ngFor="let punto of datos.ventasPorDia">
-            <span class="columna-valor">{{ mostrarValores(datos.ventasPorDia) && punto.valor > 0 ? 'Q' + (punto.valor | number:'1.0-0') : '' }}</span>
+            <span class="columna-valor">{{ mostrarValores(datos.ventasPorDia) && punto.valor > 0 ? (punto.valor | moneda:'1.0-0') : '' }}</span>
             <div class="columna-zona">
               <div class="columna-barra" [style.height.%]="porcentaje(punto.valor, datos.ventasPorDia)"></div>
             </div>
@@ -109,7 +109,7 @@
         <div class="fila-barra" *ngFor="let punto of datos.ventasPorVendedor">
           <div class="fila-texto">
             <span>{{ punto.etiqueta }}</span>
-            <strong>Q{{ punto.valor | number:'1.2-2' }}</strong>
+            <strong>{{ punto.valor | moneda }}</strong>
           </div>
           <div class="pista"><div class="relleno relleno-dorado" [style.width.%]="porcentaje(punto.valor, datos.ventasPorVendedor)"></div></div>
         </div>

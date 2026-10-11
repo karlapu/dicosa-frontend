@@ -24,7 +24,7 @@
         <td>{{ pago.fechaPago | date:'dd/MM/yyyy HH:mm' }}</td>
         <td>#{{ pago.idVenta }}</td>
         <td>{{ pago.nombreCliente }}</td>
-        <td>Q{{ pago.totalPagado | number:'1.2-2' }}</td>
+        <td>{{ pago.totalPagado | moneda }}</td>
         <td>
           <span class="badge" [ngClass]="pago.estado?.toLowerCase()">{{ pago.estado }}</span>
         </td>

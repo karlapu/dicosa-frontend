@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Producto } from '../../../core/models/producto.model';
 import { ProductoService } from '../../../core/services/producto.service';
 import { Router } from '@angular/router';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-productos-list',
@@ -22,6 +23,13 @@ export class ProductosListComponent implements OnInit {
 
   ngOnInit(): void {
     this.cargarProductos();
+  }
+
+  urlImagen(producto: Producto): string {
+    if (!producto.imagen) {
+      return '';
+    }
+    return `${environment.apiUrl.replace('/api', '')}${producto.imagen}`;
   }
 
   cargarProductos(): void {

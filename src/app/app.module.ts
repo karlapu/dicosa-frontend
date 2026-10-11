@@ -59,6 +59,7 @@ import { PagosListComponent } from './features/pagos/pagos-list/pagos-list.compo
 import { PagosFormulariosComponent } from './features/pagos/pagos-formularios/pagos-formularios.component';
 import { CuadreCajaComponent } from './features/reportes/cuadre-caja/cuadre-caja.component';
 import { DashboardComponent } from './features/Dashboard/dashboard/dashboard.component';
+import { MonedaPipe } from './core/pipes/moneda.pipe';
 
 
 
@@ -117,7 +118,8 @@ import { DashboardComponent } from './features/Dashboard/dashboard/dashboard.com
     PagosListComponent,
     PagosFormulariosComponent,
     CuadreCajaComponent,
-    DashboardComponent
+    DashboardComponent,
+    MonedaPipe
 
   ],
   imports: [

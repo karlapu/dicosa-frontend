@@ -58,12 +58,12 @@
     <div class="tarjeta-info" *ngIf="saldo">
       <div class="campo">
         <span class="etiqueta">Total pagado</span>
-        <span class="valor">Q{{ saldo.totalPagado | number:'1.2-2' }}</span>
+        <span class="valor">{{ saldo.totalPagado | moneda }}</span>
       </div>
       <div class="campo">
         <span class="etiqueta">Saldo pendiente</span>
         <span class="valor" [class.saldo-pendiente]="saldo.saldoPendiente > 0">
-          Q{{ saldo.saldoPendiente | number:'1.2-2' }}
+          {{ saldo.saldoPendiente | moneda }}
         </span>
       </div>
     </div>
@@ -83,16 +83,16 @@
         <tr *ngFor="let detalle of venta.detalles">
           <td>{{ detalle.nombreProducto }}</td>
           <td>{{ detalle.cantidad }}</td>
-          <td>Q{{ detalle.precioUnitario | number:'1.2-2' }}</td>
-          <td>Q{{ detalle.subtotal | number:'1.2-2' }}</td>
+          <td>{{ detalle.precioUnitario | moneda }}</td>
+          <td>{{ detalle.subtotal | moneda }}</td>
         </tr>
       </tbody>
     </table>
 
     <div class="resumen-total">
-      <p>Subtotal: Q{{ venta.subtotal | number:'1.2-2' }}</p>
-      <p *ngIf="venta.descuento">Descuento: -Q{{ venta.descuento | number:'1.2-2' }}</p>
-      <p class="total"><strong>Total: Q{{ venta.total | number:'1.2-2' }}</strong></p>
+      <p>Subtotal: {{ venta.subtotal | moneda }}</p>
+      <p *ngIf="venta.descuento">Descuento: -{{ venta.descuento | moneda }}</p>
+      <p class="total"><strong>Total: {{ venta.total | moneda }}</strong></p>
     </div>
 
     <div class="solo-impresion firmas-impresion">

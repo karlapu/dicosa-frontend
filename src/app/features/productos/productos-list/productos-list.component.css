@@ -246,3 +246,20 @@ td {
 font-size: 13px;
 }
 }
+
+.celda-imagen {
+  width: 64px;
+}
+
+.miniatura {
+  display: block;
+  width: 48px;
+  height: 48px;
+  object-fit: cover;
+  border-radius: 6px;
+  border: 1px solid var(--color-border);
+}
+
+.sin-imagen {
+  color: var(--color-text-muted);
+}

@@ -7,7 +7,7 @@
 
     <div class="fila-cabecera">
       <div class="campo">
-        <label for="idProveedor">Proveedor *</label>
+        <label for="idProveedor">Proveedor</label>
         <select
           id="idProveedor"
           name="idProveedor"
@@ -26,7 +26,7 @@
       </div>
 
       <div class="campo">
-        <label for="idSucursal">Sucursal que recibe *</label>
+        <label for="idSucursal">Sucursal que recibe</label>
         <select
           id="idSucursal"
           name="idSucursal"
@@ -91,7 +91,7 @@
               class="input input-numero"
             />
           </td>
-          <td class="subtotal">Q{{ calcularSubtotalLinea(detalle) | number:'1.2-2' }}</td>
+          <td class="subtotal">{{ calcularSubtotalLinea(detalle) | moneda }}</td>
           <td>
             <button type="button" class="btn-quitar" (click)="quitarLinea(i)">✕</button>
           </td>
@@ -102,7 +102,7 @@
     <button type="button" class="btn-agregar-linea" (click)="agregarLinea()">+ Agregar producto</button>
 
     <div class="resumen-total">
-      <strong>Total: Q{{ calcularTotal() | number:'1.2-2' }}</strong>
+      <strong>Total: {{ calcularTotal() | moneda }}</strong>
     </div>
 
     <p *ngIf="!formularioValido()" class="mensaje-advertencia">

@@ -5,6 +5,7 @@ import { MovimientosReporte } from '../../../core/models/movimientosreporte.mode
 import { Sucursal } from '../../../core/models/sucursal.model';
 import { ReporteService } from '../../../core/services/Reporte.service';
 import { SucursalService } from '../../../core/services/sucursal.service';
+import { MonedaService } from '../../../core/services/moneda.service';
 import { Conciliacion } from '../../../core/models/conciliacion.mode';
 
 type TipoColumna = 'texto' | 'moneda' | 'entero' | 'centro';
@@ -53,7 +54,8 @@ export class CuadreCajaComponent implements OnInit {
 
   constructor(
     private reporteService: ReporteService,
-    private sucursalService: SucursalService
+    private sucursalService: SucursalService,
+    private monedaService: MonedaService
   ) { }
 
   ngOnInit(): void {
@@ -322,7 +324,7 @@ export class CuadreCajaComponent implements OnInit {
 
     const GRIS = 'FFD9D9D9';
     const GRIS_CLARO = 'FFF2F2F2';
-    const FORMATO_Q = '"Q"#,##0.00';
+    const FORMATO_Q = '"' + this.monedaService.simbolo + '"#,##0.00';
     const FORMATO_ENTERO = '#,##0';
     const linea = { style: 'thin' as const, color: { argb: 'FFBFBFBF' } };
     const bordes = { top: linea, left: linea, bottom: linea, right: linea };
@@ -430,7 +432,7 @@ export class CuadreCajaComponent implements OnInit {
     const autoTable = moduloTabla.default ?? moduloTabla.autoTable;
 
     const q = (n: number) =>
-      'Q' + n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+      this.monedaService.simbolo + n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
     const entero = (n: number) => n.toLocaleString('en-US');
 
     const doc = new jsPDF({ orientation: config.orientacion, unit: 'mm', format: 'a4' });

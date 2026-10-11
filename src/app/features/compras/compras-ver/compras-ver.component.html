@@ -69,15 +69,15 @@
         <tr *ngFor="let detalle of compra.detalles">
           <td>{{ detalle.nombreProducto }}</td>
           <td>{{ detalle.cantidad }}</td>
-          <td>Q{{ detalle.precioUnitario | number:'1.2-2' }}</td>
-          <td>Q{{ detalle.subtotal | number:'1.2-2' }}</td>
+          <td>{{ detalle.precioUnitario | moneda }}</td>
+          <td>{{ detalle.subtotal | moneda }}</td>
         </tr>
       </tbody>
     </table>
 
     <div class="resumen-total">
-      <p>Subtotal: Q{{ compra.subtotal | number:'1.2-2' }}</p>
-      <p class="total"><strong>Total: Q{{ compra.total | number:'1.2-2' }}</strong></p>
+      <p>Subtotal: {{ compra.subtotal | moneda }}</p>
+      <p class="total"><strong>Total: {{ compra.total | moneda }}</strong></p>
     </div>
 
     <div class="solo-impresion firmas-impresion">
