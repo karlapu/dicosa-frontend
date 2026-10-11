@@ -52,9 +52,11 @@ import { VentasVerComponent } from './features/ventas/ventas-ver/ventas-ver.comp
 import { PagosListComponent } from './features/pagos/pagos-list/pagos-list.component';
 import { PagosFormulariosComponent } from './features/pagos/pagos-formularios/pagos-formularios.component';
 import { CuadreCajaComponent } from './features/reportes/cuadre-caja/cuadre-caja.component';
+import { DashboardComponent } from './features/Dashboard/dashboard/dashboard.component';
 
 const routes: Routes = [
-   { path: '', redirectTo: 'login', pathMatch: 'full' },
+
+   { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
   { path: 'roles', component: RolesListComponent, canActivate: [authGuard] },
   { path: 'roles/nuevo', component: RolesFormularioComponent, canActivate: [authGuard] },
@@ -81,10 +83,10 @@ const routes: Routes = [
 { path: 'categorias', component: CategoriasListComponent, canActivate: [authGuard] },
 { path: 'categorias/nuevo', component: CategoriasFormularioComponent, canActivate: [authGuard] },
 { path: 'categorias/editar/:id', component: CategoriasFormularioComponent, canActivate: [authGuard] },
- { path: 'cat-metodos-pago', component: CatMetodoPagoListComponent, canActivate: [authGuard] },
-  { path: 'cat-metodos-pago/nuevo', component: CatMetodoPagoFormularioComponent, canActivate: [authGuard] },
-  { path: 'cat-metodos-pago/editar/:id', component: CatMetodoPagoFormularioComponent, canActivate: [authGuard] },
-  { path: 'cat-monedas', component: CatMonedasListComponent, canActivate: [authGuard] },
+{ path: 'cat-metodos-pago', component: CatMetodoPagoListComponent, canActivate: [authGuard] },
+{ path: 'cat-metodos-pago/nuevo', component: CatMetodoPagoFormularioComponent, canActivate: [authGuard] },
+{ path: 'cat-metodos-pago/editar/:id', component: CatMetodoPagoFormularioComponent, canActivate: [authGuard] },
+{ path: 'cat-monedas', component: CatMonedasListComponent, canActivate: [authGuard] },
 { path: 'cat-monedas/nuevo', component: CatMonedasFormularioComponent, canActivate: [authGuard] },
 { path: 'cat-monedas/editar/:id', component: CatMonedasFormularioComponent, canActivate: [authGuard] },
 { path: 'cat-tipos-movimiento', component: CatTiposMovimientoListComponent, canActivate: [authGuard] },
@@ -123,8 +125,8 @@ const routes: Routes = [
 { path: 'ventas/ver/:id', component: VentasVerComponent, canActivate: [authGuard]},
 {path: 'pagos', component: PagosListComponent, canActivate: [authGuard]},
 { path: 'pagos/nueva/:idVenta', component: PagosFormulariosComponent, canActivate: [authGuard]},
-{ path: 'reportes/cuadre-caja', component: CuadreCajaComponent, canActivate: [authGuard]}
-
+{ path: 'reportes/cuadre-caja', component: CuadreCajaComponent, canActivate: [authGuard]},
+  { path: 'dashboard', component: DashboardComponent, canActivate: [authGuard] },
 
 
 ];

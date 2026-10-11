@@ -37,7 +37,7 @@ export class SidebarComponent implements OnInit {
 
   cargarMenus(): void {
     this.cargando = true;
-    this.menuService.listarTodos().subscribe({
+    this.menuService.misMenus().subscribe({
       next: (menus) => {
         this.secciones = this.agruparPorModulo(menus);
         this.cargando = false;
@@ -48,9 +48,6 @@ export class SidebarComponent implements OnInit {
       }
     });
   }
-
-  // Agrupa los menús ACTIVOS por el nombre de su módulo, conservando
-  // el orden en que aparece cada módulo por primera vez.
   private agruparPorModulo(menus: Menu[]): SeccionMenu[] {
     const activos = menus.filter(m => m.estado === 'ACTIVO');
     const secciones: SeccionMenu[] = [];

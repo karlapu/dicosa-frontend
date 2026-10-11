@@ -35,7 +35,7 @@ export class LoginComponent implements OnInit {
 
     this.authService.login(this.credenciales).subscribe({
       next: () => {
-        this.router.navigate(['/roles']);
+        this.router.navigate(['/dashboard']);
       },
       error: () => {
         this.error = 'Usuario o contraseña incorrectos.';

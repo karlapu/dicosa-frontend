@@ -14,6 +14,7 @@ export class ComprasVerComponent implements OnInit {
   compra: Compra | null = null;
   cargando = false;
   error = '';
+  fechaImpresion = new Date();
 
   constructor(
     private route: ActivatedRoute,
@@ -42,6 +43,11 @@ export class ComprasVerComponent implements OnInit {
         this.cargando = false;
       }
     });
+  }
+
+  imprimir(): void {
+    this.fechaImpresion = new Date();
+    setTimeout(() => window.print(), 100);
   }
 
   volver(): void {

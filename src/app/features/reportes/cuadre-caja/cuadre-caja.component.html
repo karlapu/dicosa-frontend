@@ -19,12 +19,20 @@
       <input type="date" id="desde" name="desde" [(ngModel)]="desde" class="input" />
       <label for="hasta">Hasta</label>
       <input type="date" id="hasta" name="hasta" [(ngModel)]="hasta" class="input" />
+    </ng-container>
+
+    <ng-container *ngIf="tipoReporte !== 'CUADRE_CAJA'">
       <label for="sucursal">Sucursal</label>
       <select id="sucursal" name="sucursal" [(ngModel)]="idSucursal" class="input">
         <option [ngValue]="null">Todas</option>
         <option *ngFor="let s of sucursales" [ngValue]="s.idSucursal">{{ s.nombre }}</option>
       </select>
     </ng-container>
+
+    <label *ngIf="tipoReporte === 'CONCILIACION'" class="check-diferencias">
+      <input type="checkbox" name="soloDiferencias" [(ngModel)]="soloDiferencias" />
+      Solo diferencias
+    </label>
 
     <button class="btn-nuevo" (click)="buscar()">Consultar</button>
     <button class="btn-descargar" (click)="descargarExcel()" [disabled]="!puedeDescargar">Descargar Excel</button>
@@ -34,7 +42,7 @@
   <p *ngIf="error" class="mensaje-error">{{ error }}</p>
   <p *ngIf="cargando">Cargando...</p>
 
-
+  <!-- ================= CUADRE DE CAJA ================= -->
   <div *ngIf="tipoReporte === 'CUADRE_CAJA' && cuadre && !cargando">
 
     <div class="tarjeta-info">
@@ -74,7 +82,7 @@
 
   </div>
 
-
+  <!-- ================= MOVIMIENTOS DE INVENTARIO ================= -->
   <div *ngIf="tipoReporte === 'MOVIMIENTOS' && movimientos && !cargando">
 
     <div class="tarjeta-info">
@@ -107,6 +115,7 @@
             <th>Sucursal</th>
             <th class="num">Entrada</th>
             <th class="num">Salida</th>
+            <th>Usuario</th>
             <th>Detalle</th>
           </tr>
         </thead>
@@ -119,6 +128,7 @@
             <td>{{ m.sucursal }}</td>
             <td class="num">{{ m.entrada || '' }}</td>
             <td class="num">{{ m.salida || '' }}</td>
+            <td>{{ m.usuario }}</td>
             <td>{{ m.descripcion }}</td>
           </tr>
         </tbody>
@@ -128,8 +138,64 @@
             <td class="num"><strong>{{ movimientos.totalEntradas | number }}</strong></td>
             <td class="num"><strong>{{ movimientos.totalSalidas | number }}</strong></td>
             <td></td>
+            <td></td>
           </tr>
         </tfoot>
+      </table>
+    </div>
+
+  </div>
+
+  <!-- ================= CONCILIACIÓN DE STOCK ================= -->
+  <div *ngIf="tipoReporte === 'CONCILIACION' && conciliacion && !cargando">
+
+    <div class="tarjeta-info">
+      <div class="campo">
+        <span class="etiqueta">Registros revisados</span>
+        <span class="valor"><strong>{{ conciliacion.totalRegistros }}</strong></span>
+      </div>
+      <div class="campo">
+        <span class="etiqueta">Con diferencia</span>
+        <span class="valor" [class.texto-alerta]="conciliacion.registrosConDiferencia > 0">
+          <strong>{{ conciliacion.registrosConDiferencia }}</strong>
+        </span>
+      </div>
+      <div class="campo">
+        <span class="etiqueta">Total inventario</span>
+        <span class="valor"><strong>{{ conciliacion.totalInventario | number }}</strong></span>
+      </div>
+      <div class="campo">
+        <span class="etiqueta">Total lotes</span>
+        <span class="valor"><strong>{{ conciliacion.totalLotes | number }}</strong></span>
+      </div>
+    </div>
+
+    <div *ngIf="filasConciliacion.length === 0" class="estado-vacio">
+      <p>{{ soloDiferencias ? 'No hay diferencias: el inventario cuadra con los lotes.' : 'No hay registros de inventario.' }}</p>
+    </div>
+
+    <div class="tabla-scroll" *ngIf="filasConciliacion.length > 0">
+      <table class="tabla">
+        <thead>
+          <tr>
+            <th>Producto</th>
+            <th>Sucursal</th>
+            <th class="num">Inventario</th>
+            <th class="num">Lotes</th>
+            <th class="num">Diferencia</th>
+            <th>Estado</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let f of filasConciliacion" [class.fila-descuadre]="!f.cuadra">
+            <td>{{ f.producto }}</td>
+            <td>{{ f.sucursal }}</td>
+            <td class="num">{{ f.stockInventario }}</td>
+            <td class="num">{{ f.stockLotes }}</td>
+            <td class="num">{{ f.diferencia }}</td>
+            <td>{{ f.cuadra ? 'Cuadra' : 'Descuadre' }}</td>
+          </tr>
+        </tbody>
       </table>
     </div>
 

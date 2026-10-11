@@ -1,0 +1,155 @@
+<div class="contenedor">
+  <div class="encabezado">
+    <div>
+      <h2>Panel de control</h2>
+      <p class="fecha">{{ hoy | date:'dd/MM/yyyy' }}</p>
+    </div>
+    <div class="acciones">
+      <label for="sucursal">Sucursal</label>
+      <select id="sucursal" name="sucursal" [(ngModel)]="idSucursal" (ngModelChange)="cargar()" class="input">
+        <option [ngValue]="null">Todas</option>
+        <option *ngFor="let s of sucursales" [ngValue]="s.idSucursal">{{ s.nombre }}</option>
+      </select>
+      <button class="btn-actualizar" (click)="cargar()" [disabled]="cargando">
+        {{ cargando ? 'Actualizando...' : 'Actualizar' }}
+      </button>
+    </div>
+  </div>
+
+  <div class="barra-periodo">
+    <div class="botones-periodo">
+      <button type="button" *ngFor="let p of periodos" class="btn-periodo" [class.activo]="periodo === p.clave" (click)="elegirPeriodo(p.clave)">{{ p.texto }}</button>
+    </div>
+    <div class="rango">
+      <label for="desde">Desde</label>
+      <input id="desde" name="desde" type="date" class="input" [(ngModel)]="desde">
+      <label for="hasta">Hasta</label>
+      <input id="hasta" name="hasta" type="date" class="input" [(ngModel)]="hasta">
+      <button type="button" class="btn-aplicar" (click)="aplicarRango()" [disabled]="cargando">Aplicar</button>
+    </div>
+  </div>
+
+  <p *ngIf="error" class="mensaje-error">{{ error }}</p>
+  <p *ngIf="cargando && !datos" class="cargando">Cargando...</p>
+
+  <div *ngIf="datos">
+
+    <div class="tarjetas">
+      <div class="tarjeta">
+        <span class="tarjeta-etiqueta">Ventas del período</span>
+        <span class="tarjeta-valor">Q{{ datos.ventasPeriodo | number:'1.2-2' }}</span>
+        <span class="tarjeta-detalle">{{ textoPeriodo() }}</span>
+      </div>
+
+      <div class="tarjeta">
+        <span class="tarjeta-etiqueta">Ventas realizadas</span>
+        <span class="tarjeta-valor">{{ datos.cantidadVentasPeriodo }}</span>
+        <span class="tarjeta-detalle">{{ datos.cantidadVentasPeriodo > 0 ? 'promedio Q' + (datos.ventasPeriodo / datos.cantidadVentasPeriodo | number:'1.2-2') + ' por venta' : 'sin ventas en el período' }}</span>
+      </div>
+
+      <div class="tarjeta">
+        <span class="tarjeta-etiqueta">Productos en stock</span>
+        <span class="tarjeta-valor">{{ datos.stockTotal | number }}</span>
+        <span class="tarjeta-detalle">unidades en todas las sucursales</span>
+      </div>
+
+      <div class="tarjeta">
+        <span class="tarjeta-etiqueta">Valor del inventario</span>
+        <span class="tarjeta-valor">Q{{ datos.valorInventario | number:'1.2-2' }}</span>
+        <span class="tarjeta-detalle">según el costo de cada lote</span>
+      </div>
+
+      <div class="tarjeta" [class.tarjeta-alerta]="datos.productosBajoMinimo > 0" [class.tarjeta-ok]="datos.productosBajoMinimo === 0">
+        <span class="tarjeta-etiqueta">Bajo el stock mínimo</span>
+        <span class="tarjeta-valor">{{ datos.productosBajoMinimo }}</span>
+        <span class="tarjeta-detalle">{{ datos.productosBajoMinimo === 0 ? 'todo con stock suficiente' : 'producto(s) por reponer' }}</span>
+      </div>
+
+      <div class="tarjeta" [class.tarjeta-alerta]="datos.registrosDescuadrados > 0" [class.tarjeta-ok]="datos.registrosDescuadrados === 0">
+        <span class="tarjeta-etiqueta">Cuadre de inventario</span>
+        <span class="tarjeta-valor">{{ datos.registrosDescuadrados === 0 ? 'Cuadra' : datos.registrosDescuadrados }}</span>
+        <span class="tarjeta-detalle">{{ datos.registrosDescuadrados === 0 ? 'inventario y lotes coinciden' : 'registro(s) con diferencia' }}</span>
+      </div>
+    </div>
+
+    <div class="paneles">
+
+      <div class="panel panel-ancho">
+        <h3>Ventas por día</h3>
+        <p class="panel-ayuda">Total vendido por día en quetzales, {{ textoPeriodo() }}</p>
+        <p *ngIf="sinVentas(datos.ventasPorDia)" class="vacio">No hay ventas en el período seleccionado.</p>
+        <div class="columnas" [class.denso]="!mostrarValores(datos.ventasPorDia)" *ngIf="!sinVentas(datos.ventasPorDia)">
+          <div class="columna" *ngFor="let punto of datos.ventasPorDia">
+            <span class="columna-valor">{{ mostrarValores(datos.ventasPorDia) && punto.valor > 0 ? 'Q' + (punto.valor | number:'1.0-0') : '' }}</span>
+            <div class="columna-zona">
+              <div class="columna-barra" [style.height.%]="porcentaje(punto.valor, datos.ventasPorDia)"></div>
+            </div>
+            <span class="columna-etiqueta">{{ punto.etiqueta }}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h3>Stock por sucursal</h3>
+        <p class="panel-ayuda">Unidades disponibles en cada sucursal</p>
+        <p *ngIf="datos.stockPorSucursal.length === 0" class="vacio">Sin inventario registrado.</p>
+        <div class="fila-barra" *ngFor="let punto of datos.stockPorSucursal">
+          <div class="fila-texto">
+            <span>{{ punto.etiqueta }}</span>
+            <strong>{{ punto.valor | number }}</strong>
+          </div>
+          <div class="pista"><div class="relleno relleno-verde" [style.width.%]="porcentaje(punto.valor, datos.stockPorSucursal)"></div></div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h3>Ventas por vendedor</h3>
+        <p class="panel-ayuda">Total vendido en el período</p>
+        <p *ngIf="datos.ventasPorVendedor.length === 0" class="vacio">Sin ventas en el período.</p>
+        <div class="fila-barra" *ngFor="let punto of datos.ventasPorVendedor">
+          <div class="fila-texto">
+            <span>{{ punto.etiqueta }}</span>
+            <strong>Q{{ punto.valor | number:'1.2-2' }}</strong>
+          </div>
+          <div class="pista"><div class="relleno relleno-dorado" [style.width.%]="porcentaje(punto.valor, datos.ventasPorVendedor)"></div></div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h3>Productos más vendidos</h3>
+        <p class="panel-ayuda">Unidades vendidas en el período</p>
+        <p *ngIf="datos.productosMasVendidos.length === 0" class="vacio">Sin ventas en el período.</p>
+        <div class="fila-barra" *ngFor="let punto of datos.productosMasVendidos">
+          <div class="fila-texto">
+            <span>{{ punto.etiqueta }}</span>
+            <strong>{{ punto.valor | number }}</strong>
+          </div>
+          <div class="pista"><div class="relleno relleno-azul" [style.width.%]="porcentaje(punto.valor, datos.productosMasVendidos)"></div></div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h3>Productos por reponer</h3>
+        <p class="panel-ayuda">Stock igual o menor al mínimo definido</p>
+        <p *ngIf="datos.alertasStock.length === 0" class="vacio">Todos los productos tienen stock suficiente.</p>
+        <table class="tabla-alertas" *ngIf="datos.alertasStock.length > 0">
+          <thead>
+            <tr>
+              <th>Producto</th>
+              <th class="num">Stock</th>
+              <th class="num">Mínimo</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let alerta of datos.alertasStock">
+              <td>{{ alerta.producto }}</td>
+              <td class="num texto-alerta">{{ alerta.stock }}</td>
+              <td class="num">{{ alerta.stockMinimo }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </div>
+</div>

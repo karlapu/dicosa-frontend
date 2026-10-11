@@ -1,7 +1,25 @@
 <div class="contenedor">
+  <div class="solo-impresion encabezado-impresion">
+    <div class="marca-impresion">
+      <img src="img/toys-wonderwood-logo.jpg" alt="Toys WonderWood">
+      <img src="img/xepi-logo.jpg" alt="Xepi">
+      <div>
+        <h1>Dicosa</h1>
+        <p>Inventario y ventas</p>
+      </div>
+    </div>
+    <div class="titulo-impresion">
+      <h2>Comprobante de compra No. {{ compra?.idCompra }}</h2>
+      <p>Impreso el {{ fechaImpresion | date:'dd/MM/yyyy HH:mm' }}</p>
+    </div>
+  </div>
+
   <div class="encabezado">
-    <h2>Detalle de Compra</h2>
-    <button class="btn-volver" (click)="volver()">← Volver</button>
+    <h2 class="no-imprimir">Detalle de Compra</h2>
+    <div class="botones-encabezado no-imprimir">
+      <button class="btn-imprimir" (click)="imprimir()" [disabled]="!compra">Imprimir</button>
+      <button class="btn-volver" (click)="volver()">← Volver</button>
+    </div>
   </div>
 
   <p *ngIf="error" class="mensaje-error">{{ error }}</p>
@@ -60,6 +78,11 @@
     <div class="resumen-total">
       <p>Subtotal: Q{{ compra.subtotal | number:'1.2-2' }}</p>
       <p class="total"><strong>Total: Q{{ compra.total | number:'1.2-2' }}</strong></p>
+    </div>
+
+    <div class="solo-impresion firmas-impresion">
+      <div class="firma"><span>Elaborado por</span></div>
+      <div class="firma"><span>Recibido por</span></div>
     </div>
 
   </div>

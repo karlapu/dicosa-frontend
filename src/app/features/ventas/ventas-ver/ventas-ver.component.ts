@@ -17,6 +17,7 @@ export class VentasVerComponent implements OnInit {
   saldo: SaldoVenta | null = null;
   cargando = false;
   error = '';
+  fechaImpresion = new Date();
 
   constructor(
     private route: ActivatedRoute,
@@ -54,6 +55,11 @@ export class VentasVerComponent implements OnInit {
       next: (data) => this.saldo = data,
       error: () => { }
     });
+  }
+
+  imprimir(): void {
+    this.fechaImpresion = new Date();
+    setTimeout(() => window.print(), 100);
   }
 
   volver(): void {

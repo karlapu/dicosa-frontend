@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { CuadreCaja } from '../models/cuadrecaja.model';
 import { environment } from '../../../environments/environment';
 import { MovimientosReporte } from '../models/movimientosreporte.model';
+import { Conciliacion } from '../models/conciliacion.mode';
 
 @Injectable({ providedIn: 'root' })
 export class ReporteService {
@@ -22,5 +23,13 @@ export class ReporteService {
       url += `&idSucursal=${idSucursal}`;
     }
     return this.http.get<MovimientosReporte>(url);
+  }
+
+    obtenerConciliacion(idSucursal: number | null): Observable<Conciliacion> {
+    let url = `${this.urlBase}/conciliacion`;
+    if (idSucursal !== null) {
+      url += `?idSucursal=${idSucursal}`;
+    }
+    return this.http.get<Conciliacion>(url);
   }
 }

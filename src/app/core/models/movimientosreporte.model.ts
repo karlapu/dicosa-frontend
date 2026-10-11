@@ -6,6 +6,7 @@ export interface MovimientoReporte {
   sucursal: string;
   entrada: number;
   salida: number;
+  usuario?: string;
   descripcion?: string;
 }
 

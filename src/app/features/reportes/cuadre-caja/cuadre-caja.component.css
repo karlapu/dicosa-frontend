@@ -172,3 +172,20 @@
   background: #f2f2f2;
   border-top: 2px solid #d6d2c4;
 }
+.check-diferencias {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 600;
+  color: #5c5646;
+}
+
+.fila-descuadre td {
+  background: #fde8e4;
+  color: #b3402a;
+}
+
+.texto-alerta {
+  color: #b3402a;
+}
+

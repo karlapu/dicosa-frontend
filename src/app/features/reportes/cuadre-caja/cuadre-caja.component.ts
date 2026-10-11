@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { CuadreCaja } from '../../../core/models/cuadrecaja.model';
+
 import { MovimientosReporte } from '../../../core/models/movimientosreporte.model';
 import { Sucursal } from '../../../core/models/sucursal.model';
 import { ReporteService } from '../../../core/services/Reporte.service';
 import { SucursalService } from '../../../core/services/sucursal.service';
-
+import { Conciliacion } from '../../../core/models/conciliacion.mode';
 
 type TipoColumna = 'texto' | 'moneda' | 'entero' | 'centro';
-
 
 interface ConfigReporte {
   titulo: string;
@@ -31,20 +31,22 @@ export class CuadreCajaComponent implements OnInit {
 
   tiposReporte = [
     { valor: 'CUADRE_CAJA', nombre: 'Cuadre de caja' },
-    { valor: 'MOVIMIENTOS', nombre: 'Movimientos de inventario' }
+    { valor: 'MOVIMIENTOS', nombre: 'Movimientos de inventario' },
+    { valor: 'CONCILIACION', nombre: 'Conciliación de stock' }
   ];
   tipoReporte = 'CUADRE_CAJA';
 
-  // Cuadre de caja
   fecha: string = this.obtenerFechaHoy();
   cuadre: CuadreCaja | null = null;
 
-  // Movimientos de inventario
   desde: string = this.obtenerPrimerDiaMes();
   hasta: string = this.obtenerFechaHoy();
   idSucursal: number | null = null;
   sucursales: Sucursal[] = [];
   movimientos: MovimientosReporte | null = null;
+
+  conciliacion: Conciliacion | null = null;
+  soloDiferencias = false;
 
   cargando = false;
   error = '';
@@ -62,7 +64,6 @@ export class CuadreCajaComponent implements OnInit {
     this.buscar();
   }
 
-
   private aIso(fecha: Date): string {
     const anio = fecha.getFullYear();
     const mes = String(fecha.getMonth() + 1).padStart(2, '0');
@@ -79,20 +80,17 @@ export class CuadreCajaComponent implements OnInit {
     return this.aIso(new Date(hoy.getFullYear(), hoy.getMonth(), 1));
   }
 
-
-  private formatearFecha(fechaIso: string): string {
+    private formatearFecha(fechaIso: string): string {
     const [anio, mes, dia] = fechaIso.substring(0, 10).split('-');
     return `${dia}/${mes}/${anio}`;
   }
 
-  /** yyyy-MM-ddTHH:mm:ss  ->  dd/MM/yyyy HH:mm */
-  formatearFechaHora(fechaIso: string): string {
+    formatearFechaHora(fechaIso: string): string {
     if (!fechaIso) {
       return '';
     }
     return `${this.formatearFecha(fechaIso)} ${fechaIso.substring(11, 16)}`;
   }
-
 
   cambiarTipo(): void {
     this.error = '';
@@ -103,8 +101,10 @@ export class CuadreCajaComponent implements OnInit {
     this.error = '';
     if (this.tipoReporte === 'CUADRE_CAJA') {
       this.buscarCuadre();
-    } else {
+    } else if (this.tipoReporte === 'MOVIMIENTOS') {
       this.buscarMovimientos();
+    } else {
+      this.buscarConciliacion();
     }
   }
 
@@ -148,21 +148,44 @@ export class CuadreCajaComponent implements OnInit {
     });
   }
 
+  private buscarConciliacion(): void {
+    this.cargando = true;
+    this.reporteService.obtenerConciliacion(this.idSucursal).subscribe({
+      next: (data) => {
+        this.conciliacion = data;
+        this.cargando = false;
+      },
+      error: () => {
+        this.error = 'No se pudo cargar la conciliación de stock';
+        this.cargando = false;
+      }
+    });
+  }
 
-  get puedeDescargar(): boolean {
+    get filasConciliacion() {
+    if (!this.conciliacion) {
+      return [];
+    }
+    return this.soloDiferencias
+      ? this.conciliacion.filas.filter((f) => !f.cuadra)
+      : this.conciliacion.filas;
+  }
+
+    get puedeDescargar(): boolean {
     if (this.cargando) {
       return false;
     }
-    return this.tipoReporte === 'CUADRE_CAJA' ? !!this.cuadre : !!this.movimientos;
+    if (this.tipoReporte === 'CUADRE_CAJA') {
+      return !!this.cuadre;
+    }
+    return this.tipoReporte === 'MOVIMIENTOS' ? !!this.movimientos : !!this.conciliacion;
   }
-
 
   private redondear(n: number): number {
     return Math.round(n * 100) / 100;
   }
 
-
-  private configCuadre(cuadre: CuadreCaja): ConfigReporte {
+    private configCuadre(cuadre: CuadreCaja): ConfigReporte {
     const metodos: string[] = [];
     cuadre.vendedores.forEach((v) =>
       v.totalesPorMetodo.forEach((m) => {
@@ -208,8 +231,7 @@ export class CuadreCajaComponent implements OnInit {
     };
   }
 
-
-  private configMovimientos(rep: MovimientosReporte): ConfigReporte {
+    private configMovimientos(rep: MovimientosReporte): ConfigReporte {
     let subtitulo = `Del ${this.formatearFecha(rep.desde)} al ${this.formatearFecha(rep.hasta)}`;
     if (this.idSucursal !== null) {
       const suc = this.sucursales.find((s) => s.idSucursal === this.idSucursal);
@@ -222,8 +244,8 @@ export class CuadreCajaComponent implements OnInit {
       titulo: 'Movimientos de inventario',
       subtitulo,
       archivo: `movimientos-${rep.desde}_a_${rep.hasta}`,
-      encabezados: ['Fecha', 'Tipo', 'Referencia', 'Producto', 'Sucursal', 'Entrada', 'Salida', 'Detalle'],
-      tipos: ['texto', 'texto', 'texto', 'texto', 'texto', 'entero', 'entero', 'texto'],
+      encabezados: ['Fecha', 'Tipo', 'Referencia', 'Producto', 'Sucursal', 'Entrada', 'Salida', 'Usuario', 'Detalle'],
+      tipos: ['texto', 'texto', 'texto', 'texto', 'texto', 'entero', 'entero', 'texto', 'texto'],
       filas: rep.movimientos.map((m) => [
         this.formatearFechaHora(m.fecha),
         m.tipo,
@@ -232,10 +254,50 @@ export class CuadreCajaComponent implements OnInit {
         m.sucursal,
         m.entrada,
         m.salida,
+        m.usuario ?? '',
         m.descripcion ?? ''
       ]),
-      totales: ['TOTAL', '', '', '', '', rep.totalEntradas, rep.totalSalidas, ''],
+      totales: ['TOTAL', '', '', '', '', rep.totalEntradas, rep.totalSalidas, '', ''],
       orientacion: 'landscape'
+    };
+  }
+
+    private configConciliacion(rep: Conciliacion): ConfigReporte {
+    const filas = this.filasConciliacion;
+    let subtitulo = `Fecha: ${this.formatearFecha(this.obtenerFechaHoy())}`;
+    if (this.idSucursal !== null) {
+      const suc = this.sucursales.find((s) => s.idSucursal === this.idSucursal);
+      if (suc) {
+        subtitulo += `  |  Sucursal: ${suc.nombre}`;
+      }
+    }
+    if (this.soloDiferencias) {
+      subtitulo += '  |  Solo diferencias';
+    }
+
+    return {
+      titulo: 'Conciliacion de stock',
+      subtitulo,
+      archivo: `conciliacion-stock-${this.obtenerFechaHoy()}`,
+      encabezados: ['Producto', 'Sucursal', 'Inventario', 'Lotes', 'Diferencia', 'Estado'],
+      tipos: ['texto', 'texto', 'entero', 'entero', 'entero', 'centro'],
+      filas: filas.map((f) => [
+        f.producto,
+        f.sucursal,
+        f.stockInventario,
+        f.stockLotes,
+        f.diferencia,
+        f.cuadra ? 'Cuadra' : 'Descuadre'
+      ]),
+      totales: [
+        'TOTAL',
+        '',
+        filas.reduce((acc, f) => acc + f.stockInventario, 0),
+        filas.reduce((acc, f) => acc + f.stockLotes, 0),
+        filas.reduce((acc, f) => acc + f.diferencia, 0),
+        `${filas.filter((f) => !f.cuadra).length} con diferencia`
+      ],
+      orientacion: 'portrait'
     };
   }
 
@@ -243,16 +305,17 @@ export class CuadreCajaComponent implements OnInit {
     if (this.tipoReporte === 'CUADRE_CAJA') {
       return this.cuadre ? this.configCuadre(this.cuadre) : null;
     }
-    return this.movimientos ? this.configMovimientos(this.movimientos) : null;
+    if (this.tipoReporte === 'MOVIMIENTOS') {
+      return this.movimientos ? this.configMovimientos(this.movimientos) : null;
+    }
+    return this.conciliacion ? this.configConciliacion(this.conciliacion) : null;
   }
-
 
   async descargarExcel(): Promise<void> {
     const config = this.configActual();
     if (!config) {
       return;
     }
-
 
     const modulo: any = await import('exceljs');
     const ExcelJS = modulo.default ?? modulo;
@@ -277,12 +340,10 @@ export class CuadreCajaComponent implements OnInit {
       return { width: ancho };
     });
 
-
     hoja.getCell('A1').value = config.titulo;
     hoja.getCell('A1').font = { size: 16, bold: true };
     hoja.getCell('A2').value = config.subtitulo;
     hoja.getCell('A2').font = { size: 11 };
-
 
     const FILA_ENCABEZADO = 4;
     config.encabezados.forEach((texto, i) => {
@@ -335,7 +396,6 @@ export class CuadreCajaComponent implements OnInit {
       monto.alignment = { horizontal: 'right' };
     }
 
-
     const buffer = await libro.xlsx.writeBuffer();
     const blob = new Blob([buffer], {
       type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
@@ -348,8 +408,7 @@ export class CuadreCajaComponent implements OnInit {
     URL.revokeObjectURL(url);
   }
 
-
-  private async cargarImagen(ruta: string): Promise<string> {
+    private async cargarImagen(ruta: string): Promise<string> {
     const respuesta = await fetch(new URL(ruta, document.baseURI).href);
     const blob = await respuesta.blob();
     return new Promise<string>((resolve, reject) => {
@@ -378,7 +437,6 @@ export class CuadreCajaComponent implements OnInit {
     const ancho = doc.internal.pageSize.getWidth();
     const alto = doc.internal.pageSize.getHeight();
 
-
     const logos = ['img/toys-wonderwood-logo.jpg', 'img/xepi-logo.jpg'];
     const TAM_LOGO = 22;
     let x = 14;
@@ -387,11 +445,9 @@ export class CuadreCajaComponent implements OnInit {
         const imagen = await this.cargarImagen(ruta);
         doc.addImage(imagen, 'JPEG', x, 8, TAM_LOGO, TAM_LOGO);
       } catch {
-
       }
       x += TAM_LOGO + 4;
     }
-
 
     const xTexto = x + 4;
     doc.setTextColor(40, 40, 40);
@@ -404,7 +460,6 @@ export class CuadreCajaComponent implements OnInit {
 
     doc.setDrawColor(191, 191, 191);
     doc.line(14, 34, ancho - 14, 34);
-
 
     const formatearFila = (valores: (string | number)[]) =>
       valores.map((valor, i) => {
@@ -433,7 +488,6 @@ export class CuadreCajaComponent implements OnInit {
       columnStyles
     });
 
-
     if (config.pendiente !== undefined && config.pendiente > 0.009) {
       const yFinal = (doc as any).lastAutoTable.finalY + 8;
       doc.setFont('helvetica', 'bold');
@@ -441,7 +495,6 @@ export class CuadreCajaComponent implements OnInit {
       doc.setTextColor(192, 0, 0);
       doc.text(`Pendiente de cobro: ${q(config.pendiente)}`, 14, yFinal);
     }
-
 
     doc.setFont('helvetica', 'normal');
     doc.setFontSize(8);

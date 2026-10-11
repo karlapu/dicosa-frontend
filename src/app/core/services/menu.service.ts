@@ -17,6 +17,10 @@ export class MenuService {
     return this.http.get<Menu[]>(this.baseUrl);
   }
 
+  misMenus(): Observable<Menu[]> {
+    return this.http.get<Menu[]>(`${this.baseUrl}/mis-menus`);
+  }
+
   buscarPorId(id: number): Observable<Menu> {
     return this.http.get<Menu>(`${this.baseUrl}/${id}`);
   }
@@ -37,3 +41,4 @@ export class MenuService {
     return this.http.patch<void>(`${this.baseUrl}/${id}/activar`, {});
   }
 }
+ 
