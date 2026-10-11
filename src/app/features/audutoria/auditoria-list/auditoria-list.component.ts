@@ -15,7 +15,6 @@ export class AuditoriaListComponent implements OnInit {
   cargando = false;
   error = '';
 
-  // filtros
   filtroTabla = '';
   filtroDesde = '';
   filtroHasta = '';
@@ -33,7 +32,7 @@ export class AuditoriaListComponent implements OnInit {
     this.auditoriaService.listar({
       tabla: this.filtroTabla || undefined,
       desde: this.filtroDesde ? this.filtroDesde + ':00' : undefined,
-      hasta: this.filtroHasta ? this.filtroHasta + ':00' : undefined
+      hasta: this.filtroHasta ? this.filtroHasta + ':59' : undefined
     }).subscribe({
       next: (data) => {
         this.registros = data;
