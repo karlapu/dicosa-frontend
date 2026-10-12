@@ -58,7 +58,7 @@ import { VentasVerComponent } from './features/ventas/ventas-ver/ventas-ver.comp
 import { PagosListComponent } from './features/pagos/pagos-list/pagos-list.component';
 import { PagosFormulariosComponent } from './features/pagos/pagos-formularios/pagos-formularios.component';
 import { CuadreCajaComponent } from './features/reportes/cuadre-caja/cuadre-caja.component';
-import { DashboardComponent } from './features/Dashboard/dashboard/dashboard.component';
+import { DashboardComponent } from './features/dashboard/dashboard/dashboard.component';
 import { MonedaPipe } from './core/pipes/moneda.pipe';
 
 

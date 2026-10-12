@@ -3,10 +3,11 @@ import { CuadreCaja } from '../../../core/models/cuadrecaja.model';
 
 import { MovimientosReporte } from '../../../core/models/movimientosreporte.model';
 import { Sucursal } from '../../../core/models/sucursal.model';
-import { ReporteService } from '../../../core/services/Reporte.service';
+
 import { SucursalService } from '../../../core/services/sucursal.service';
 import { MonedaService } from '../../../core/services/moneda.service';
 import { Conciliacion } from '../../../core/models/conciliacion.mode';
+import { ReporteService } from '../../../core/services/reporte.service';
 
 type TipoColumna = 'texto' | 'moneda' | 'entero' | 'centro';
 
