@@ -1,7 +1,9 @@
 <div class="contenedor">
+  <a class="volver" routerLink="/cat-tipos-inventario">← Volver al listado</a>
+
   <h2>{{ esEdicion ? 'Editar' : 'Nuevo' }} Tipo de Inventario</h2>
 
-  <p *ngIf="error" class="mensaje-error">{{ error }}</p>
+  <p *ngIf="error" class="error">{{ error }}</p>
 
   <form #formRef="ngForm" (ngSubmit)="guardar()">
     <div class="campo">
@@ -15,19 +17,18 @@
         minlength="2"
         maxlength="100"
         #nombreRef="ngModel"
-        class="input"
-        [class.input-invalido]="nombreRef.invalid && nombreRef.touched"
-      />
+        placeholder="Ingresa el nombre"
+        [class.input-invalido]="nombreRef.invalid && nombreRef.touched" />
       <p *ngIf="nombreRef.invalid && nombreRef.touched" class="mensaje-advertencia">
         El nombre es obligatorio (mínimo 2 caracteres).
       </p>
     </div>
 
     <div class="acciones">
-      <button type="button" (click)="cancelar()">Cancelar</button>
       <button type="submit" [disabled]="guardando || formRef.invalid">
         {{ guardando ? 'Guardando...' : 'Guardar' }}
       </button>
+      <button type="button" (click)="cancelar()">Cancelar</button>
     </div>
   </form>
 </div>

@@ -1,67 +1,117 @@
 .contenedor {
-  padding: 20px;
-  max-width: 500px;
+  max-width: 480px;
+  margin: 0 auto;
+  background-color: var(--color-surface);
+  padding: 28px;
+  border-radius: var(--radius);
+  border: 1px solid var(--color-border);
+}
+
+.contenedor h2 {
+  font-size: 20px;
+  margin-bottom: 20px;
+}
+
+.volver {
+  display: inline-block;
+  color: var(--color-text-muted);
+  font-size: 13px;
+  text-decoration: none;
+  cursor: pointer;
+  margin-bottom: 14px;
+}
+
+.volver:hover {
+  color: var(--color-primary);
 }
 
 .campo {
-  margin-bottom: 16px;
+  margin-bottom: 18px;
 }
 
-label {
+.campo label {
   display: block;
-  margin-bottom: 4px;
-  font-weight: bold;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-text-muted);
+  margin-bottom: 6px;
 }
 
-.input {
+.campo input,
+.campo textarea,
+.campo select {
   width: 100%;
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  box-sizing: border-box;
+  padding: 10px 12px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  font-family: var(--font-body);
+  font-size: 14px;
+  color: var(--color-text);
+  background-color: var(--color-bg);
 }
 
-.input-invalido {
-  border-color: #c62828;
+.campo input:focus,
+.campo textarea:focus,
+.campo select:focus {
+  outline: none;
+  border-color: var(--color-primary);
 }
 
-.mensaje-advertencia {
-  color: #c62828;
-  font-size: 0.85em;
-  margin-top: 4px;
-}
-
-.mensaje-error {
-  color: #c62828;
-  background-color: #ffebee;
-  padding: 10px;
-  border-radius: 4px;
+.campo textarea {
+  min-height: 80px;
+  resize: vertical;
 }
 
 .acciones {
   display: flex;
   gap: 10px;
-  margin-top: 20px;
+  margin-top: 24px;
+}
+
+.acciones button {
+  border-radius: var(--radius);
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: 500;
+  border: none;
 }
 
 .acciones button[type="submit"] {
-  background-color: #2e7d32;
-  color: white;
-  border: none;
-  padding: 8px 16px;
-  border-radius: 4px;
-  cursor: pointer;
+  background-color: var(--color-primary);
+  color: #FFFFFF;
+}
+
+.acciones button[type="submit"]:hover {
+  background-color: var(--color-primary-dark);
 }
 
 .acciones button[type="submit"]:disabled {
-  background-color: #a5d6a7;
+  background-color: var(--color-border);
+  color: var(--color-text-muted);
   cursor: not-allowed;
 }
 
 .acciones button[type="button"] {
-  background-color: #eee;
-  border: none;
-  padding: 8px 16px;
-  border-radius: 4px;
-  cursor: pointer;
+  background-color: transparent;
+  border: 1px solid var(--color-border);
+  color: var(--color-text-muted);
+}
+
+.error {
+  background-color: #FBEAE5;
+  color: var(--color-warn);
+  padding: 12px 16px;
+  border-radius: var(--radius);
+  margin-bottom: 18px;
+  font-size: 14px;
+}
+
+.campo input.input-invalido {
+  border-color: var(--color-warn);
+}
+
+.mensaje-advertencia {
+  color: var(--color-warn);
+  font-size: 12px;
+  margin-top: 6px;
 }

@@ -1,37 +1,103 @@
 <div class="contenedor">
+
   <div class="encabezado">
-    <h2>Tipos de Inventario</h2>
-    <button class="btn-nuevo" (click)="nuevo()">+ Nuevo</button>
+    <div>
+      <h2>Tipos de inventario registrados</h2>
+      <p class="descripcion-pagina">
+        Gestiona los métodos de valoración del inventario (PEPS, UEPS y Promedio).
+      </p>
+    </div>
+
+    <button class="boton-nuevo" (click)="nuevo()">
+      + Nuevo tipo de inventario
+    </button>
   </div>
 
-  <p *ngIf="error" class="mensaje-error">{{ error }}</p>
-  <p *ngIf="cargando">Cargando...</p>
+  <div *ngIf="error" class="error">
+    {{ error }}
+  </div>
 
-  <table *ngIf="!cargando" class="tabla">
-    <thead>
-      <tr>
-        <th>Nombre</th>
-        <th>Estado</th>
-        <th>Acciones</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let tipo of tipos">
-        <td>{{ tipo.nombre }}</td>
-        <td>
-          <span [class.activo]="tipo.estado === 'ACTIVO'" [class.inactivo]="tipo.estado === 'INACTIVO'">
-            {{ tipo.estado }}
-          </span>
-        </td>
-        <td>
-          <button (click)="editar(tipo.idTipoInventario)">Editar</button>
-          <button *ngIf="tipo.estado === 'ACTIVO'" (click)="desactivar(tipo.idTipoInventario)">Desactivar</button>
-          <button *ngIf="tipo.estado === 'INACTIVO'" (click)="activar(tipo.idTipoInventario)">Activar</button>
-        </td>
-      </tr>
-      <tr *ngIf="tipos.length === 0">
-        <td colspan="3">No hay tipos de inventario registrados.</td>
-      </tr>
-    </tbody>
-  </table>
+  <div class="tarjeta">
+
+    <div *ngIf="cargando" class="estado-carga">
+      <span class="spinner"></span>
+      <p>Cargando tipos de inventario...</p>
+    </div>
+
+    <table *ngIf="!cargando && !error && tipos.length > 0">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nombre</th>
+          <th>Estado</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let tipo of tipos">
+
+          <td class="celda-id">
+            {{ tipo.idTipoInventario }}
+          </td>
+
+          <td class="celda-nombre">
+            {{ tipo.nombre }}
+          </td>
+
+          <td>
+            <span
+              class="pill"
+              [class.pill-activo]="tipo.estado === 'ACTIVO'"
+              [class.pill-inactivo]="tipo.estado === 'INACTIVO'">
+              {{ tipo.estado }}
+            </span>
+          </td>
+
+          <td class="celda-acciones">
+
+            <button
+              class="btn-accion btn-editar"
+              (click)="editar(tipo.idTipoInventario)">
+              Editar
+            </button>
+
+            <button
+              class="btn-accion btn-desactivar"
+              *ngIf="tipo.estado === 'ACTIVO'"
+              (click)="desactivar(tipo.idTipoInventario)">
+              Desactivar
+            </button>
+
+            <button
+              class="btn-accion btn-activar"
+              *ngIf="tipo.estado === 'INACTIVO'"
+              (click)="activar(tipo.idTipoInventario)">
+              Activar
+            </button>
+
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div
+      *ngIf="!cargando && !error && tipos.length === 0"
+      class="estado-vacio">
+
+      <p class="estado-vacio-titulo">
+        Todavía no hay tipos de inventario registrados
+      </p>
+
+      <p class="estado-vacio-texto">
+        Crea el primero para definir cómo se valora el inventario.
+      </p>
+
+      <button class="boton-nuevo" (click)="nuevo()">
+        + Nuevo tipo de inventario
+      </button>
+
+    </div>
+
+  </div>
 </div>
