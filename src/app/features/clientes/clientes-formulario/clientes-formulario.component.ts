@@ -50,7 +50,7 @@ export class ClientesFormularioComponent implements OnInit {
 
   cargarMunicipios(): void {
     this.municipioService.listarTodos().subscribe({
-      next: (data) => this.municipios = data,
+      next: (data) => this.municipios = data.filter(item => item.estado === 'ACTIVO'),
       error: () => this.error = 'No se pudieron cargar los municipios.'
     });
   }
@@ -83,3 +83,4 @@ export class ClientesFormularioComponent implements OnInit {
     this.router.navigate(['/clientes']);
   }
 }
+ 

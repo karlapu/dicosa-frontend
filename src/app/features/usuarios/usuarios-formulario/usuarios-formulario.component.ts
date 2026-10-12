@@ -11,6 +11,7 @@ import { ActivatedRoute, Router } from '@angular/router';
   templateUrl: './usuarios-formulario.component.html',
   styleUrl: './usuarios-formulario.component.css'
 })
+
 export class UsuariosFormularioComponent implements OnInit {
 
   usuario: Usuario = { idRol: null, username: '', nombre: '', correo: '' };
@@ -40,7 +41,7 @@ export class UsuariosFormularioComponent implements OnInit {
 
   cargarRoles(): void {
     this.rolService.listarTodos().subscribe({
-      next: (data) => this.roles = data,
+      next: (data) => this.roles = data.filter(item => item.estado === 'ACTIVO'),
       error: () => this.error = 'No se pudieron cargar los roles.'
     });
   }

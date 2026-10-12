@@ -5,8 +5,6 @@ import { environment } from '../../../environments/environment';
 import { CatMetodoPago } from '../models/catmetodopago.model';
 
 
-
-
 @Injectable({
   providedIn: 'root'
 })
@@ -33,11 +31,10 @@ export class CatMetodoPagoService {
   }
 
   desactivar(id: number): Observable<void> {
-    return this.http.patch<void>(`${this.apiUrl}/${id}/desactivar`, {});
+    return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
 
   activar(id: number): Observable<void> {
     return this.http.patch<void>(`${this.apiUrl}/${id}/activar`, {});
   }
 }
-

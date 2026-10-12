@@ -40,7 +40,7 @@ export class MenusFormularioComponent implements OnInit {
 
   cargarModulos(): void {
     this.moduloService.listarTodos().subscribe({
-      next: (data) => this.modulos = data,
+      next: (data) => this.modulos = data.filter(item => item.estado === 'ACTIVO'),
       error: () => this.error = 'No se pudieron cargar los módulos.'
     });
   }

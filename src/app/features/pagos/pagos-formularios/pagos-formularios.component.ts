@@ -13,6 +13,7 @@ import { CatMetodoPagoService } from '../../../core/services/catmetodopago.servi
   templateUrl: './pagos-formularios.component.html',
   styleUrl: './pagos-formularios.component.css'
 })
+
 export class PagosFormulariosComponent implements OnInit {
 
   idVenta!: number;
@@ -64,7 +65,7 @@ export class PagosFormulariosComponent implements OnInit {
     });
 
     this.catMetodoPagoService.listarTodos().subscribe({
-      next: (data) => this.metodosPago = data,
+      next: (data) => this.metodosPago = data.filter(item => item.estado === 'ACTIVO'),
       error: () => this.error = 'No se pudieron cargar los métodos de pago'
     });
 

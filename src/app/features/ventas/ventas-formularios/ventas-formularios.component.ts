@@ -15,6 +15,7 @@ import { Router } from '@angular/router';
   templateUrl: './ventas-formularios.component.html',
   styleUrl: './ventas-formularios.component.css'
 })
+
 export class VentasFormulariosComponent implements OnInit {
 
   venta: Venta = {
@@ -40,17 +41,17 @@ export class VentasFormulariosComponent implements OnInit {
 
   ngOnInit(): void {
     this.clienteService.listarTodos().subscribe({
-      next: (data) => this.clientes = data,
+      next: (data) => this.clientes = data.filter(item => item.estado === 'ACTIVO'),
       error: () => this.error = 'No se pudieron cargar los clientes'
     });
 
     this.sucursalService.listarTodos().subscribe({
-      next: (data) => this.sucursales = data,
+      next: (data) => this.sucursales = data.filter(item => item.estado === 'ACTIVO'),
       error: () => this.error = 'No se pudieron cargar las sucursales'
     });
 
     this.productoService.listarTodos().subscribe({
-      next: (data) => this.productos = data,
+      next: (data) => this.productos = data.filter(item => item.estado === 'ACTIVO'),
       error: () => this.error = 'No se pudieron cargar los productos'
     });
 

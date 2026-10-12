@@ -11,6 +11,7 @@ import { MenuService } from '../../../core/services/menu.service';
   templateUrl: './permisos-formulario.component.html',
   styleUrl: './permisos-formulario.component.css'
 })
+
 export class PermisosFormularioComponent implements OnInit {
 
   permiso: Permiso = { idMenu: null, nombre: '', descripcion: '' };
@@ -40,7 +41,7 @@ export class PermisosFormularioComponent implements OnInit {
 
   cargarMenus(): void {
     this.menuService.listarTodos().subscribe({
-      next: (data) => this.menus = data,
+      next: (data) => this.menus = data.filter(item => item.estado === 'ACTIVO'),
       error: () => this.error = 'No se pudieron cargar los menús.'
     });
   }

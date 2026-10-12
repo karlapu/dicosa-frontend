@@ -13,6 +13,7 @@ import { CatTipoInventarioService } from '../../../core/services/cartipoinventar
   templateUrl: './configuracion-formulario.component.html',
   styleUrl: './configuracion-formulario.component.css'
 })
+
 export class ConfiguracionFormularioComponent implements OnInit {
 
   configuracion: Configuracion = {
@@ -46,12 +47,12 @@ export class ConfiguracionFormularioComponent implements OnInit {
     this.cargando = true;
 
     this.monedaService.listarTodos().subscribe({
-      next: (data) => this.monedas = data,
+      next: (data) => this.monedas = data.filter(item => item.estado === 'ACTIVO'),
       error: () => this.error = 'No se pudieron cargar las monedas'
     });
 
     this.tipoInventarioService.listarTodos().subscribe({
-      next: (data) => this.tiposInventario = data,
+      next: (data) => this.tiposInventario = data.filter(item => item.estado === 'ACTIVO'),
       error: () => this.error = 'No se pudieron cargar los tipos de inventario'
     });
 

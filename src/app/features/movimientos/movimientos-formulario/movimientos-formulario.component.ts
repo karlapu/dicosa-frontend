@@ -44,17 +44,17 @@ productos: Producto[] = [];
 
   ngOnInit(): void {
     this.productoService.listarTodos().subscribe({
-      next: (data) => this.productos = data,
+      next: (data) => this.productos = data.filter(item => item.estado === 'ACTIVO'),
       error: () => this.error = 'No se pudieron cargar los productos.'
     });
 
     this.sucursalService.listarTodos().subscribe({
-      next: (data) => this.sucursales = data,
+      next: (data) => this.sucursales = data.filter(item => item.estado === 'ACTIVO'),
       error: () => this.error = 'No se pudieron cargar las sucursales.'
     });
 
     this.tipoMovimientoService.listarTodos().subscribe({
-      next: (data) => this.tiposMovimiento = data,
+      next: (data) => this.tiposMovimiento = data.filter(item => item.estado === 'ACTIVO'),
       error: () => this.error = 'No se pudieron cargar los tipos de movimiento.'
     });
   }

@@ -53,14 +53,14 @@ export class SucursalesFormularioComponent implements OnInit {
 
   cargarMunicipios(): void {
     this.municipioService.listarTodos().subscribe({
-      next: (data) => this.municipios = data,
+      next: (data) => this.municipios = data.filter(item => item.estado === 'ACTIVO'),
       error: () => this.error = 'No se pudieron cargar los municipios.'
     });
   }
 
   cargarTiposSucursal(): void {
     this.catTipoSucursalService.listarTodos().subscribe({
-      next: (data) => this.tiposSucursal = data,
+      next: (data) => this.tiposSucursal = data.filter(item => item.estado === 'ACTIVO'),
       error: () => this.error = 'No se pudieron cargar los tipos de sucursal.'
     });
   }

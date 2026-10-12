@@ -48,7 +48,7 @@ export class MunicipiosFormularioComponent implements OnInit {
   cargarDepartamentos(): void {
     this.departamentoService.listarTodos().subscribe({
       next: (data) => {
-        this.departamentos = data;
+        this.departamentos = data.filter(item => item.estado === 'ACTIVO');
       },
       error: () => {
         this.error = 'No se pudieron cargar los departamentos.';

@@ -51,14 +51,14 @@ export class InventarioFormularioComponent implements OnInit {
 
   cargarProductos(): void {
     this.productoService.listarTodos().subscribe({
-      next: (data) => this.productos = data,
+      next: (data) => this.productos = data.filter(item => item.estado === 'ACTIVO'),
       error: () => this.error = 'No se pudieron cargar los productos.'
     });
   }
 
   cargarSucursales(): void {
     this.sucursalService.listarTodos().subscribe({
-      next: (data) => this.sucursales = data,
+      next: (data) => this.sucursales = data.filter(item => item.estado === 'ACTIVO'),
       error: () => this.error = 'No se pudieron cargar las sucursales.'
     });
   }

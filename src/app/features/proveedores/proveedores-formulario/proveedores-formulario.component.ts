@@ -11,6 +11,7 @@ import { ActivatedRoute, Router } from '@angular/router';
   templateUrl: './proveedores-formulario.component.html',
   styleUrl: './proveedores-formulario.component.css'
 })
+
 export class ProveedoresFormularioComponent implements OnInit {
 
   proveedor: Proveedor = {
@@ -50,7 +51,7 @@ export class ProveedoresFormularioComponent implements OnInit {
 
   cargarMunicipios(): void {
     this.municipioService.listarTodos().subscribe({
-      next: (data) => this.municipios = data,
+      next: (data) => this.municipios = data.filter(item => item.estado === 'ACTIVO'),
       error: () => this.error = 'No se pudieron cargar los municipios.'
     });
   }
@@ -83,4 +84,4 @@ export class ProveedoresFormularioComponent implements OnInit {
     this.router.navigate(['/proveedores']);
   }
 }
-
+ 

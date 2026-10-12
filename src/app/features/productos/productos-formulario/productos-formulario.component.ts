@@ -12,6 +12,7 @@ import { environment } from '../../../../environments/environment';
   templateUrl: './productos-formulario.component.html',
   styleUrl: './productos-formulario.component.css'
 })
+
 export class ProductosFormularioComponent implements OnInit {
 
   producto: Producto = {
@@ -56,7 +57,7 @@ export class ProductosFormularioComponent implements OnInit {
 
   cargarCategorias(): void {
     this.categoriaService.listarTodos().subscribe({
-      next: (data) => this.categorias = data,
+      next: (data) => this.categorias = data.filter(item => item.estado === 'ACTIVO'),
       error: () => this.error = 'No se pudieron cargar las categorías.'
     });
   }
